@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "description": "Read-only pointers to OTHER harness projects for reference/learning. Never merged/imported/depended-on at runtime.",
+  "policy": {
+    "access": "read-only",
+    "merge": false,
+    "copy": false,
+    "runtime_dependency": false
+  },
+  "self": {
+    "name": "SiteTalent",
+    "project_root": "D:\\SiteTalent"
+  },
+  "projects": []
+}

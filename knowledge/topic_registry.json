@@ -1,0 +1,8 @@
+{
+  "version": "3.1",
+  "last_updated": "2026-09-02",
+  "note": "Fresh per-project topic vocabulary (v3 shape) — seed as work begins. Closed vocabulary: agents assign topics only from this list, no free-text tags. `topics` is the UNION of topics_by_domain. NO harness topics inherited.",
+  "domains": [],
+  "topics_by_domain": {},
+  "topics": []
+}

@@ -1,0 +1,315 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SiteTalent — Data Schema (หลังบ้าน)</title>
+<style>
+  :root{
+    --bg:#f4f6fb; --card:#ffffff; --ink:#1e2333; --muted:#6b7280;
+    --line:#e4e8f0; --brand:#3b5bdb; --brand-soft:#eef2ff;
+    --green:#2f9e44; --green-soft:#ebfbee; --amber:#f08c00; --amber-soft:#fff4e0;
+    --purple:#7048e8; --purple-soft:#f3f0ff; --slate:#495057; --slate-soft:#f1f3f5;
+    --code:#0b1021; --codetxt:#e6e9f2;
+    --shadow:0 1px 3px rgba(20,30,60,.06),0 8px 24px rgba(20,30,60,.06);
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font-family:"Segoe UI",-apple-system,"Noto Sans Thai",Tahoma,sans-serif;line-height:1.55}
+  .wrap{max-width:1080px;margin:0 auto;padding:28px 20px 64px}
+  header.top{margin-bottom:8px}
+  h1{font-size:26px;margin:0 0 4px}
+  .sub{color:var(--muted);font-size:14px;margin:0 0 22px}
+  .badge{display:inline-block;font-size:11px;font-weight:600;padding:2px 8px;border-radius:999px;vertical-align:middle}
+  .b-new{background:var(--green-soft);color:var(--green)}
+  .b-opt{background:var(--amber-soft);color:var(--amber)}
+  .b-exist{background:var(--slate-soft);color:var(--slate)}
+
+  /* flow */
+  .flow{background:var(--card);border:1px solid var(--line);border-radius:16px;
+    padding:22px;box-shadow:var(--shadow);margin-bottom:30px}
+  .flow h2{font-size:15px;margin:0 0 16px;color:var(--slate);letter-spacing:.02em;text-transform:uppercase}
+  .pipe{display:flex;align-items:stretch;gap:0;flex-wrap:wrap}
+  .node{flex:1;min-width:200px;border-radius:12px;padding:16px;border:1.5px solid}
+  .n-ext{background:#fff;border-color:#ffc9c9}
+  .n-be{background:var(--brand-soft);border-color:#bcc7ff}
+  .n-ui{background:var(--green-soft);border-color:#b2f2bb}
+  .node .role{font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
+  .node .title{font-size:16px;font-weight:700;margin:4px 0 6px}
+  .node .desc{font-size:13px;color:var(--slate)}
+  .arrow{display:flex;flex-direction:column;align-items:center;justify-content:center;
+    min-width:120px;padding:0 6px;color:var(--brand)}
+  .arrow .lbl{font-size:12px;font-weight:600;text-align:center;margin-bottom:2px}
+  .arrow .lbl small{display:block;color:var(--muted);font-weight:500;font-size:10.5px}
+  .arrow svg{width:100%;height:22px}
+  @media(max-width:760px){
+    .pipe{flex-direction:column}
+    .arrow{min-width:0;flex-direction:row;gap:8px;padding:10px 0}
+    .arrow svg{width:30px;transform:rotate(90deg)}
+  }
+
+  /* collections */
+  .grid{display:flex;flex-direction:column;gap:20px}
+  .col{background:var(--card);border:1px solid var(--line);border-radius:16px;
+    box-shadow:var(--shadow);overflow:hidden}
+  .col > .head{display:flex;align-items:center;gap:10px;padding:16px 20px;border-bottom:1px solid var(--line)}
+  .col .path{font-family:"JetBrains Mono",Consolas,monospace;font-size:15px;font-weight:700}
+  .col .kicker{color:var(--muted);font-size:13px;margin-left:auto;text-align:right}
+  .col .body{padding:8px 20px 18px}
+  table{width:100%;border-collapse:collapse;font-size:13.5px}
+  th{text-align:left;color:var(--muted);font-weight:600;font-size:11.5px;text-transform:uppercase;
+    letter-spacing:.03em;padding:10px 8px 6px;border-bottom:1px solid var(--line)}
+  td{padding:9px 8px;border-bottom:1px solid #f1f3f8;vertical-align:top}
+  tr:last-child td{border-bottom:none}
+  .fld{font-family:"JetBrains Mono",Consolas,monospace;font-weight:600;color:var(--brand);white-space:nowrap}
+  .typ{font-family:"JetBrains Mono",Consolas,monospace;font-size:12px;color:var(--purple);
+    background:var(--purple-soft);padding:1px 7px;border-radius:6px;white-space:nowrap}
+  .note{color:var(--slate)}
+  .reserved{opacity:.62}
+  .reserved .fld{color:var(--muted)}
+
+  /* subcollection */
+  .sub-c{margin:14px 0 2px;padding:12px 14px;background:#fafbfe;border:1px dashed var(--line);border-radius:12px}
+  .sub-c .sp{font-family:"JetBrains Mono",Consolas,monospace;font-weight:700;font-size:13.5px;color:var(--slate)}
+  .sub-c .sp .arw{color:var(--muted)}
+  .sub-c p{margin:4px 0 0;font-size:13px;color:var(--slate)}
+
+  .callout{display:flex;gap:12px;background:#fff8f0;border:1px solid #ffe0b3;border-radius:12px;
+    padding:14px 16px;margin:0 0 30px;font-size:13.5px;color:#7a4d00}
+  .callout b{color:#a35a00}
+  .dot{width:9px;height:9px;border-radius:50%;flex:none;margin-top:6px}
+  .d-new{background:var(--green)} .d-exist{background:var(--slate)} .d-opt{background:var(--amber)}
+  .legend{display:flex;gap:18px;flex-wrap:wrap;font-size:12.5px;color:var(--slate);margin:6px 0 26px;align-items:center}
+  .legend span{display:flex;gap:6px;align-items:center}
+  footer{margin-top:34px;color:var(--muted);font-size:12px;text-align:center}
+  code.k{background:var(--slate-soft);padding:1px 6px;border-radius:5px;font-family:Consolas,monospace;font-size:12.5px}
+
+  /* features */
+  .feats{margin-bottom:30px}
+  .feats-h{font-size:19px;margin:0 0 6px}
+  .feat-legend{display:flex;gap:14px;margin:0 0 16px;font-size:12px;color:var(--muted);flex-wrap:wrap;align-items:center}
+  .pill{display:inline-block;font-size:10.5px;font-weight:700;padding:2px 8px;border-radius:999px;margin-right:6px;white-space:nowrap;font-style:normal}
+  .s-done{background:var(--green-soft);color:var(--green)}
+  .s-build{background:var(--brand-soft);color:var(--brand)}
+  .s-plan{background:var(--slate-soft);color:var(--slate)}
+  .feat-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+  @media(max-width:760px){.feat-grid{grid-template-columns:1fr}}
+  .feat-card{background:var(--card);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);padding:16px 18px}
+  .fc-head{font-size:15px;font-weight:700;margin-bottom:8px}
+  .fc-list{list-style:none;margin:0;padding:0}
+  .fc-list li{font-size:13px;color:var(--slate);padding:7px 0;border-bottom:1px solid #f1f3f8;line-height:1.5}
+  .fc-list li:last-child{border-bottom:none}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="top">
+    <h1>SiteTalent · โครงข้อมูลหลังบ้าน (Data Schema)</h1>
+    <p class="sub">ฐานข้อมูล Firebase Firestore · อัปเดต 11 ก.ย. 2026 — เอกสารออกแบบก่อนทำระบบ Login</p>
+  </header>
+
+  <!-- FLOW -->
+  <section class="flow">
+    <h2>ภาพรวมเส้นทางข้อมูล</h2>
+    <div class="pipe">
+      <div class="node n-ext">
+        <div class="role">แหล่งข้อมูล (2 ทาง)</div>
+        <div class="title">ผลการประเมินทักษะ</div>
+        <div class="desc">① ไฟล์ <b>Excel ที่ HR กรอก</b><br>② <b>ดึงจากระบบประเมินภายนอก</b><br><span style="color:var(--muted)">SiteTalent ไม่ได้เป็นคนประเมินเอง</span></div>
+      </div>
+
+      <div class="arrow">
+        <div class="lbl">ดึงข้อมูลเข้า<small>ตอนนี้: import จาก Excel</small><small>Phase 2: ต่อ DB ตรง (sync)</small></div>
+        <svg viewBox="0 0 60 22"><path d="M2 11 H50 M50 11 l-8 -6 M50 11 l-8 6" fill="none" stroke="#3b5bdb" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+
+      <div class="node n-be">
+        <div class="role">หลังบ้านของเรา</div>
+        <div class="title">SiteTalent<br>Firestore</div>
+        <div class="desc">เก็บ "สำเนา" ข้อมูลเพื่อรายงาน + บัญชีผู้ใช้ login — อ่านฝั่งเซิร์ฟเวอร์ ข้อมูลส่วนตัวไม่หลุด</div>
+      </div>
+
+      <div class="arrow">
+        <div class="lbl">แสดงผล<small>อ่านอย่างเดียว (read-only)</small></div>
+        <svg viewBox="0 0 60 22"><path d="M2 11 H50 M50 11 l-8 -6 M50 11 l-8 6" fill="none" stroke="#2f9e44" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+
+      <div class="node n-ui">
+        <div class="role">หน้าจอ</div>
+        <div class="title">Dashboard</div>
+        <div class="desc">ผู้บริหาร / เจ้าหน้าที่ TTS / ผู้จัดการไซต์ login เข้ามาดูสรุปผล</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section class="feats">
+    <h2 class="feats-h">ระบบของเราต้องมีฟีเจอร์อะไรบ้าง</h2>
+    <div class="feat-legend">
+      <span><i class="pill s-done">เสร็จแล้ว</i></span>
+      <span><i class="pill s-build">กำลังจะทำ</i></span>
+      <span><i class="pill s-plan">แผนอนาคต</i></span>
+    </div>
+    <div class="feat-grid">
+
+      <div class="feat-card">
+        <div class="fc-head">📊 Dashboard แสดงผล</div>
+        <ul class="fc-list">
+          <li><span class="pill s-done">เสร็จ</span> ภาพรวม KPI — จำนวนคน / ไซต์ / ผู้รับเหมา + % คนระดับ 2</li>
+          <li><span class="pill s-done">เสร็จ</span> กราฟจำนวนคนระดับ 2 ต่อ 17 ทักษะ</li>
+          <li><span class="pill s-done">เสร็จ</span> สรุปรายไซต์ &amp; ผู้รับเหมา</li>
+          <li><span class="pill s-done">เสร็จ</span> รายบุคคล — ค้นหา / กรอง / แบ่งหน้า</li>
+          <li><span class="pill s-build">กำลังทำ</span> เลือกดูตาม "รอบ" + เทียบพัฒนาการย้อนหลัง</li>
+          <li><span class="pill s-plan">อนาคต</span> Export เป็น Excel / PDF</li>
+          <li><span class="pill s-plan">อนาคต</span> ใช้งานบนมือถือได้ (responsive)</li>
+        </ul>
+      </div>
+
+      <div class="feat-card">
+        <div class="fc-head">🔑 เข้าระบบ &amp; ยืนยันตัวตน</div>
+        <ul class="fc-list">
+          <li><span class="pill s-build">กำลังทำ</span> Login ด้วยรหัสพนักงาน 6 หลัก</li>
+          <li><span class="pill s-build">กำลังทำ</span> ต้อง login ก่อนถึงจะเห็น Dashboard</li>
+          <li><span class="pill s-build">กำลังทำ</span> บันทึกว่าใครเข้ามาดู (เวลาเข้าล่าสุด)</li>
+          <li><span class="pill s-plan">ทางเลือก</span> ประวัติการเข้าทุกครั้ง (auditLog)</li>
+        </ul>
+      </div>
+
+      <div class="feat-card">
+        <div class="fc-head">👤 จัดการผู้ใช้ (แอดมิน)</div>
+        <ul class="fc-list">
+          <li><span class="pill s-build">กำลังทำ</span> แอดมินสร้าง / แก้ไข / ปิดบัญชีผู้ใช้</li>
+          <li><span class="pill s-build">กำลังทำ</span> กำหนดบทบาท (executive / tts_staff / site_manager / admin)</li>
+        </ul>
+      </div>
+
+      <div class="feat-card">
+        <div class="fc-head">🔄 นำเข้าข้อมูล</div>
+        <ul class="fc-list">
+          <li><span class="pill s-done">เสร็จ</span> นำเข้าจากไฟล์ Excel ที่ HR กรอก</li>
+          <li><span class="pill s-build">กำลังทำ</span> เก็บเป็นรอบ (snapshot) — เก็บประวัติย้อนหลัง</li>
+          <li><span class="pill s-plan">อนาคต</span> ดึงจากระบบประเมินภายนอกอัตโนมัติ (Phase 2)</li>
+        </ul>
+      </div>
+
+    </div>
+  </section>
+
+  <div class="callout">
+    <div class="dot d-opt" style="margin-top:3px"></div>
+    <div><b>จุดสำคัญ:</b> SiteTalent <b>ไม่ได้เป็นคนประเมิน</b> — เราแค่ <b>ดึงข้อมูลผลประเมินจากระบบภายนอก</b> มาเก็บเป็นสำเนาแล้วทำ Dashboard ให้ดูง่าย ทุกครั้งที่มีการประเมินรอบใหม่ เราจะดึงเข้ามาเป็น <b>"รอบใหม่ (snapshot)"</b> เพื่อเก็บประวัติย้อนหลัง</div>
+  </div>
+
+  <div class="legend">
+    <span><span class="dot d-new"></span> ของใหม่ (สำหรับ Login/ประวัติ)</span>
+    <span><span class="dot d-exist"></span> มีอยู่แล้ว (ย้ายให้เข้ารอบ)</span>
+    <span><span class="dot d-opt"></span> ทางเลือก</span>
+  </div>
+
+  <!-- COLLECTIONS -->
+  <div class="grid">
+
+    <!-- users -->
+    <section class="col">
+      <div class="head">
+        <span class="path">users/{empCode}</span>
+        <span class="badge b-new">ของใหม่</span>
+        <span class="kicker">login ด้วย<b>รหัสพนักงาน 6 หลัก</b> · แอดมินสร้างบัญชีให้</span>
+      </div>
+      <div class="body">
+        <table>
+          <thead><tr><th style="width:22%">Field</th><th style="width:20%">ชนิด</th><th>ความหมาย</th></tr></thead>
+          <tbody>
+            <tr><td class="fld">empCode&nbsp;🔑</td><td><span class="typ">string(6)</span></td><td class="note"><b>= รหัสเอกสาร (document id)</b> · รหัสพนักงาน 6 หลัก เช่น <code class="k">100527</code> — ใช้เป็นทั้งชื่อผู้ใช้และตัว login</td></tr>
+            <tr><td class="fld">displayName</td><td><span class="typ">string</span></td><td class="note">ชื่อที่แสดงบนหน้าจอ เช่น "สมชาย ใจดี"</td></tr>
+            <tr><td class="fld">role</td><td><span class="typ">enum</span></td><td class="note"><code class="k">executive</code> · <code class="k">tts_staff</code> · <code class="k">site_manager</code> · <code class="k">admin</code></td></tr>
+            <tr><td class="fld">active</td><td><span class="typ">boolean</span></td><td class="note">เปิด/ปิดบัญชี — <b>ปิดแทนการลบ</b> (ไม่เสียประวัติ)</td></tr>
+            <tr><td class="fld">createdAt</td><td><span class="typ">timestamp</span></td><td class="note">สร้างเมื่อไหร่</td></tr>
+            <tr><td class="fld">createdBy</td><td><span class="typ">string</span></td><td class="note">แอดมินคนไหนสร้างบัญชีนี้</td></tr>
+            <tr><td class="fld">lastLoginAt</td><td><span class="typ">timestamp</span></td><td class="note">เข้าใช้ล่าสุด</td></tr>
+            <tr class="reserved"><td class="fld">scope</td><td><span class="typ">map</span></td><td class="note">สำรองไว้อนาคต · <code class="k">{ sites:[], contractors:[] }</code> — ตอนนี้ทุกคนเห็นทั้งหมด เว้นว่างไว้</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- rounds -->
+    <section class="col">
+      <div class="head">
+        <span class="path">rounds/{roundId}</span>
+        <span class="badge b-new">ของใหม่</span>
+        <span class="kicker">1 เอกสาร = 1 รอบประเมิน · <code class="k">roundId</code> เช่น "2026-09"</span>
+      </div>
+      <div class="body">
+        <table>
+          <thead><tr><th style="width:22%">Field</th><th style="width:20%">ชนิด</th><th>ความหมาย</th></tr></thead>
+          <tbody>
+            <tr><td class="fld">label</td><td><span class="typ">string</span></td><td class="note">ชื่อรอบให้คนอ่านง่าย เช่น "ประเมินรอบ ก.ย. 2026"</td></tr>
+            <tr><td class="fld">dataDate&nbsp;📅</td><td><span class="typ">date</span></td><td class="note"><b>วันที่ของข้อมูล</b> — ข้อมูลรอบนี้เป็นของวันที่/ช่วงไหน (วันที่ประเมิน) เช่น <code class="k">2026-09-01</code></td></tr>
+            <tr><td class="fld">source</td><td><span class="typ">enum</span></td><td class="note">มาจากไหน — <code class="k">hr_excel</code> (HR กรอก Excel) หรือ <code class="k">external_sync</code> (ดึงจากระบบอื่น)</td></tr>
+            <tr><td class="fld">sourceRef</td><td><span class="typ">string</span></td><td class="note">อ้างอิงต้นทาง — ชื่อไฟล์ Excel หรือรหัสการ sync</td></tr>
+            <tr><td class="fld">importedAt</td><td><span class="typ">timestamp</span></td><td class="note"><b>วันที่นำเข้าระบบ</b> — ดึงเข้า SiteTalent เมื่อไหร่ (คนละอันกับ dataDate)</td></tr>
+            <tr><td class="fld">overview</td><td><span class="typ">map</span></td><td class="note">สรุปหัวตาราง <code class="k">{ workers, sites, contractors, overallLvl2Pct }</code></td></tr>
+            <tr><td class="fld">status</td><td><span class="typ">enum</span></td><td class="note"><code class="k">current</code> (รอบปัจจุบัน) หรือ <code class="k">archived</code> (รอบเก่า)</td></tr>
+          </tbody>
+        </table>
+
+        <div class="sub-c">
+          <div class="sp"><span class="arw">└─</span> rounds/{roundId}/workers/{code} <span class="badge b-exist">มีอยู่แล้ว</span></div>
+          <p>ข้อมูลรายคนของรอบนั้น (key = รหัสคนงาน เช่น <code class="k">A000051</code>) — fields: <code class="k">code, name, site, contractor, position, assessedDate, assessor</code>, <code class="k">skills{ s01…s17 : 0|1|2 }</code>, <code class="k">totals{ none, lvl1, lvl2, total, score }</code></p>
+        </div>
+        <div class="sub-c">
+          <div class="sp"><span class="arw">└─</span> rounds/{roundId}/summary/{bySkill · bySite · byContractor} <span class="badge b-exist">มีอยู่แล้ว</span></div>
+          <p>สรุปที่คำนวณไว้ล่วงหน้า (ให้ Dashboard โหลดเร็ว) — จำนวนคน <code class="k">ไม่มี / ระดับ1 / ระดับ2</code> ต่อทักษะ, ต่อไซต์, ต่อผู้รับเหมา ครบ 17 ทักษะ</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- config -->
+    <section class="col">
+      <div class="head">
+        <span class="path">config/app</span>
+        <span class="badge b-new">ของใหม่</span>
+        <span class="kicker">ตัวชี้ค่าตั้งต้นของระบบ</span>
+      </div>
+      <div class="body">
+        <table>
+          <thead><tr><th style="width:22%">Field</th><th style="width:20%">ชนิด</th><th>ความหมาย</th></tr></thead>
+          <tbody>
+            <tr><td class="fld">currentRoundId</td><td><span class="typ">string</span></td><td class="note">บอก Dashboard ว่ารอบไหนคือรอบที่โชว์เป็นค่าเริ่มต้น เช่น "2026-09"</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- auditLog -->
+    <section class="col">
+      <div class="head">
+        <span class="path">auditLog/{autoId}</span>
+        <span class="badge b-opt">ทางเลือก</span>
+        <span class="kicker">บันทึกร่องรอยการใช้งาน (เพื่อความปลอดภัยของข้อมูลส่วนตัว)</span>
+      </div>
+      <div class="body">
+        <table>
+          <thead><tr><th style="width:22%">Field</th><th style="width:20%">ชนิด</th><th>ความหมาย</th></tr></thead>
+          <tbody>
+            <tr><td class="fld">uid</td><td><span class="typ">string</span></td><td class="note">ใครทำ (อ้างถึง users)</td></tr>
+            <tr><td class="fld">action</td><td><span class="typ">enum</span></td><td class="note"><code class="k">login</code> · <code class="k">export</code> · <code class="k">view</code></td></tr>
+            <tr><td class="fld">target</td><td><span class="typ">string</span></td><td class="note">ทำกับอะไร เช่น export ไซต์ไหน</td></tr>
+            <tr><td class="fld">at</td><td><span class="typ">timestamp</span></td><td class="note">เมื่อไหร่</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+  </div>
+
+  <footer>
+    รหัสคนงาน <code class="k">code</code> ใช้เป็นตัวระบุตัวตนเดียวข้ามรอบ → ติดตามพัฒนาการรายคนได้ ·
+    Dashboard อ่านทุกอย่างฝั่งเซิร์ฟเวอร์ผ่าน Admin SDK · ข้อมูลส่วนตัวคนงานไม่ถูกส่งออก browser
+  </footer>
+
+</div>
+</body>
+</html>
