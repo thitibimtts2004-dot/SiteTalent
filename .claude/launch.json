@@ -3,8 +3,8 @@
   "configurations": [
     {
       "name": "sitetalent",
-      "runtimeExecutable": "npm",
-      "runtimeArgs": ["run", "dev"],
+      "runtimeExecutable": "/Users/dude/.nvm/versions/node/v20.20.2/bin/node",
+      "runtimeArgs": ["node_modules/next/dist/bin/next", "dev"],
       "port": 3000
     }
   ]

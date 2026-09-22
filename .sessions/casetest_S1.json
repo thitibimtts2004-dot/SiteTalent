@@ -1,0 +1,49 @@
+{
+  "section": "S1",
+  "status": "done",
+  "blind": true,
+  "teardown": "clean",
+  "case_matrix": [
+    {
+      "case": "slimWorker mapping (totals.none/lvl1/lvl2 -> l0/l1/l2, drops skills/assessor/assessedDate/totals)",
+      "expected": "l0=totals.none=4, l1=totals.lvl1=6, l2=totals.lvl2=7, keeps code/name/site/contractor/position",
+      "actual": "{code:W-100,name:Somchai,site:Site-A,contractor:Con-X,position:Operator,l0:4,l1:6,l2:7}"
+    },
+    {
+      "case": "aggregate all-workers (4 workers) cells + %skilled",
+      "expected": "cells l0=2+1+5+0=8, l1=3+4+0+2=9, l2=5+1+0+8=14; pctSkilled=(9+14)/(8+9+14)*100 = 23/31*100 = 74.19355",
+      "actual": "cells {l0:8,l1:9,l2:14}; pctSkilled=74.19354838709677"
+    },
+    {
+      "case": "aggregate all-workers %independent + headcount + positions (unfiltered)",
+      "expected": "pctIndependent=14/(9+14)*100 = 14/23*100 = 60.86957; headcount=4; positions=[Operator,Supervisor] (sorted asc)",
+      "actual": "pctIndependent=60.86956521739131; headcount=4; positions=[Operator,Supervisor]"
+    },
+    {
+      "case": "aggregate with position='Operator' filter re-scoping (drops the Supervisor worker A3, positions[] stays full)",
+      "expected": "scoped=A1,A2,A4 -> cells l0=2+1+0=3,l1=3+4+2=9,l2=5+1+8=14; pctSkilled=(9+14)/26*100=23/26*100=88.46154; headcount=3; positions still [Operator,Supervisor] (derived from FULL input)",
+      "actual": "cells {l0:3,l1:9,l2:14}; pctSkilled=88.46153846153845; headcount=3; positions=[Operator,Supervisor]"
+    },
+    {
+      "case": "empty list guard (both formulas divide by zero)",
+      "expected": "workers=[] -> l0=l1=l2=0 -> pctSkilled guard: total=0 -> 0; pctIndependent guard: recorded=0 -> 0; headcount=0",
+      "actual": "pctSkilled=0; pctIndependent=0; headcount=0"
+    },
+    {
+      "case": "only-level-0 worker guard (l0=5,l1=0,l2=0): pctSkilled is a legit 0 (total!=0), pctIndependent is the 0/0 guard",
+      "expected": "pctSkilled(5,0,0) = (0+0)/5*100 = 0 (not the guard, total=5!=0); pctIndependent(0,0): recorded=0+0=0 -> guard -> 0; same via aggregate([W3])",
+      "actual": "helper pctSkilled=0, helper pctIndependent=0; aggregate pctSkilled=0, aggregate pctIndependent=0"
+    },
+    {
+      "case": "bySite sorted by name ascending (input order Zulu,Alpha,Mike,Alpha)",
+      "expected": "distinct sites sorted asc: [Alpha, Mike, Zulu]; Alpha row = S2(l0:2,l1:0,l2:0)+S4(l0:1,l1:1,l2:0) => headcount:2,l0:3,l1:1,l2:0,pctSkilled=(1+0)/4*100=25; Mike row headcount:1,l0:0,l1:1,l2:1,pctSkilled=(1+1)/2*100=100; Zulu row headcount:1,l0:1,l1:1,l2:1,pctSkilled=(1+1)/3*100=66.66667",
+      "actual": "names=[Alpha,Mike,Zulu]; Alpha={headcount:2,l0:3,l1:1,l2:0,pctSkilled:25}; Mike={headcount:1,l0:0,l1:1,l2:1,pctSkilled:100}; Zulu={headcount:1,l0:1,l1:1,l2:1,pctSkilled:66.66666666666666}"
+    },
+    {
+      "case": "byContractor top-10 with ties (12 contractors: Zeta3,Alpha3,Beta3,Delta2,Echo2,Foxtrot1,Golf1,Hotel1,India1,Juliet1,Kilo1,Lima1) sorted headcount desc then name asc, sliced to 10",
+      "expected": "order: Alpha(3),Beta(3),Zeta(3) [tie-break name asc within headcount 3], Delta(2),Echo(2) [tie-break name asc within headcount 2], then headcount-1 group sorted name asc sliced to fill remaining 5 slots: Foxtrot,Golf,Hotel,India,Juliet -> Kilo and Lima excluded by slice(0,10); length=10",
+      "actual": "names=[Alpha,Beta,Zeta,Delta,Echo,Foxtrot,Golf,Hotel,India,Juliet]; headcounts=[3,3,3,2,2,1,1,1,1,1]; length=10"
+    }
+  ],
+  "verdict": "confirm"
+}

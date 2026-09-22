@@ -1,1 +1,5291 @@
-{}
+{
+  "app/layout.tsx": {
+    "imports": [
+      "app/globals.css"
+    ],
+    "extracted_at_hash": "52c81101",
+    "imported_by": [],
+    "related": [],
+    "key_sections": [
+      {
+        "name": "metadata",
+        "line": 5,
+        "read_hint": {
+          "offset": 1,
+          "limit": 18
+        }
+      },
+      {
+        "name": "RootLayout",
+        "line": 10,
+        "read_hint": {
+          "offset": 5,
+          "limit": 36
+        }
+      }
+    ],
+    "keywords": [
+      "layout"
+    ],
+    "summary": "Root layout file for the Next.js app that sets page metadata and includes the navigation component.",
+    "key_claims": [
+      "exports metadata with title SiteTalent dashboard",
+      "renders the Nav component for all pages",
+      "imports and applies global CSS styles"
+    ],
+    "key_claims_generated_at": "2026-09-22",
+    "key_claims_stale": false,
+    "backfill_pending": false
+  },
+  "app/page.tsx": {
+    "imports": [],
+    "extracted_at_hash": "8eda1a75",
+    "imported_by": [],
+    "related": [],
+    "key_sections": [
+      {
+        "name": "dynamic",
+        "line": 6,
+        "read_hint": {
+          "offset": 1,
+          "limit": 47
+        }
+      },
+      {
+        "name": "Home",
+        "line": 8,
+        "read_hint": {
+          "offset": 3,
+          "limit": 45
+        }
+      }
+    ],
+    "keywords": [
+      "page"
+    ],
+    "summary": "Home page that fetches overview and skill data, then renders KPI cards and a skill bar chart.",
+    "key_claims": [
+      "fetches overview and bySkill data concurrently",
+      "maps skill data into chart format with levels",
+      "renders KpiCards and SkillBarChart components"
+    ],
+    "key_claims_generated_at": "2026-09-22",
+    "key_claims_stale": false,
+    "backfill_pending": false
+  },
+  "app/sites/page.tsx": {
+    "imports": [],
+    "extracted_at_hash": "d49833ab",
+    "imported_by": [],
+    "related": [],
+    "key_sections": [
+      {
+        "name": "SitesPage",
+        "line": 6,
+        "read_hint": {
+          "offset": 1,
+          "limit": 36
+        }
+      }
+    ],
+    "keywords": [
+      "page"
+    ],
+    "summary": "Sites page that fetches and displays rollup tables for sites and contractors with aggregated metrics.",
+    "key_claims": [
+      "fetches getBySite and getByContractor data",
+      "renders separate rollup tables for each group",
+      "displays site and contractor comparison metrics"
+    ],
+    "key_claims_generated_at": "2026-09-22",
+    "key_claims_stale": false,
+    "backfill_pending": false
+  },
+  "app/workers/page.tsx": {
+    "imports": [],
+    "extracted_at_hash": "cacd2bc8",
+    "imported_by": [],
+    "related": [],
+    "key_sections": [
+      {
+        "name": "WorkersPage",
+        "line": 6,
+        "read_hint": {
+          "offset": 1,
+          "limit": 38
+        }
+      }
+    ],
+    "keywords": [
+      "page"
+    ],
+    "summary": "Workers page that displays a sortable, filterable table of all assessed workers with skill proficiency data.",
+    "key_claims": [
+      "loads workers list with site and contractor mappings",
+      "passes multiple data sources to WorkerTable",
+      "enables filtering and skill level visualization"
+    ],
+    "key_claims_generated_at": "2026-09-22",
+    "key_claims_stale": false,
+    "backfill_pending": false
+  },
+  "components/KpiCards.tsx": {
+    "imports": [],
+    "extracted_at_hash": "1339801f",
+    "imported_by": [],
+    "related": [],
+    "key_sections": [
+      {
+        "name": "KpiCards",
+        "line": 21,
+        "read_hint": {
+          "offset": 16,
+          "limit": 28
+        }
+      }
+    ],
+    "keywords": [
+      "cards",
+      "kpi"
+    ],
+    "summary": "Reusable card component that displays a label with a large numeric value and optional subtext.",
+    "key_claims": [
+      "renders styled card with label and value",
+      "supports optional subtitle for additional context",
+      "applies consistent Tailwind CSS classes"
+    ],
+    "key_claims_generated_at": "2026-09-22",
+    "key_claims_stale": false,
+    "backfill_pending": false
+  },
+  "components/Nav.tsx": {
+    "imports": [],
+    "extracted_at_hash": "9124d919",
+    "imported_by": [],
+    "related": [],
+    "key_sections": [
+      {
+        "name": "Nav",
+        "line": 14,
+        "read_hint": {
+          "offset": 9,
+          "limit": 41
+        }
+      }
+    ],
+    "keywords": [
+      "nav"
+    ],
+    "summary": "Client-side navigation component that renders links to dashboard, sites, trends, criticality, and workers pages.",
+    "key_claims": [
+      "defines LINKS array with five navigation routes",
+      "highlights current active route using usePathname",
+      "displays Thai language labels for all options"
+    ],
+    "key_claims_generated_at": "2026-09-22",
+    "key_claims_stale": false,
+    "backfill_pending": false
+  },
+  "components/RollupTable.tsx": {
+    "imports": [],
+    "extracted_at_hash": "7470bbaf",
+    "imported_by": [],
+    "related": [],
+    "key_sections": [
+      {
+        "name": "RollupTable",
+        "line": 8,
+        "read_hint": {
+          "offset": 3,
+          "limit": 80
+        }
+      }
+    ],
+    "keywords": [
+      "rollup",
+      "table"
+    ],
+    "summary": "Sortable and filterable rollup table component for displaying aggregated group data with name search capability.",
+    "key_claims": [
+      "filters rows by name with case-insensitive search",
+      "sorts table by clicking column headers",
+      "accepts customizable title unit and rows"
+    ],
+    "key_claims_generated_at": "2026-09-22",
+    "key_claims_stale": false,
+    "backfill_pending": false
+  },
+  "components/SkillBarChart.tsx": {
+    "imports": [],
+    "extracted_at_hash": "2e525039",
+    "imported_by": [],
+    "related": [],
+    "key_sections": [
+      {
+        "name": "SkillDatum",
+        "line": 13,
+        "read_hint": {
+          "offset": 8,
+          "limit": 19
+        }
+      },
+      {
+        "name": "SkillBarChart",
+        "line": 23,
+        "read_hint": {
+          "offset": 18,
+          "limit": 63
+        }
+      }
+    ],
+    "keywords": [
+      "bar",
+      "chart",
+      "skill"
+    ],
+    "summary": "Recharts-based bar chart component that visualizes skill proficiency distribution with level counts.",
+    "key_claims": [
+      "displays side-by-side bars for skill levels",
+      "imports BarChart and Recharts components",
+      "defines SkillDatum interface for chart data"
+    ],
+    "key_claims_generated_at": "2026-09-22",
+    "key_claims_stale": false,
+    "backfill_pending": false
+  },
+  "components/WorkerTable.tsx": {
+    "imports": [],
+    "extracted_at_hash": "2b6456da",
+    "imported_by": [],
+    "related": [],
+    "key_sections": [
+      {
+        "name": "WorkerTable",
+        "line": 14,
+        "read_hint": {
+          "offset": 9,
+          "limit": 80
+        }
+      }
+    ],
+    "keywords": [
+      "table",
+      "worker"
+    ],
+    "summary": "Paginated worker table with filtering by site, contractor, and text search, showing proficiency for all skills.",
+    "key_claims": [
+      "implements pagination with 50 workers per page",
+      "color-codes skill proficiency levels from zero to high",
+      "provides filter controls for site and contractor"
+    ],
+    "key_claims_generated_at": "2026-09-22",
+    "key_claims_stale": false,
+    "backfill_pending": false
+  },
+  "lib/data.ts": {
+    "imports": [
+      "lib/firebaseAdmin.ts",
+      "lib/skills.ts"
+    ],
+    "extracted_at_hash": "4aadea9e",
+    "imported_by": [],
+    "related": [],
+    "key_sections": [
+      {
+        "name": "getOverview",
+        "line": 75,
+        "read_hint": {
+          "offset": 70,
+          "limit": 17
+        }
+      },
+      {
+        "name": "getBySkill",
+        "line": 79,
+        "read_hint": {
+          "offset": 74,
+          "limit": 17
+        }
+      },
+      {
+        "name": "getBySite",
+        "line": 83,
+        "read_hint": {
+          "offset": 78,
+          "limit": 18
+        }
+      },
+      {
+        "name": "getByContractor",
+        "line": 88,
+        "read_hint": {
+          "offset": 83,
+          "limit": 18
+        }
+      },
+      {
+        "name": "WorkerFilters",
+        "line": 93,
+        "read_hint": {
+          "offset": 88,
+          "limit": 20
+        }
+      },
+      {
+        "name": "listWorkers",
+        "line": 100,
+        "read_hint": {
+          "offset": 95,
+          "limit": 16
+        }
+      },
+      {
+        "name": "diffRollups",
+        "line": 151,
+        "read_hint": {
+          "offset": 146,
+          "limit": 45
+        }
+      },
+      {
+        "name": "getRoundTrend",
+        "line": 234,
+        "read_hint": {
+          "offset": 229,
+          "limit": 48
+        }
+      },
+      {
+        "name": "flagSkill",
+        "line": 280,
+        "read_hint": {
+          "offset": 275,
+          "limit": 24
+        }
+      },
+      {
+        "name": "buildCriticality",
+        "line": 320,
+        "read_hint": {
+          "offset": 315,
+          "limit": 57
+        }
+      },
+      {
+        "name": "getCriticality",
+        "line": 377,
+        "read_hint": {
+          "offset": 372,
+          "limit": 29
+        }
+      }
+    ],
+    "keywords": [
+      "data"
+    ],
+    "summary": "Server-side data access layer that reads from Firestore via Admin SDK or falls back to local fixture.",
+    "key_claims": [
+      "uses Firebase admin SDK for server-side reads",
+      "falls back to normalized JSON fixture when no service account",
+      "supports round-aware queries for multi-round data"
+    ],
+    "key_claims_generated_at": "2026-09-22",
+    "key_claims_stale": false,
+    "backfill_pending": false
+  },
+  "lib/firebase.ts": {
+    "imports": [],
+    "extracted_at_hash": "93080fc4",
+    "imported_by": [],
+    "related": [],
+    "key_sections": [
+      {
+        "name": "firebaseConfigured",
+        "line": 14,
+        "read_hint": {
+          "offset": 9,
+          "limit": 23
+        }
+      }
+    ],
+    "keywords": [
+      "firebase"
+    ],
+    "summary": "Client-side Firebase SDK initialization with configuration from environment variables and setup detection.",
+    "key_claims": [
+      "initializes Firebase app from environment config",
+      "exports firebaseConfigured flag for setup check",
+      "imports Firestore from Firebase client library"
+    ],
+    "key_claims_generated_at": "2026-09-22",
+    "key_claims_stale": false,
+    "backfill_pending": false
+  },
+  "lib/firebaseAdmin.ts": {
+    "imports": [],
+    "extracted_at_hash": "508ab72a",
+    "imported_by": [
+      "scripts/import.ts"
+    ],
+    "related": [],
+    "key_sections": [
+      {
+        "name": "getAdminDb",
+        "line": 12,
+        "read_hint": {
+          "offset": 7,
+          "limit": 26
+        }
+      }
+    ],
+    "keywords": [
+      "admin",
+      "firebase"
+    ],
+    "summary": "Server-side Firebase Admin SDK initialization that loads service account credentials for backend Firestore access.",
+    "key_claims": [
+      "initializes Firebase admin app with service account",
+      "reads service account path from environment variable",
+      "returns null when no credentials are configured"
+    ],
+    "key_claims_generated_at": "2026-09-22",
+    "key_claims_stale": false,
+    "backfill_pending": false
+  },
+  "lib/skills.ts": {
+    "imports": [],
+    "extracted_at_hash": "ff930ac0",
+    "imported_by": [
+      "scripts/import.ts"
+    ],
+    "related": [],
+    "key_sections": [
+      {
+        "name": "SkillMeta",
+        "line": 3,
+        "read_hint": {
+          "offset": 1,
+          "limit": 19
+        }
+      },
+      {
+        "name": "SKILLS",
+        "line": 9,
+        "read_hint": {
+          "offset": 4,
+          "limit": 16
+        }
+      },
+      {
+        "name": "SKILL_IDS",
+        "line": 29,
+        "read_hint": {
+          "offset": 24,
+          "limit": 18
+        }
+      },
+      {
+        "name": "skillLabel",
+        "line": 31,
+        "read_hint": {
+          "offset": 26,
+          "limit": 16
+        }
+      }
+    ],
+    "keywords": [
+      "skills"
+    ],
+    "query_hits": {
+      "critical shortage skill proportion": 1
+    },
+    "summary": "Exports the 17 assessed skills with Thai labels and stable IDs in the order they appear in workbook.",
+    "key_claims": [
+      "defines SKILLS array with 17 SkillMeta entries",
+      "uses stable slug IDs like s01 s02 for reference",
+      "provides Thai language labels for each skill"
+    ],
+    "key_claims_generated_at": "2026-09-22",
+    "key_claims_stale": false,
+    "backfill_pending": false
+  },
+  "lib/types.ts": {
+    "imports": [],
+    "extracted_at_hash": "9e1ca38d",
+    "imported_by": [],
+    "related": [],
+    "key_sections": [
+      {
+        "name": "SkillLevel",
+        "line": 2,
+        "read_hint": {
+          "offset": 1,
+          "limit": 25
+        }
+      },
+      {
+        "name": "WorkerTotals",
+        "line": 6,
+        "read_hint": {
+          "offset": 1,
+          "limit": 21
+        }
+      },
+      {
+        "name": "Worker",
+        "line": 14,
+        "read_hint": {
+          "offset": 9,
+          "limit": 26
+        }
+      },
+      {
+        "name": "SkillRollup",
+        "line": 28,
+        "read_hint": {
+          "offset": 23,
+          "limit": 19
+        }
+      },
+      {
+        "name": "Overview",
+        "line": 35,
+        "read_hint": {
+          "offset": 30,
+          "limit": 21
+        }
+      },
+      {
+        "name": "BySkill",
+        "line": 44,
+        "read_hint": {
+          "offset": 39,
+          "limit": 25
+        }
+      },
+      {
+        "name": "GroupRollup",
+        "line": 47,
+        "read_hint": {
+          "offset": 42,
+          "limit": 22
+        }
+      },
+      {
+        "name": "NormalizedData",
+        "line": 57,
+        "read_hint": {
+          "offset": 52,
+          "limit": 21
+        }
+      },
+      {
+        "name": "RoundSource",
+        "line": 70,
+        "read_hint": {
+          "offset": 65,
+          "limit": 20
+        }
+      },
+      {
+        "name": "RoundStatus",
+        "line": 73,
+        "read_hint": {
+          "offset": 68,
+          "limit": 17
+        }
+      },
+      {
+        "name": "Round",
+        "line": 76,
+        "read_hint": {
+          "offset": 71,
+          "limit": 28
+        }
+      },
+      {
+        "name": "TrendPoint",
+        "line": 97,
+        "read_hint": {
+          "offset": 92,
+          "limit": 20
+        }
+      },
+      {
+        "name": "GroupTrend",
+        "line": 105,
+        "read_hint": {
+          "offset": 100,
+          "limit": 24
+        }
+      },
+      {
+        "name": "RoundMeta",
+        "line": 117,
+        "read_hint": {
+          "offset": 112,
+          "limit": 18
+        }
+      },
+      {
+        "name": "RoundTrend",
+        "line": 123,
+        "read_hint": {
+          "offset": 118,
+          "limit": 22
+        }
+      },
+      {
+        "name": "ShortageFlags",
+        "line": 140,
+        "read_hint": {
+          "offset": 135,
+          "limit": 19
+        }
+      },
+      {
+        "name": "SkillProportion",
+        "line": 148,
+        "read_hint": {
+          "offset": 143,
+          "limit": 26
+        }
+      },
+      {
+        "name": "ScopeBreach",
+        "line": 162,
+        "read_hint": {
+          "offset": 157,
+          "limit": 18
+        }
+      },
+      {
+        "name": "GroupNone",
+        "line": 170,
+        "read_hint": {
+          "offset": 165,
+          "limit": 19
+        }
+      },
+      {
+        "name": "SkillCriticality",
+        "line": 177,
+        "read_hint": {
+          "offset": 172,
+          "limit": 27
+        }
+      },
+      {
+        "name": "CriticalityReport",
+        "line": 192,
+        "read_hint": {
+          "offset": 187,
+          "limit": 18
+        }
+      }
+    ],
+    "keywords": [
+      "types"
+    ],
+    "summary": "TypeScript type definitions for workers, skills, rollups, trends, and criticality reports used throughout the app.",
+    "key_claims": [
+      "defines Worker interface with skill proficiency data",
+      "specifies SkillLevel as 0 1 or 2 tiers",
+      "exports CriticalityReport interface for analysis"
+    ],
+    "key_claims_generated_at": "2026-09-22",
+    "key_claims_stale": false,
+    "backfill_pending": false
+  },
+  "lib/xlsxMap.ts": {
+    "imports": [],
+    "extracted_at_hash": "b7affdec",
+    "imported_by": [],
+    "related": [],
+    "key_sections": [
+      {
+        "name": "SHEET_NAME",
+        "line": 4,
+        "read_hint": {
+          "offset": 1,
+          "limit": 29
+        }
+      },
+      {
+        "name": "HEADER_ROW",
+        "line": 5,
+        "read_hint": {
+          "offset": 1,
+          "limit": 28
+        }
+      },
+      {
+        "name": "FIRST_DATA_ROW",
+        "line": 6,
+        "read_hint": {
+          "offset": 1,
+          "limit": 27
+        }
+      },
+      {
+        "name": "META_COLS",
+        "line": 9,
+        "read_hint": {
+          "offset": 4,
+          "limit": 24
+        }
+      },
+      {
+        "name": "SKILL_BASE_COLS",
+        "line": 27,
+        "read_hint": {
+          "offset": 22,
+          "limit": 23
+        }
+      },
+      {
+        "name": "UNRELIABLE_TOTAL_COLS",
+        "line": 35,
+        "read_hint": {
+          "offset": 30,
+          "limit": 15
+        }
+      },
+      {
+        "name": "CROSSCHECK_SHEET",
+        "line": 38,
+        "read_hint": {
+          "offset": 33,
+          "limit": 15
+        }
+      }
+    ],
+    "keywords": [
+      "map",
+      "xlsx"
+    ],
+    "summary": "Column mapping constants for the master assessment workbook, translating column indices to data fields.",
+    "key_claims": [
+      "defines sheet name and header row indices",
+      "maps metadata columns to worker fields",
+      "provides skill column ranges for assessments"
+    ],
+    "key_claims_generated_at": "2026-09-22",
+    "key_claims_stale": false,
+    "backfill_pending": false
+  },
+  "scripts/import.ts": {
+    "imports": [
+      "lib/firebaseAdmin.ts",
+      "lib/skills.ts"
+    ],
+    "extracted_at_hash": "6ed62356",
+    "imported_by": [
+      "scripts/import.round.test.ts"
+    ],
+    "related": [],
+    "key_sections": [
+      {
+        "name": "upsertFirestore",
+        "line": 245,
+        "read_hint": {
+          "offset": 240,
+          "limit": 70
+        }
+      }
+    ],
+    "keywords": [
+      "import"
+    ],
+    "summary": "Data import pipeline that reads master Excel workbook, normalizes data, validates rules, and upserts to Firestore.",
+    "key_claims": [
+      "reads xlsx file and maps columns per configuration",
+      "computes worker totals from 17 base skills",
+      "upserts data into Firestore under round structure"
+    ],
+    "key_claims_generated_at": "2026-09-22",
+    "key_claims_stale": false,
+    "backfill_pending": false
+  },
+  "AGENTS.md": {
+    "description": "",
+    "topics": {
+      "major": [
+        "agent_boot_sequence"
+      ],
+      "minor": []
+    },
+    "backlinks": [],
+    "references": [],
+    "related": [],
+    "backfill_pending": false,
+    "rules_defined": [
+      "R4"
+    ],
+    "rules_referenced": [
+      "BC-L4",
+      "CFP-019",
+      "CFP-025",
+      "CFP-027",
+      "CFP-034",
+      "CFP-037",
+      "CFP-041",
+      "CFP-044",
+      "CFP-049",
+      "R1",
+      "R10",
+      "R11",
+      "R14",
+      "R16",
+      "R3",
+      "R5",
+      "R6",
+      "R8",
+      "R9",
+      "T-183",
+      "T-190",
+      "T-221",
+      "T-224",
+      "T-228",
+      "T-230",
+      "T-234",
+      "T-235",
+      "T-252",
+      "T-263",
+      "T-286",
+      "T-287",
+      "T-288",
+      "T-301",
+      "T-302",
+      "T-314",
+      "T-322",
+      "T-328",
+      "T-331",
+      "T-332",
+      "T-334",
+      "T-340",
+      "T-344",
+      "T-347",
+      "T-348",
+      "T-350",
+      "T-362",
+      "T-366",
+      "T-367",
+      "T-391",
+      "T-392",
+      "T-400",
+      "T-412",
+      "T-423",
+      "T-428",
+      "T-435",
+      "T-437",
+      "T-443",
+      "T-452",
+      "T-481",
+      "T-483",
+      "T-484",
+      "T-490",
+      "T-491",
+      "T-498",
+      "T-500"
+    ],
+    "summary": "Defines the multi-agent orientation contract for the SiteTalent project, specifying a deterministic boot sequence, skill-manifest routing, and sub-agent spawn/model-tier rules. It asserts that all agents must follow the same boot, per-turn routing, and phase-based loop architecture before doing any work.",
+    "key_claims": [
+      "boot sequence runs B1 then B2 then B3 in order",
+      "FORM A uses bash while FORM B uses PowerShell",
+      "boot_init.py is the single cross-platform boot core",
+      "sub-agent max spawn depth equals one",
+      "MODEL_HIGH is reserved for MECE or architecture tasks only"
+    ],
+    "key_claims_generated_at": "2026-09-22",
+    "key_claims_stale": false
+  },
+  "CLAUDE.md": {
+    "description": "",
+    "topics": {
+      "major": [
+        "agent_hard_constraints"
+      ],
+      "minor": []
+    },
+    "backlinks": [],
+    "references": [],
+    "related": [],
+    "backfill_pending": false,
+    "rules_defined": [
+      "R1",
+      "R10",
+      "R11",
+      "R12",
+      "R13",
+      "R14",
+      "R15",
+      "R16",
+      "R2",
+      "R3",
+      "R4",
+      "R5",
+      "R6",
+      "R7",
+      "R8",
+      "R9",
+      "T-350"
+    ],
+    "rules_referenced": [
+      "BC-A",
+      "BC-B",
+      "BC-E",
+      "BC-active-fix",
+      "BC-topic-lookup",
+      "CFP-016",
+      "CFP-017",
+      "CFP-025",
+      "CFP-028",
+      "CFP-031",
+      "CFP-037",
+      "CFP-041",
+      "CFP-054",
+      "ERR-007",
+      "T-180",
+      "T-221",
+      "T-231",
+      "T-235",
+      "T-263",
+      "T-286",
+      "T-287",
+      "T-299",
+      "T-300",
+      "T-304",
+      "T-307",
+      "T-309",
+      "T-314",
+      "T-322",
+      "T-334",
+      "T-342",
+      "T-344",
+      "T-345",
+      "T-348",
+      "T-363",
+      "T-364",
+      "T-388",
+      "T-389",
+      "T-391",
+      "T-392",
+      "T-423",
+      "T-428",
+      "T-435",
+      "T-437",
+      "T-438",
+      "T-439",
+      "T-440",
+      "T-443",
+      "T-452",
+      "T-461",
+      "T-468",
+      "T-484",
+      "T-494",
+      "T-498",
+      "T-500"
+    ],
+    "summary": "Serves as the hard-constraints gateway document that every AI agent must read first, defining boot gates, per-turn routing rules, and numbered R1 through R16 operating rules. It asserts that destructive actions and DB changes are governed elsewhere in INVARIANTS.md while this file is the entry point.",
+    "key_claims": [
+      "boot must run B1 through B3 before the first response",
+      "a missing gate is treated as a stop not a green light",
+      "roadmap tasks require a full section 6.2 block",
+      "R16 covers self-improvement triggered by C0 detection",
+      "small work under three steps goes to the Small-Tasks Pool"
+    ],
+    "key_claims_generated_at": "2026-09-22",
+    "key_claims_stale": false
+  },
+  "CODING_FAILURE_PATTERNS.md": {
+    "description": "",
+    "topics": {
+      "major": [
+        "coding_failure_patterns"
+      ],
+      "minor": []
+    },
+    "backlinks": [],
+    "references": [],
+    "related": [],
+    "backfill_pending": false,
+    "size": 12,
+    "rules_defined": [
+      "CFP-1"
+    ],
+    "rules_referenced": [
+      "T-006"
+    ],
+    "summary": "Logs recurring coding failure patterns as numbered CFP entries with symptom, root cause, prevention, and detection fields. CFP-1 documents a case where code was verified by reading it instead of running an independent test.",
+    "key_claims": [
+      "each CFP block records symptom root prevention and detection",
+      "CFP-1 describes verifying code by reading instead of testing",
+      "prevention requires spawning a fresh-context independent checker",
+      "each entry tracks a topic count and recurrences list"
+    ],
+    "key_claims_generated_at": "2026-09-22",
+    "key_claims_stale": false
+  },
+  "INVARIANTS.md": {
+    "description": "",
+    "topics": {
+      "major": [
+        "destructive_action_gates"
+      ],
+      "minor": []
+    },
+    "backlinks": [],
+    "references": [],
+    "related": [],
+    "backfill_pending": false,
+    "rules_defined": [
+      "T-355"
+    ],
+    "rules_referenced": [
+      "CFP-009",
+      "R3"
+    ],
+    "summary": "Defines hard, non-negotiable constraints that apply to all agents and sessions in this codebase, centered on destructive-action gates and fail-open safety behavior for gate hooks. It asserts that every gate must fail open but never silently, always logging and announcing a fail-open event.",
+    "key_claims": [
+      "deleting or overwriting src or knowledge requires user confirmation",
+      "batch operations affecting more than five files require a gate",
+      "every gate hook fails open on an unexpected exception",
+      "a gate must call report_fail_open before allowing the action",
+      "boot_init.sh surfaces the day's fail-open events as gate-health"
+    ],
+    "key_claims_generated_at": "2026-09-22",
+    "key_claims_stale": false
+  },
+  "README.md": {
+    "description": "",
+    "topics": {
+      "major": [
+        "project_overview"
+      ],
+      "minor": []
+    },
+    "backlinks": [],
+    "references": [],
+    "related": [],
+    "backfill_pending": false,
+    "summary": "Introduces SiteTalent as a read-only reporting dashboard for contractor skill assessments built from a master Excel workbook. It asserts the tech stack is Next.js, TypeScript, Tailwind, Recharts, and Firebase Firestore, and that it can run locally without Firebase using a fixture.",
+    "key_claims": [
+      "the dashboard is built from a master Excel workbook",
+      "the stack includes Next.js TypeScript Tailwind and Firestore",
+      "npm run import converts xlsx into a normalized json fixture",
+      "the dashboard runs on a local fixture without Firebase configured"
+    ],
+    "key_claims_generated_at": "2026-09-22",
+    "key_claims_stale": false
+  },
+  "docs/master_roadmap.md": {
+    "description": "",
+    "topics": {
+      "major": [],
+      "minor": []
+    },
+    "backlinks": [],
+    "references": [],
+    "related": [],
+    "backfill_pending": true,
+    "rules_defined": [
+      "T-000",
+      "T-001",
+      "T-002",
+      "T-003",
+      "T-004",
+      "T-005",
+      "T-006",
+      "T-007",
+      "T-008",
+      "T-009",
+      "T-010",
+      "T-011",
+      "T-012",
+      "T-013",
+      "T-014"
+    ],
+    "rules_referenced": [
+      "R15",
+      "T-015"
+    ],
+    "size": 136,
+    "summary": "Tracks the SiteTalent project's roadmap tasks with a status progression from pending to in-progress to done. It asserts that T-001 and T-006 are completed dashboard and import-pipeline milestones while later tasks like T-014 remain pending drill-down features.",
+    "key_claims": [
+      "task status progresses from pending to in progress to done",
+      "T-001 delivered the Phase 1 read-only dashboard with eight sections",
+      "T-006 implemented a round-aware import pipeline for trends",
+      "T-014 adds a per-skill per-company no-skill drill-down view",
+      "T-006 verification used an in-memory fake Firestore test"
+    ],
+    "key_claims_generated_at": "2026-09-22",
+    "key_claims_stale": false
+  },
+  "error_index.md": {
+    "description": "",
+    "topics": {
+      "major": [
+        "error_index"
+      ],
+      "minor": []
+    },
+    "backlinks": [],
+    "references": [],
+    "related": [],
+    "backfill_pending": false,
+    "summary": "Serves as a placeholder index file intended to log resolved ERR-XXX error entries for the project. It currently contains only a header and no logged errors.",
+    "key_claims": [
+      "the file is meant to log ERR-XXX error entries",
+      "entries are logged as errors are resolved",
+      "the file currently holds no recorded error entries"
+    ],
+    "key_claims_generated_at": "2026-09-22",
+    "key_claims_stale": false
+  },
+  "knowledge/cross_ref.json": {
+    "description": "",
+    "topics": {
+      "major": [],
+      "minor": []
+    },
+    "backlinks": [],
+    "references": [],
+    "related": [],
+    "backfill_pending": false,
+    "summary": "Read-only registry of pointers to other harness projects for reference and learning purposes only.",
+    "key_claims": [
+      "declares read-only policy with no runtime dependencies",
+      "contains schema version and projects array",
+      "specifies SiteTalent as self with project root"
+    ],
+    "key_claims_generated_at": "2026-09-22",
+    "key_claims_stale": false
+  },
+  "knowledge/topic_registry.json": {
+    "description": "",
+    "topics": {
+      "major": [],
+      "minor": []
+    },
+    "backlinks": [],
+    "references": [],
+    "related": [],
+    "backfill_pending": false,
+    "summary": "Closed vocabulary of topics for tagging docs in this project, seeded from domain vocabulary with schema.",
+    "key_claims": [
+      "uses version 3.1 schema for topic organization",
+      "starts empty with placeholder structure",
+      "enforces closed vocabulary for topic assignment"
+    ],
+    "key_claims_generated_at": "2026-09-22",
+    "key_claims_stale": false
+  },
+  "scripts/import.round.test.ts": {
+    "description": "import { upsertFirestore } from \"./import\";",
+    "backfill_pending": false,
+    "size": 162,
+    "related": [],
+    "imports": [
+      "scripts/import.ts"
+    ],
+    "extracted_at_hash": "28bc99ec",
+    "imported_by": [],
+    "summary": "Unit test for round-aware Firestore upsert logic, using in-memory fake Firestore to verify behavior.",
+    "key_claims": [
+      "imports upsertFirestore function for testing",
+      "implements in-memory fake Firestore mirror",
+      "includes tiny assert harness with check function"
+    ],
+    "key_claims_generated_at": "2026-09-22",
+    "key_claims_stale": false
+  },
+  "app/trends/page.tsx": {
+    "imports": [],
+    "extracted_at_hash": "d274cecd",
+    "imported_by": [],
+    "key_sections": [
+      {
+        "name": "TrendsPage",
+        "line": 6,
+        "read_hint": {
+          "offset": 1,
+          "limit": 46
+        }
+      }
+    ],
+    "keywords": [
+      "page"
+    ],
+    "related": [],
+    "summary": "Trends page that loads and displays round-over-round assessment metrics showing change from previous to current.",
+    "key_claims": [
+      "fetches round trend data comparing rounds",
+      "displays round labels and metadata",
+      "renders TrendTable component for comparison"
+    ],
+    "key_claims_generated_at": "2026-09-22",
+    "key_claims_stale": false,
+    "backfill_pending": false
+  },
+  "components/TrendTable.tsx": {
+    "imports": [],
+    "extracted_at_hash": "32e30fe6",
+    "imported_by": [],
+    "key_sections": [
+      {
+        "name": "TrendTable",
+        "line": 23,
+        "read_hint": {
+          "offset": 18,
+          "limit": 80
+        }
+      }
+    ],
+    "keywords": [
+      "table",
+      "trend"
+    ],
+    "related": [],
+    "summary": "Presentational trend table component that displays current values with colored change indicators for comparison.",
+    "key_claims": [
+      "renders current values alongside delta change",
+      "color-codes positive changes green and negative red",
+      "formats numbers with locale-aware separators"
+    ],
+    "key_claims_generated_at": "2026-09-22",
+    "key_claims_stale": false,
+    "backfill_pending": false
+  },
+  "lib/trend.test.ts": {
+    "imports": [
+      "lib/data.ts",
+      "lib/types.ts"
+    ],
+    "extracted_at_hash": "b678a0a9",
+    "imported_by": [],
+    "related": [],
+    "summary": "Unit test for round-over-round trend calculation logic, exercising diffRollups and getRoundTrend functions.",
+    "key_claims": [
+      "tests diffRollups pure function with data",
+      "tests getRoundTrend via fake Firestore",
+      "uses tiny assert harness for verification"
+    ],
+    "key_claims_generated_at": "2026-09-22",
+    "key_claims_stale": false,
+    "backfill_pending": false
+  },
+  "app/criticality/page.tsx": {
+    "imports": [],
+    "extracted_at_hash": "bd348960",
+    "imported_by": [],
+    "key_sections": [
+      {
+        "name": "CriticalityPage",
+        "line": 6,
+        "read_hint": {
+          "offset": 1,
+          "limit": 35
+        }
+      }
+    ],
+    "keywords": [
+      "page"
+    ],
+    "related": [],
+    "summary": "Criticality page that loads and displays skills flagged for shortages including skill, operator, and leader gaps.",
+    "key_claims": [
+      "fetches criticality report with shortage flags",
+      "displays count of flagged skills",
+      "renders CriticalityTable for detailed view"
+    ],
+    "key_claims_generated_at": "2026-09-22",
+    "key_claims_stale": false,
+    "backfill_pending": false
+  },
+  "components/CriticalityTable.tsx": {
+    "imports": [],
+    "extracted_at_hash": "4356bb90",
+    "imported_by": [],
+    "key_sections": [
+      {
+        "name": "CriticalityTable",
+        "line": 88,
+        "read_hint": {
+          "offset": 83,
+          "limit": 80
+        }
+      }
+    ],
+    "keywords": [
+      "criticality",
+      "table"
+    ],
+    "related": [],
+    "summary": "Table displaying skill criticality flags with color-coded badge indicators for shortage types and scope breaches.",
+    "key_claims": [
+      "shows shortage flags for different staff types",
+      "displays percentage metrics for distribution",
+      "renders scope breach indicators for groups"
+    ],
+    "key_claims_generated_at": "2026-09-22",
+    "key_claims_stale": false,
+    "backfill_pending": false
+  },
+  "lib/criticality.test.ts": {
+    "imports": [
+      "lib/data.ts",
+      "lib/skills.ts",
+      "lib/types.ts"
+    ],
+    "extracted_at_hash": "85bd3b60",
+    "imported_by": [],
+    "related": [],
+    "summary": "Unit test for criticality flagging logic, verifying flagSkill and buildCriticality functions against fixtures.",
+    "key_claims": [
+      "imports flagSkill and buildCriticality functions",
+      "uses in-memory fake Firestore for testing",
+      "verifies expected skill flags and structure"
+    ],
+    "key_claims_generated_at": "2026-09-22",
+    "key_claims_stale": false,
+    "backfill_pending": false
+  },
+  "REPO_MAP.md": {
+    "description": "",
+    "topics": {
+      "major": [
+        "repository_structure_map"
+      ],
+      "minor": []
+    },
+    "backlinks": [],
+    "references": [],
+    "related": [],
+    "backfill_pending": false,
+    "summary": "Provides an auto-generated structure map of the SiteTalent Next.js and Firestore project's directories and root files. It asserts that the structure block is machine-maintained by repo_map_check.py and must not be hand-edited between its markers.",
+    "key_claims": [
+      "the structure map covers a Next.js and Firestore project",
+      "repo_map_check.py --sync regenerates the auto structure block",
+      "the root directory contains nineteen files and nine subfolders",
+      "top-level folders include app components lib scripts and knowledge"
+    ],
+    "key_claims_generated_at": "2026-09-22",
+    "key_claims_stale": false
+  },
+  "Implement/02_setup.md": {
+    "labels_by_topic": {
+      "doc_navigation": [
+        {
+          "label": "7. Onboarding Protocol — Fresh Project",
+          "lines": [
+            14,
+            196
+          ]
+        },
+        {
+          "label": "8. Integration Protocol — Existing Project (Seamless)",
+          "lines": [
+            197,
+            266
+          ]
+        },
+        {
+          "label": "9. Track C — Upgrade Existing Harness (old version → current)",
+          "lines": [
+            267,
+            282
+          ]
+        },
+        {
+          "label": "10. Verification Checklist",
+          "lines": [
+            283,
+            333
+          ]
+        },
+        {
+          "label": "10. Quick-Reference Card",
+          "lines": [
+            334,
+            349
+          ]
+        },
+        {
+          "label": "11. Project .gitignore — Harness Files",
+          "lines": [
+            350,
+            356
+          ]
+        },
+        {
+          "label": "Paste into project `.gitignore`",
+          "lines": [
+            357,
+            391
+          ]
+        },
+        {
+          "label": "What to KEEP in project repo (project-specific harness state)",
+          "lines": [
+            392,
+            400
+          ]
+        },
+        {
+          "label": "Two-repo pattern (recommended)",
+          "lines": [
+            401,
+            420
+          ]
+        }
+      ]
+    }
+  },
+  "Implement/03_config.md": {
+    "labels_by_topic": {
+      "doc_navigation": [
+        {
+          "label": "4. CLAUDE.md Gateway Template",
+          "lines": [
+            24,
+            378
+          ]
+        },
+        {
+          "label": "Failed Approaches:",
+          "lines": [
+            379,
+            628
+          ]
+        },
+        {
+          "label": "CFP-<N+1> · <Short Title of What Was Skipped>",
+          "lines": [
+            629,
+            656
+          ]
+        },
+        {
+          "label": "11. AGENTS.md Template (Generic Harness)",
+          "lines": [
+            657,
+            854
+          ]
+        },
+        {
+          "label": "12. INVARIANTS.md Skeleton",
+          "lines": [
+            855,
+            974
+          ]
+        },
+        {
+          "label": "13. REPO_MAP.md Skeleton",
+          "lines": [
+            975,
+            1036
+          ]
+        },
+        {
+          "label": "skill-manifest.json Template",
+          "lines": [
+            1037,
+            1152
+          ]
+        },
+        {
+          "label": "registry.md Template",
+          "lines": [
+            1153,
+            1202
+          ]
+        },
+        {
+          "label": "docs/master_roadmap.md Template",
+          "lines": [
+            1203,
+            1245
+          ]
+        },
+        {
+          "label": "CODING_FAILURE_PATTERNS.md Template",
+          "lines": [
+            1246,
+            1269
+          ]
+        },
+        {
+          "label": "Trace Token Reference",
+          "lines": [
+            1270,
+            1300
+          ]
+        }
+      ]
+    }
+  },
+  "Implement/04_skills.md": {
+    "labels_by_topic": {
+      "doc_navigation": [
+        {
+          "label": "Skill Authoring — Robustness Floor (applies to every template below)",
+          "lines": [
+            26,
+            39
+          ]
+        },
+        {
+          "label": "agent",
+          "lines": [
+            40,
+            204
+          ]
+        },
+        {
+          "label": "ascii_flow",
+          "lines": [
+            205,
+            273
+          ]
+        },
+        {
+          "label": "coder",
+          "lines": [
+            274,
+            339
+          ]
+        },
+        {
+          "label": "editor",
+          "lines": [
+            340,
+            542
+          ]
+        },
+        {
+          "label": "index_manager (mode: file)",
+          "lines": [
+            543,
+            577
+          ]
+        },
+        {
+          "label": "identity",
+          "lines": [
+            578,
+            620
+          ]
+        },
+        {
+          "label": "mece",
+          "lines": [
+            621,
+            935
+          ]
+        },
+        {
+          "label": "session_manager",
+          "lines": [
+            936,
+            1185
+          ]
+        },
+        {
+          "label": "token_auditor",
+          "lines": [
+            1186,
+            1244
+          ]
+        },
+        {
+          "label": "token_tracker",
+          "lines": [
+            1245,
+            1322
+          ]
+        },
+        {
+          "label": "self_improve",
+          "lines": [
+            1323,
+            1465
+          ]
+        },
+        {
+          "label": "index_manager (mode: symbol)",
+          "lines": [
+            1466,
+            1500
+          ]
+        },
+        {
+          "label": "harness_doctor",
+          "lines": [
+            1501,
+            1650
+          ]
+        },
+        {
+          "label": "harness_editor",
+          "lines": [
+            1651,
+            1734
+          ]
+        }
+      ]
+    }
+  },
+  "Implement/06_orchestrator.md": {
+    "labels_by_topic": {
+      "doc_navigation": [
+        {
+          "label": "14. Orchestrator Protocol — Dual-Mode Execution",
+          "lines": [
+            14,
+            21
+          ]
+        },
+        {
+          "label": "14a. `.sessions/mece_plan.md` — Schema",
+          "lines": [
+            22,
+            105
+          ]
+        },
+        {
+          "label": "Phase 3 · REACT LOOP (execution detail)",
+          "lines": [
+            106,
+            179
+          ]
+        },
+        {
+          "label": "14b. Boot Detection",
+          "lines": [
+            180,
+            201
+          ]
+        },
+        {
+          "label": "14c. Cycle Result File Schema",
+          "lines": [
+            202,
+            257
+          ]
+        },
+        {
+          "label": "14d. Sub-agent Loop Logic",
+          "lines": [
+            258,
+            294
+          ]
+        },
+        {
+          "label": "14f. Dynamic Fan-Out Decision Gate (run-time · anywhere) + Map-Reduce  (T-481 · SINGLE SOURCE)",
+          "lines": [
+            295,
+            337
+          ]
+        },
+        {
+          "label": "14e. \"จบ session\" Clear Flow",
+          "lines": [
+            338,
+            364
+          ]
+        },
+        {
+          "label": "14f. Token Budget Guidelines",
+          "lines": [
+            365,
+            373
+          ]
+        }
+      ]
+    }
+  },
+  "Implement/08_checklist.md": {
+    "labels_by_topic": {
+      "doc_navigation": [
+        {
+          "label": "Behavioral Contract",
+          "lines": [
+            42,
+            76
+          ]
+        },
+        {
+          "label": "1. Config Files (3 required)",
+          "lines": [
+            77,
+            78
+          ]
+        },
+        {
+          "label": "1.1 `CLAUDE.md`",
+          "lines": [
+            79,
+            190
+          ]
+        },
+        {
+          "label": "1.1a `settings.json` hooks (enforcement layer)",
+          "lines": [
+            191,
+            214
+          ]
+        },
+        {
+          "label": "1.2 `AGENTS.md`",
+          "lines": [
+            215,
+            231
+          ]
+        },
+        {
+          "label": "1.3 `INVARIANTS.md`",
+          "lines": [
+            232,
+            248
+          ]
+        },
+        {
+          "label": "2. Skill Files (13 core required)",
+          "lines": [
+            249,
+            272
+          ]
+        },
+        {
+          "label": "Per-skill section requirements",
+          "lines": [
+            273,
+            296
+          ]
+        },
+        {
+          "label": "3. Routing Files (2 required)",
+          "lines": [
+            297,
+            298
+          ]
+        },
+        {
+          "label": "3.1 `.agents/skills/registry.md`",
+          "lines": [
+            299,
+            305
+          ]
+        },
+        {
+          "label": "3.2 `.agents/skills/skill-manifest.json`",
+          "lines": [
+            306,
+            347
+          ]
+        },
+        {
+          "label": "4. Platform Adapter (1 required)",
+          "lines": [
+            348,
+            349
+          ]
+        },
+        {
+          "label": "4.1 `.agents/platform/detected.md`",
+          "lines": [
+            350,
+            369
+          ]
+        },
+        {
+          "label": "5. Knowledge Files (3 required)",
+          "lines": [
+            370,
+            371
+          ]
+        },
+        {
+          "label": "5.1 `knowledge/index_files.json`",
+          "lines": [
+            372,
+            378
+          ]
+        },
+        {
+          "label": "5.2 `knowledge/index_variables.json`",
+          "lines": [
+            379,
+            385
+          ]
+        },
+        {
+          "label": "5.3 `knowledge/index_sessions.json`",
+          "lines": [
+            386,
+            407
+          ]
+        },
+        {
+          "label": "5.4 `knowledge/error_index.md`",
+          "lines": [
+            408,
+            462
+          ]
+        },
+        {
+          "label": "6. Scripts (1 required)",
+          "lines": [
+            463,
+            464
+          ]
+        },
+        {
+          "label": "6.1 `scripts/symbol_indexer.py`",
+          "lines": [
+            465,
+            486
+          ]
+        },
+        {
+          "label": "6.2 `scripts/lookup.py` — T0 Pre-Read Oracle",
+          "lines": [
+            487,
+            528
+          ]
+        },
+        {
+          "label": "6.3 `scripts/session_indexer.py`",
+          "lines": [
+            529,
+            553
+          ]
+        },
+        {
+          "label": "7. Docs (1 required)",
+          "lines": [
+            554,
+            555
+          ]
+        },
+        {
+          "label": "7.1 `docs/master_roadmap.md`",
+          "lines": [
+            556,
+            570
+          ]
+        },
+        {
+          "label": "8. Failure Patterns (1 required)",
+          "lines": [
+            571,
+            572
+          ]
+        },
+        {
+          "label": "8.1 `CODING_FAILURE_PATTERNS.md`",
+          "lines": [
+            573,
+            592
+          ]
+        },
+        {
+          "label": "9. Session Directory (runtime — verify after first task)",
+          "lines": [
+            593,
+            615
+          ]
+        },
+        {
+          "label": "10. Machine-Install Track (T-309 · optional — run only if installing the engine machine-wide)",
+          "lines": [
+            616,
+            667
+          ]
+        },
+        {
+          "label": "Summary Verification Script",
+          "lines": [
+            668,
+            735
+          ]
+        }
+      ]
+    }
+  },
+  "Implement/09_migration.md": {
+    "labels_by_topic": {
+      "doc_navigation": [
+        {
+          "label": "One-command usage",
+          "lines": [
+            47,
+            57
+          ]
+        },
+        {
+          "label": "When to use",
+          "lines": [
+            58,
+            74
+          ]
+        },
+        {
+          "label": "M0 — Preflight (run first · resolves source + skips redundant work)",
+          "lines": [
+            75,
+            78
+          ]
+        },
+        {
+          "label": "M0.1 · Clone the current harness source",
+          "lines": [
+            79,
+            88
+          ]
+        },
+        {
+          "label": "M0.2 · Version check — skip redundant file-copy",
+          "lines": [
+            89,
+            104
+          ]
+        },
+        {
+          "label": "M0.3 · Run contract (hard rules for the whole migration)",
+          "lines": [
+            105,
+            114
+          ]
+        },
+        {
+          "label": "Track C — Upgrade Existing Harness",
+          "lines": [
+            115,
+            116
+          ]
+        },
+        {
+          "label": "Overview (4 tracks — run in order)",
+          "lines": [
+            117,
+            129
+          ]
+        },
+        {
+          "label": "M1 — Re-format Indexes",
+          "lines": [
+            130,
+            131
+          ]
+        },
+        {
+          "label": "M1.1 · session_tokens.md (was chat_tokens.md)",
+          "lines": [
+            132,
+            147
+          ]
+        },
+        {
+          "label": "M1.2 · index_files.json — add missing fields",
+          "lines": [
+            148,
+            178
+          ]
+        },
+        {
+          "label": "M1.3 · index_variables.json — re-run indexer",
+          "lines": [
+            179,
+            186
+          ]
+        },
+        {
+          "label": "M1.4 · index_cfp_fix.json — check schema",
+          "lines": [
+            187,
+            211
+          ]
+        },
+        {
+          "label": "M1.5 · Regenerate indexes, code graph + REPO_MAP (inline — no cross-file pointer)",
+          "lines": [
+            212,
+            227
+          ]
+        },
+        {
+          "label": "M2 — Re-structure Harness Tree",
+          "lines": [
+            228,
+            231
+          ]
+        },
+        {
+          "label": "M2.1 · Required directories",
+          "lines": [
+            232,
+            239
+          ]
+        },
+        {
+          "label": "M2.2 · Required session files",
+          "lines": [
+            240,
+            254
+          ]
+        },
+        {
+          "label": "M2.3 · mece_plan_schema.md template",
+          "lines": [
+            255,
+            262
+          ]
+        },
+        {
+          "label": "M2.4 · Platform detected.md — FORCE re-detection (never preserve stale values)",
+          "lines": [
+            263,
+            293
+          ]
+        },
+        {
+          "label": "M2.5 · Required scripts (incl. current hook + index automation)",
+          "lines": [
+            294,
+            306
+          ]
+        },
+        {
+          "label": "M2.6 · Re-wire hooks (.claude/settings.json)",
+          "lines": [
+            307,
+            320
+          ]
+        },
+        {
+          "label": "M3 — Update / Overwrite Skills + Config",
+          "lines": [
+            321,
+            324
+          ]
+        },
+        {
+          "label": "M3.1 · Files to OVERWRITE (copy from current harness)",
+          "lines": [
+            325,
+            340
+          ]
+        },
+        {
+          "label": "M3.2 · Files to PRESERVE (do not touch)",
+          "lines": [
+            341,
+            351
+          ]
+        },
+        {
+          "label": "M3.3 · Skill overwrite procedure",
+          "lines": [
+            352,
+            367
+          ]
+        },
+        {
+          "label": "M3.4 · Add new skills not in old version",
+          "lines": [
+            368,
+            393
+          ]
+        },
+        {
+          "label": "M3.5 · Merge CODING_FAILURE_PATTERNS.md",
+          "lines": [
+            394,
+            403
+          ]
+        },
+        {
+          "label": "M3.6 · Stamp the version (last copy step)",
+          "lines": [
+            404,
+            414
+          ]
+        },
+        {
+          "label": "M4 — Verify (Run 08_checklist.md)",
+          "lines": [
+            415,
+            448
+          ]
+        },
+        {
+          "label": "Rollback Plan",
+          "lines": [
+            449,
+            459
+          ]
+        },
+        {
+          "label": "M5 — T-067+T-068 Migration (Loop Weight + Behavior Contract)",
+          "lines": [
+            460,
+            463
+          ]
+        },
+        {
+          "label": "Step 1 — session_tokens.md: add TURN_COUNT + LOOP_WEIGHT fields",
+          "lines": [
+            464,
+            478
+          ]
+        },
+        {
+          "label": "Step 2 — PostToolUse hook: add to .claude/settings.json",
+          "lines": [
+            479,
+            489
+          ]
+        },
+        {
+          "label": "Step 3 — AGENTS.md: verify C0.5 BC gate present",
+          "lines": [
+            490,
+            498
+          ]
+        },
+        {
+          "label": "Step 4 — compact_checkpoint awareness for existing mece_plans",
+          "lines": [
+            499,
+            504
+          ]
+        },
+        {
+          "label": "Step 5 — error_index.md: migrate entries to new schema + add BC hooks",
+          "lines": [
+            505,
+            540
+          ]
+        },
+        {
+          "label": "Step 6 — Verify all M5 steps",
+          "lines": [
+            541,
+            551
+          ]
+        }
+      ]
+    }
+  },
+  "Implement/10_machine_install.md": {
+    "labels_by_topic": {
+      "doc_navigation": [
+        {
+          "label": "Engine vs Project — the split",
+          "lines": [
+            35,
+            50
+          ]
+        },
+        {
+          "label": "Two environment variables",
+          "lines": [
+            51,
+            61
+          ]
+        },
+        {
+          "label": "Cross-machine learning sharing (opt-in · T-319)",
+          "lines": [
+            62,
+            85
+          ]
+        },
+        {
+          "label": "Update detection (T-332)",
+          "lines": [
+            86,
+            101
+          ]
+        },
+        {
+          "label": "Step 0 — clean old conflicting config first (MANDATORY)",
+          "lines": [
+            102,
+            134
+          ]
+        },
+        {
+          "label": "Install",
+          "lines": [
+            135,
+            156
+          ]
+        },
+        {
+          "label": "Choose ONE canonical install method (never run both)",
+          "lines": [
+            157,
+            172
+          ]
+        },
+        {
+          "label": "Windows / Git-Bash notes (T-369)",
+          "lines": [
+            173,
+            217
+          ]
+        },
+        {
+          "label": "Method A — install as a Claude Code plugin (canonical)",
+          "lines": [
+            218,
+            251
+          ]
+        },
+        {
+          "label": "Method B — manual self-host",
+          "lines": [
+            252,
+            257
+          ]
+        },
+        {
+          "label": "AI-guided setup from a downloaded repo (🤖 AI vs 👤 you)",
+          "lines": [
+            258,
+            273
+          ]
+        },
+        {
+          "label": "Runbook",
+          "lines": [
+            274,
+            327
+          ]
+        },
+        {
+          "label": "The exact message the AI hands the user (copy-paste template)",
+          "lines": [
+            328,
+            340
+          ]
+        },
+        {
+          "label": "Updating later (same split)",
+          "lines": [
+            341,
+            347
+          ]
+        },
+        {
+          "label": "Per-project bootstrap",
+          "lines": [
+            348,
+            365
+          ]
+        },
+        {
+          "label": "How boot + hooks split engine vs project",
+          "lines": [
+            366,
+            374
+          ]
+        },
+        {
+          "label": "Verify (Verify-6)",
+          "lines": [
+            375,
+            385
+          ]
+        },
+        {
+          "label": "Coexisting with an existing global config",
+          "lines": [
+            386,
+            391
+          ]
+        },
+        {
+          "label": "De-dup rule — avoid double-firing hooks",
+          "lines": [
+            392,
+            416
+          ]
+        },
+        {
+          "label": "CLAUDE.md placement decision",
+          "lines": [
+            417,
+            426
+          ]
+        },
+        {
+          "label": "Update — bring an installed harness up-to-date",
+          "lines": [
+            427,
+            448
+          ]
+        },
+        {
+          "label": "Uninstall",
+          "lines": [
+            449,
+            463
+          ]
+        },
+        {
+          "label": "Prune stale plugin versions (optional)",
+          "lines": [
+            464,
+            482
+          ]
+        },
+        {
+          "label": "Health check (self-test)",
+          "lines": [
+            483,
+            493
+          ]
+        }
+      ]
+    }
+  },
+  "docs/session_templates/mece_plan_schema.md": {
+    "labels_by_topic": {
+      "doc_navigation": [
+        {
+          "label": "Phase 0 — Boot (once per session · keep [X] on resume · reset on topic switch only)",
+          "lines": [
+            62,
+            69
+          ]
+        },
+        {
+          "label": "Phase 1 — Info Gather",
+          "lines": [
+            70,
+            77
+          ]
+        },
+        {
+          "label": "Files Read — Phase 1",
+          "lines": [
+            78,
+            86
+          ]
+        },
+        {
+          "label": "Phase 2 — Plan",
+          "lines": [
+            87,
+            104
+          ]
+        },
+        {
+          "label": "Files Read — Phase 2",
+          "lines": [
+            105,
+            116
+          ]
+        },
+        {
+          "label": "Phase 3 — Execute",
+          "lines": [
+            117,
+            118
+          ]
+        },
+        {
+          "label": "Cycle grouping  (fill when ≥2 independent sections · else write \"Cycle 1 — all sequential\")",
+          "lines": [
+            119,
+            125
+          ]
+        },
+        {
+          "label": "Per-Section Invariants  (apply to EVERY S<N> below — written ONCE · do NOT repeat in each section)",
+          "lines": [
+            126,
+            136
+          ]
+        },
+        {
+          "label": "S1 · T-XXX · <Section 1 name>            [Cycle 1 · serial]",
+          "lines": [
+            137,
+            155
+          ]
+        },
+        {
+          "label": "S<N> · T-XXX · <Section N name>            [Cycle <N> · serial|parallel]",
+          "lines": [
+            156,
+            177
+          ]
+        },
+        {
+          "label": "Verify-N — concrete (Run + Expect · T-403)",
+          "lines": [
+            178,
+            198
+          ]
+        },
+        {
+          "label": "Surgical Scope (canonical · T-230 · the ONE source — edit skills point here, never re-state)",
+          "lines": [
+            199,
+            204
+          ]
+        },
+        {
+          "label": "/compact checkpoint template (M1.5 inserts when: sections ≥ 3 OR sections × 6 > 30)",
+          "lines": [
+            205,
+            237
+          ]
+        },
+        {
+          "label": "Phase 3 — Close Checklist",
+          "lines": [
+            238,
+            282
+          ]
+        },
+        {
+          "label": "Close Path — choose ONE based on state:",
+          "lines": [
+            283,
+            294
+          ]
+        },
+        {
+          "label": "PATH A — Task complete (typical · most common)",
+          "lines": [
+            295,
+            331
+          ]
+        },
+        {
+          "label": "PATH B — TOKEN PAUSE (SESSION_TOTAL > 60k)",
+          "lines": [
+            332,
+            350
+          ]
+        },
+        {
+          "label": "PATH C — Manual close (user: ปิด / close / จบงาน / done)",
+          "lines": [
+            351,
+            376
+          ]
+        }
+      ]
+    }
+  },
+  "knowledge/9arm-skills-patterns-to-port-into-ai-agent-harness-2026-05-28.md": {
+    "labels_by_topic": {
+      "doc_navigation": [
+        {
+          "label": "Summary",
+          "lines": [
+            48,
+            55
+          ]
+        },
+        {
+          "label": "Why This Repo Matters for Harness Design",
+          "lines": [
+            56,
+            61
+          ]
+        },
+        {
+          "label": "Pattern 1 — Role-First Skill Design",
+          "lines": [
+            62,
+            63
+          ]
+        },
+        {
+          "label": "What the Repo Does Well",
+          "lines": [
+            64,
+            74
+          ]
+        },
+        {
+          "label": "What to Port",
+          "lines": [
+            75,
+            88
+          ]
+        },
+        {
+          "label": "What Not to Copy Directly",
+          "lines": [
+            89,
+            95
+          ]
+        },
+        {
+          "label": "Pattern 2 — Skills as Phase Gates",
+          "lines": [
+            96,
+            97
+          ]
+        },
+        {
+          "label": "What the Repo Does Well",
+          "lines": [
+            98,
+            110
+          ]
+        },
+        {
+          "label": "What to Port",
+          "lines": [
+            111,
+            129
+          ]
+        },
+        {
+          "label": "Pattern 3 — Prerequisite-Based Refusal",
+          "lines": [
+            130,
+            131
+          ]
+        },
+        {
+          "label": "What the Repo Does Well",
+          "lines": [
+            132,
+            135
+          ]
+        },
+        {
+          "label": "What to Port",
+          "lines": [
+            136,
+            158
+          ]
+        },
+        {
+          "label": "Pattern 4 — Behavioral Precision Without Tool Sprawl",
+          "lines": [
+            159,
+            160
+          ]
+        },
+        {
+          "label": "What the Repo Does Well",
+          "lines": [
+            161,
+            164
+          ]
+        },
+        {
+          "label": "What to Port",
+          "lines": [
+            165,
+            174
+          ]
+        },
+        {
+          "label": "Pattern 5 — Audience Adaptation as a First-Class Role",
+          "lines": [
+            175,
+            176
+          ]
+        },
+        {
+          "label": "What the Repo Does Well",
+          "lines": [
+            177,
+            180
+          ]
+        },
+        {
+          "label": "What to Port",
+          "lines": [
+            181,
+            208
+          ]
+        },
+        {
+          "label": "Pattern 6 — Skeptical Review Before Correctness Review",
+          "lines": [
+            209,
+            210
+          ]
+        },
+        {
+          "label": "What the Repo Does Well",
+          "lines": [
+            211,
+            214
+          ]
+        },
+        {
+          "label": "What to Port",
+          "lines": [
+            215,
+            226
+          ]
+        },
+        {
+          "label": "Pattern 7 — Closure Artifact as Learning Memory",
+          "lines": [
+            227,
+            228
+          ]
+        },
+        {
+          "label": "What the Repo Does Well",
+          "lines": [
+            229,
+            232
+          ]
+        },
+        {
+          "label": "What to Port",
+          "lines": [
+            233,
+            246
+          ]
+        },
+        {
+          "label": "What to Copy Almost Directly",
+          "lines": [
+            247,
+            259
+          ]
+        },
+        {
+          "label": "What to Adapt Rather Than Copy",
+          "lines": [
+            260,
+            270
+          ]
+        },
+        {
+          "label": "What Is Still Missing for the Target Harness",
+          "lines": [
+            271,
+            285
+          ]
+        },
+        {
+          "label": "Recommended Port Plan",
+          "lines": [
+            286,
+            297
+          ]
+        },
+        {
+          "label": "Suggested Harness Architecture (Inspired by 9arm-skills)",
+          "lines": [
+            298,
+            314
+          ]
+        },
+        {
+          "label": "Bottom Line",
+          "lines": [
+            315,
+            318
+          ]
+        }
+      ]
+    }
+  },
+  "knowledge/9arm-skills-skill-building-framework-2026-06-04.md": {
+    "labels_by_topic": {
+      "doc_navigation": [
+        {
+          "label": "Summary",
+          "lines": [
+            31,
+            41
+          ]
+        },
+        {
+          "label": "Skill Size Reference",
+          "lines": [
+            42,
+            55
+          ]
+        },
+        {
+          "label": "The 8 Framework Components",
+          "lines": [
+            56,
+            75
+          ]
+        },
+        {
+          "label": "Component Breakdown with Examples",
+          "lines": [
+            76,
+            79
+          ]
+        },
+        {
+          "label": "[1] YAML Header — identity + trigger",
+          "lines": [
+            80,
+            100
+          ]
+        },
+        {
+          "label": "[2] When to Invoke — activation conditions",
+          "lines": [
+            101,
+            120
+          ]
+        },
+        {
+          "label": "[3] When NOT to Use — negative space / refusal",
+          "lines": [
+            121,
+            146
+          ]
+        },
+        {
+          "label": "[4] Operating Stance — mental model",
+          "lines": [
+            147,
+            170
+          ]
+        },
+        {
+          "label": "[5] Prerequisites — required inputs checklist",
+          "lines": [
+            171,
+            198
+          ]
+        },
+        {
+          "label": "[6] Workflow — ordered sequential steps",
+          "lines": [
+            199,
+            232
+          ]
+        },
+        {
+          "label": "[7] Output Spec — structure + tone",
+          "lines": [
+            233,
+            281
+          ]
+        },
+        {
+          "label": "[8] Hard Rules — absolute prohibitions",
+          "lines": [
+            282,
+            305
+          ]
+        },
+        {
+          "label": "Decision Table — Which Components to Include",
+          "lines": [
+            306,
+            324
+          ]
+        },
+        {
+          "label": "Step-by-Step: How to Write a New Skill",
+          "lines": [
+            325,
+            364
+          ]
+        },
+        {
+          "label": "Blank Template (copy-paste ready)",
+          "lines": [
+            365,
+            440
+          ]
+        },
+        {
+          "label": "Cross-Skill Composition Pattern",
+          "lines": [
+            441,
+            459
+          ]
+        },
+        {
+          "label": "Part 6 — Cross-Skill Connection Patterns",
+          "lines": [
+            460,
+            461
+          ]
+        },
+        {
+          "label": "The 6 Connection Types (9arm + Harness combined view)",
+          "lines": [
+            462,
+            477
+          ]
+        },
+        {
+          "label": "How to Write Each Type",
+          "lines": [
+            478,
+            530
+          ]
+        },
+        {
+          "label": "Decision Rule: Which Type to Use",
+          "lines": [
+            531,
+            544
+          ]
+        },
+        {
+          "label": "Objective Assessment — What Should Remain",
+          "lines": [
+            545,
+            581
+          ]
+        }
+      ]
+    }
+  },
+  "knowledge/9arm-skills-writing-techniques-concrete-examples-2026-06-04.md": {
+    "labels_by_topic": {
+      "doc_navigation": [
+        {
+          "label": "Summary",
+          "lines": [
+            54,
+            59
+          ]
+        },
+        {
+          "label": "Key insight",
+          "lines": [
+            60,
+            76
+          ]
+        },
+        {
+          "label": "Technique 1 — Operating Stance (mental model before rules)",
+          "lines": [
+            77,
+            78
+          ]
+        },
+        {
+          "label": "What it is",
+          "lines": [
+            79,
+            82
+          ]
+        },
+        {
+          "label": "Verbatim example (scrutinize/SKILL.md)",
+          "lines": [
+            83,
+            92
+          ]
+        },
+        {
+          "label": "Why it works",
+          "lines": [
+            93,
+            96
+          ]
+        },
+        {
+          "label": "Concrete example — edge case not covered by rules",
+          "lines": [
+            97,
+            109
+          ]
+        },
+        {
+          "label": "What Harness Agent currently does",
+          "lines": [
+            110,
+            113
+          ]
+        },
+        {
+          "label": "Porting action",
+          "lines": [
+            114,
+            119
+          ]
+        },
+        {
+          "label": "Technique 2 — When NOT to Use (negative space)",
+          "lines": [
+            120,
+            121
+          ]
+        },
+        {
+          "label": "What it is",
+          "lines": [
+            122,
+            125
+          ]
+        },
+        {
+          "label": "Verbatim example (post-mortem/SKILL.md)",
+          "lines": [
+            126,
+            137
+          ]
+        },
+        {
+          "label": "Why it works",
+          "lines": [
+            138,
+            141
+          ]
+        },
+        {
+          "label": "Concrete example",
+          "lines": [
+            142,
+            154
+          ]
+        },
+        {
+          "label": "What Harness Agent currently does",
+          "lines": [
+            155,
+            158
+          ]
+        },
+        {
+          "label": "Porting action",
+          "lines": [
+            159,
+            164
+          ]
+        },
+        {
+          "label": "Technique 3 — Cross-Skill Composition (explicit downstream references)",
+          "lines": [
+            165,
+            166
+          ]
+        },
+        {
+          "label": "What it is",
+          "lines": [
+            167,
+            170
+          ]
+        },
+        {
+          "label": "Verbatim example (post-mortem/SKILL.md)",
+          "lines": [
+            171,
+            177
+          ]
+        },
+        {
+          "label": "Also in the output flow section",
+          "lines": [
+            178,
+            183
+          ]
+        },
+        {
+          "label": "Why it works",
+          "lines": [
+            184,
+            187
+          ]
+        },
+        {
+          "label": "Concrete example",
+          "lines": [
+            188,
+            200
+          ]
+        },
+        {
+          "label": "What Harness Agent currently does",
+          "lines": [
+            201,
+            204
+          ]
+        },
+        {
+          "label": "Porting action",
+          "lines": [
+            205,
+            213
+          ]
+        },
+        {
+          "label": "Technique 4 — Tone Guide (HOW to write, not just WHAT to write)",
+          "lines": [
+            214,
+            215
+          ]
+        },
+        {
+          "label": "What it is",
+          "lines": [
+            216,
+            219
+          ]
+        },
+        {
+          "label": "Verbatim example (management-talk/SKILL.md)",
+          "lines": [
+            220,
+            231
+          ]
+        },
+        {
+          "label": "Also in post-mortem/SKILL.md",
+          "lines": [
+            232,
+            241
+          ]
+        },
+        {
+          "label": "Why it works",
+          "lines": [
+            242,
+            245
+          ]
+        },
+        {
+          "label": "Concrete example",
+          "lines": [
+            246,
+            257
+          ]
+        },
+        {
+          "label": "What Harness Agent currently does",
+          "lines": [
+            258,
+            260
+          ]
+        },
+        {
+          "label": "Porting action",
+          "lines": [
+            261,
+            269
+          ]
+        },
+        {
+          "label": "Technique 5 — Quality Heuristics Embedded in Skill",
+          "lines": [
+            270,
+            271
+          ]
+        },
+        {
+          "label": "What it is",
+          "lines": [
+            272,
+            275
+          ]
+        },
+        {
+          "label": "Verbatim examples",
+          "lines": [
+            276,
+            287
+          ]
+        },
+        {
+          "label": "Why it works",
+          "lines": [
+            288,
+            291
+          ]
+        },
+        {
+          "label": "Concrete example",
+          "lines": [
+            292,
+            304
+          ]
+        },
+        {
+          "label": "What Harness Agent currently does",
+          "lines": [
+            305,
+            308
+          ]
+        },
+        {
+          "label": "Porting action",
+          "lines": [
+            309,
+            316
+          ]
+        },
+        {
+          "label": "Comparison Table — Discipline vs Enforcement by Scenario",
+          "lines": [
+            317,
+            330
+          ]
+        },
+        {
+          "label": "Actionable Port Plan (priority order)",
+          "lines": [
+            331,
+            354
+          ]
+        },
+        {
+          "label": "Files already in knowledge base on this topic",
+          "lines": [
+            355,
+            368
+          ]
+        }
+      ]
+    }
+  },
+  "knowledge/claude-code-harness-research-notebooklm-summary-2026-05-28.md": {
+    "labels_by_topic": {
+      "doc_navigation": [
+        {
+          "label": "Source Coverage",
+          "lines": [
+            43,
+            54
+          ]
+        },
+        {
+          "label": "Group A — Requirements Extraction",
+          "lines": [
+            55,
+            56
+          ]
+        },
+        {
+          "label": "Q1: Structured requirements interview pattern",
+          "lines": [
+            57,
+            91
+          ]
+        },
+        {
+          "label": "Q2: Requirement → HTML spec workflow",
+          "lines": [
+            92,
+            99
+          ]
+        },
+        {
+          "label": "Q3: Clarification stopping criterion",
+          "lines": [
+            100,
+            107
+          ]
+        },
+        {
+          "label": "Group B — HTML Spec Pattern",
+          "lines": [
+            108,
+            109
+          ]
+        },
+        {
+          "label": "Q4: Minimum HTML spec structure",
+          "lines": [
+            110,
+            126
+          ]
+        },
+        {
+          "label": "Q5: Real HTML spec examples from Anthropic",
+          "lines": [
+            127,
+            134
+          ]
+        },
+        {
+          "label": "Q6: Task suitability for HTML spec",
+          "lines": [
+            135,
+            146
+          ]
+        },
+        {
+          "label": "Group C — Agent-Native Verification",
+          "lines": [
+            147,
+            148
+          ]
+        },
+        {
+          "label": "Q7: DOM data-attribute verification pattern",
+          "lines": [
+            149,
+            160
+          ]
+        },
+        {
+          "label": "Q8: Verification contract that fails if touched",
+          "lines": [
+            161,
+            178
+          ]
+        },
+        {
+          "label": "Q9: Three verification surfaces",
+          "lines": [
+            179,
+            203
+          ]
+        },
+        {
+          "label": "Group D — Claude Code Configuration",
+          "lines": [
+            204,
+            205
+          ]
+        },
+        {
+          "label": "Q10: effortLevel, fast mode, auto mode settings",
+          "lines": [
+            206,
+            231
+          ]
+        },
+        {
+          "label": "Q11: Playwright MCP vs Claude Preview MCP",
+          "lines": [
+            232,
+            239
+          ]
+        },
+        {
+          "label": "Group E — The Bitter Lesson × Harness Design",
+          "lines": [
+            240,
+            241
+          ]
+        },
+        {
+          "label": "Q12: Applying The Bitter Lesson to harness design",
+          "lines": [
+            242,
+            274
+          ]
+        },
+        {
+          "label": "Q13: Over-constrained prompts degrading performance",
+          "lines": [
+            275,
+            286
+          ]
+        },
+        {
+          "label": "Immediate Harness Action Items",
+          "lines": [
+            287,
+            299
+          ]
+        },
+        {
+          "label": "Open Research Gaps",
+          "lines": [
+            300,
+            308
+          ]
+        }
+      ]
+    }
+  },
+  "knowledge/harness-agent-skill-system-framework-2026-06-04.md": {
+    "labels_by_topic": {
+      "doc_navigation": [
+        {
+          "label": "Summary",
+          "lines": [
+            34,
+            41
+          ]
+        },
+        {
+          "label": "Part 1 — All 18 Skills",
+          "lines": [
+            42,
+            43
+          ]
+        },
+        {
+          "label": "Tier A — Core Execution (run most tasks)",
+          "lines": [
+            44,
+            54
+          ]
+        },
+        {
+          "label": "Tier B — Supporting (called by Tier A, rarely direct)",
+          "lines": [
+            55,
+            66
+          ]
+        },
+        {
+          "label": "Tier C — Specialized Output",
+          "lines": [
+            67,
+            78
+          ]
+        },
+        {
+          "label": "Part 2 — The 13 Framework Components",
+          "lines": [
+            79,
+            85
+          ]
+        },
+        {
+          "label": "Component 1 — YAML Frontmatter (MANDATORY in all)",
+          "lines": [
+            86,
+            111
+          ]
+        },
+        {
+          "label": "Component 2 — Sections[] (MANDATORY in all)",
+          "lines": [
+            112,
+            145
+          ]
+        },
+        {
+          "label": "Component 3 — Trigger (MANDATORY in all)",
+          "lines": [
+            146,
+            174
+          ]
+        },
+        {
+          "label": "Component 4 — Refusal Contract (MANDATORY in all)",
+          "lines": [
+            175,
+            203
+          ]
+        },
+        {
+          "label": "Component 5 — Workflow (MANDATORY in all)",
+          "lines": [
+            204,
+            233
+          ]
+        },
+        {
+          "label": "Component 6 — Output Contract (MANDATORY in all)",
+          "lines": [
+            234,
+            260
+          ]
+        },
+        {
+          "label": "Component 7 — Routing (MANDATORY in most)",
+          "lines": [
+            261,
+            282
+          ]
+        },
+        {
+          "label": "Component 8 — Behavior Contract / BC (CONDITIONAL)",
+          "lines": [
+            283,
+            315
+          ]
+        },
+        {
+          "label": "Component 9 — Context Gate (CONDITIONAL)",
+          "lines": [
+            316,
+            337
+          ]
+        },
+        {
+          "label": "Component 10 — On-Demand Wire Triggers (CONDITIONAL)",
+          "lines": [
+            338,
+            361
+          ]
+        },
+        {
+          "label": "Component 11 — MECE Constraints Block (CONDITIONAL)",
+          "lines": [
+            362,
+            384
+          ]
+        },
+        {
+          "label": "Component 12 — Roadmap Protocol (CONDITIONAL)",
+          "lines": [
+            385,
+            400
+          ]
+        },
+        {
+          "label": "Component 13 — BC Selection Guide (CONDITIONAL)",
+          "lines": [
+            401,
+            416
+          ]
+        },
+        {
+          "label": "Part 3 — Which Components to Include (Decision Table)",
+          "lines": [
+            417,
+            436
+          ]
+        },
+        {
+          "label": "Part 4 — Writing Examples with Annotations",
+          "lines": [
+            437,
+            438
+          ]
+        },
+        {
+          "label": "Example A — Minimal Skill (~50L) for simple output task",
+          "lines": [
+            439,
+            486
+          ]
+        },
+        {
+          "label": "Example B — Full Skill (~150L) for destructive/irreversible task",
+          "lines": [
+            487,
+            546
+          ]
+        },
+        {
+          "label": "Part 5 — Harness vs 9arm-Skills Framework Comparison",
+          "lines": [
+            547,
+            578
+          ]
+        }
+      ]
+    }
+  },
+  "knowledge/harness_authoring_techniques.md": {
+    "labels_by_topic": {
+      "doc_navigation": [
+        {
+          "label": "What \"writing a harness\" even means",
+          "lines": [
+            44,
+            73
+          ]
+        },
+        {
+          "label": "The 13 families at a glance",
+          "lines": [
+            74,
+            95
+          ]
+        },
+        {
+          "label": "Scope boundary (single source of truth)",
+          "lines": [
+            96,
+            105
+          ]
+        },
+        {
+          "label": "1. Behavioral Contracts",
+          "lines": [
+            106,
+            132
+          ]
+        },
+        {
+          "label": "2. Forced Audit Signals",
+          "lines": [
+            133,
+            161
+          ]
+        },
+        {
+          "label": "3. Pointer Delegation (single source of truth)",
+          "lines": [
+            162,
+            189
+          ]
+        },
+        {
+          "label": "4. Planning & Proof (MECE + Verify-N)",
+          "lines": [
+            190,
+            219
+          ]
+        },
+        {
+          "label": "5. Deterministic Routing",
+          "lines": [
+            220,
+            247
+          ]
+        },
+        {
+          "label": "6. Graduated Escalation",
+          "lines": [
+            248,
+            275
+          ]
+        },
+        {
+          "label": "7. Self-Repair Loop",
+          "lines": [
+            276,
+            306
+          ]
+        },
+        {
+          "label": "8. Phase-Gating",
+          "lines": [
+            307,
+            333
+          ]
+        },
+        {
+          "label": "9. Context Economy",
+          "lines": [
+            334,
+            360
+          ]
+        },
+        {
+          "label": "10. Session Continuity",
+          "lines": [
+            361,
+            388
+          ]
+        },
+        {
+          "label": "11. Skill-Invocation Enforcement",
+          "lines": [
+            389,
+            414
+          ]
+        },
+        {
+          "label": "12. Model-Cost Tiering",
+          "lines": [
+            415,
+            444
+          ]
+        },
+        {
+          "label": "13. User-Facing Adaptation",
+          "lines": [
+            445,
+            470
+          ]
+        },
+        {
+          "label": "How others do it (external contrast)",
+          "lines": [
+            471,
+            490
+          ]
+        },
+        {
+          "label": "The one rule under all the rules",
+          "lines": [
+            491,
+            506
+          ]
+        },
+        {
+          "label": "Related",
+          "lines": [
+            507,
+            515
+          ]
+        }
+      ]
+    }
+  },
+  "knowledge/harness_flow_20260525.md": {
+    "labels_by_topic": {
+      "doc_navigation": [
+        {
+          "label": "Layer Architecture",
+          "lines": [
+            32,
+            92
+          ]
+        },
+        {
+          "label": "Boot Sequence",
+          "lines": [
+            93,
+            148
+          ]
+        },
+        {
+          "label": "Per-Turn Routing",
+          "lines": [
+            149,
+            205
+          ]
+        },
+        {
+          "label": "Phase 1 · Info Gather",
+          "lines": [
+            206,
+            256
+          ]
+        },
+        {
+          "label": "Phase 2 · MECE Plan",
+          "lines": [
+            257,
+            300
+          ]
+        },
+        {
+          "label": "Phase 3 · REACT Loop (Execution)",
+          "lines": [
+            301,
+            386
+          ]
+        },
+        {
+          "label": "Sub-agent Orchestration (Parallel Fan-out)",
+          "lines": [
+            387,
+            472
+          ]
+        },
+        {
+          "label": "MECE Plan Templates",
+          "lines": [
+            473,
+            512
+          ]
+        },
+        {
+          "label": "Completion Gate",
+          "lines": [
+            513,
+            547
+          ]
+        },
+        {
+          "label": "Guard Rail Quick Reference",
+          "lines": [
+            548,
+            612
+          ]
+        },
+        {
+          "label": "Token Tracking Formula",
+          "lines": [
+            613,
+            645
+          ]
+        },
+        {
+          "label": "Vulnerability Fixes Summary (2026-05-25)",
+          "lines": [
+            646,
+            760
+          ]
+        },
+        {
+          "label": "Y-T160 (2026-06-09) · skill_auditor 2-tier finalize",
+          "lines": [
+            761,
+            768
+          ]
+        },
+        {
+          "label": "Y-T208 (2026-06-16) · harness_editor — token-tracking 1-turn display lag (CFP-041)",
+          "lines": [
+            769,
+            777
+          ]
+        }
+      ]
+    }
+  },
+  "knowledge/harness_flow_20260526.md": {
+    "labels_by_topic": {
+      "doc_navigation": [
+        {
+          "label": "Layer Architecture",
+          "lines": [
+            140,
+            209
+          ]
+        },
+        {
+          "label": "Boot Sequence",
+          "lines": [
+            210,
+            281
+          ]
+        },
+        {
+          "label": "Per-Turn Routing",
+          "lines": [
+            282,
+            350
+          ]
+        },
+        {
+          "label": "Phase 1 · Info Gather",
+          "lines": [
+            351,
+            412
+          ]
+        },
+        {
+          "label": "Phase 2 · MECE Plan",
+          "lines": [
+            413,
+            474
+          ]
+        },
+        {
+          "label": "Phase 3 · REACT Loop (Execution)",
+          "lines": [
+            475,
+            569
+          ]
+        },
+        {
+          "label": "Sub-agent Orchestration (Parallel Fan-out)",
+          "lines": [
+            570,
+            655
+          ]
+        },
+        {
+          "label": "MECE Plan Templates",
+          "lines": [
+            656,
+            695
+          ]
+        },
+        {
+          "label": "Completion Gate",
+          "lines": [
+            696,
+            742
+          ]
+        },
+        {
+          "label": "Guard Rail Quick Reference",
+          "lines": [
+            743,
+            824
+          ]
+        },
+        {
+          "label": "Token Tracking Formula",
+          "lines": [
+            825,
+            857
+          ]
+        },
+        {
+          "label": "Vulnerability Fixes Summary (2026-05-25)",
+          "lines": [
+            858,
+            1212
+          ]
+        },
+        {
+          "label": "Y72 · T-138 · repo_researcher/SKILL.md 9arm fix · 93→131L 🟢",
+          "lines": [
+            1213,
+            1213
+          ]
+        },
+        {
+          "label": "Y73 · T-139 · project_presenter/SKILL.md 9arm fix · 151→193L 🟢",
+          "lines": [
+            1214,
+            1214
+          ]
+        },
+        {
+          "label": "Y74 · T-140 · identity/SKILL.md 9arm fix · 74→115L 🟢",
+          "lines": [
+            1215,
+            1215
+          ]
+        },
+        {
+          "label": "Y75 · T-141 · ascii_flow/SKILL.md 9arm fix · 115→143L 🟢",
+          "lines": [
+            1216,
+            1216
+          ]
+        },
+        {
+          "label": "Y76 · T-142 · doc_builder/SKILL.md 9arm fix · 122→175L 🟢",
+          "lines": [
+            1217,
+            1217
+          ]
+        },
+        {
+          "label": "Y77 · T-217 · scrutinize/SKILL.md NEW skill (outsider review + mandatory simpler-way pass · single-source-of-truth) · 0→117L 🟢 · skill_auditor CONDITIONAL→3 gaps fixed · CFP-042 logged",
+          "lines": [
+            1218,
+            1218
+          ]
+        },
+        {
+          "label": "Y77 · T-143 · self_improve/SKILL.md 9arm fix · 183→194L 🟢",
+          "lines": [
+            1219,
+            1219
+          ]
+        },
+        {
+          "label": "Y78 · T-144 · identity/SKILL.md 9arm fix · 116→119L 🟢",
+          "lines": [
+            1220,
+            1220
+          ]
+        },
+        {
+          "label": "Y79 · T-145 · editor/SKILL.md 9arm fix · 226→237L 🟢",
+          "lines": [
+            1221,
+            1221
+          ]
+        },
+        {
+          "label": "Y80 · T-146 · coder/SKILL.md 9arm fix · 156→164L 🟢",
+          "lines": [
+            1222,
+            1222
+          ]
+        },
+        {
+          "label": "Y81 · T-147 · mece/SKILL.md 9arm fix · 192→192L 🟢",
+          "lines": [
+            1223,
+            1223
+          ]
+        },
+        {
+          "label": "Y82 · T-148 · repo_researcher/SKILL.md 9arm fix · 132→137L 🟢",
+          "lines": [
+            1224,
+            1225
+          ]
+        },
+        {
+          "label": "Y83 · T-149 · CFP decay system · cfp_decay.py + index_cfp_fix.json migration + self_improve/session_manager SKILL.md updated · window_count 90-day threshold 🟢",
+          "lines": [
+            1226,
+            1227
+          ]
+        },
+        {
+          "label": "Y84 · T-150 · session index schema upgrade · session_indexer.py upgraded (skill/topic/actions/friction/promoted fields) + session_analyzer.py created + promotions.md seeded · knowledge/index_sessions.json rebuilt 🟢",
+          "lines": [
+            1228,
+            1229
+          ]
+        },
+        {
+          "label": "Y85 · T-151 · Reflection Step + Promotion Loop — added reflection step to mece_plan_schema.md Close Checklist · session_manager SKILL.md Step 0 + reflections.md created · promotions.md filter guide (deterministic→tool / contextual→skill rule) 🟢",
+          "lines": [
+            1230,
+            1231
+          ]
+        },
+        {
+          "label": "Y86 · T-152 · verify_runner.py created (149L) — parses Verify-N from mece_plan.md · runs bash commands · PASS/FAIL report · AGENTS.md [L4] updated with optional automation call",
+          "lines": [
+            1232,
+            1233
+          ]
+        },
+        {
+          "label": "Y87",
+          "lines": [
+            1234,
+            1241
+          ]
+        },
+        {
+          "label": "Y88",
+          "lines": [
+            1242,
+            1248
+          ]
+        },
+        {
+          "label": "Y89",
+          "lines": [
+            1249,
+            1258
+          ]
+        },
+        {
+          "label": "Y-2026-06-08 · T-156 harness_editor rewrite",
+          "lines": [
+            1259,
+            1263
+          ]
+        },
+        {
+          "label": "Y90 · T-157 · token-tracking fix — persist-every-turn + consume-once reset marker · SESSION_TOTAL/CHAT_TOTAL written EVERY turn before footer (closes CFP-031 persist gap) · reset now gated by session_reset=armed in compact_state.md (B1 + UserPromptSubmit hook consume ONCE, armed→consumed) replacing buggy date-match that let stale compact_state.md reset mid-task · touched: AGENTS.md B1 · Implement/03_config.md (B1 mirror x2 + R1) · .claude/settings.json hook · CLAUDE.md R1 · mece_plan_schema PATH A/B/C · CFP-031 🟢",
+          "lines": [
+            1264,
+            1265
+          ]
+        },
+        {
+          "label": "Y-2026-06-08 · T-158 low/medium-model robustness",
+          "lines": [
+            1266,
+            1270
+          ]
+        },
+        {
+          "label": "Y-T159 (2026-06-09) · skill_auditor low-tier support",
+          "lines": [
+            1271,
+            1273
+          ]
+        },
+        {
+          "label": "Y-T161 (2026-06-09) · harness_editor Stage 3.5 BEHAVIORAL VERIFY",
+          "lines": [
+            1274,
+            1276
+          ]
+        },
+        {
+          "label": "Y-T162 (2026-06-09) · harness_editor Stage 3.5 → 3-config effort-aware ladder",
+          "lines": [
+            1277,
+            1279
+          ]
+        },
+        {
+          "label": "Y-T178 (2026-06-12) · posttool_track.py provider-aware token estimate",
+          "lines": [
+            1280,
+            1282
+          ]
+        },
+        {
+          "label": "Y-T179 (2026-06-12) · audit-engine refactor — shared engine + slim skill_auditor + new harness_doc_auditor",
+          "lines": [
+            1283,
+            1285
+          ]
+        },
+        {
+          "label": "Y-T180 (2026-06-12) · provider-aware compact-reset + visible [compact-reset] emit",
+          "lines": [
+            1286,
+            1288
+          ]
+        },
+        {
+          "label": "Y-T181 (2026-06-13) · agent/SKILL.md audit fixes — token-threshold drift removed",
+          "lines": [
+            1289,
+            1291
+          ]
+        },
+        {
+          "label": "Y-T182 (2026-06-13) · Scan D cross-file dup detection in shared engine + auto-gen rule index",
+          "lines": [
+            1292,
+            1294
+          ]
+        },
+        {
+          "label": "Y-T183 (2026-06-13) · index-sync reconciler — regen trigger matrix + fail-safe Stop-hook drift net",
+          "lines": [
+            1295,
+            1297
+          ]
+        },
+        {
+          "label": "Y-T190 (2026-06-14) · REPO_MAP full auto-sync — structure mirrors reality, descriptions preserved",
+          "lines": [
+            1298,
+            1301
+          ]
+        },
+        {
+          "label": "Y-T196 (2026-06-15) · Two-layer split — project-agnostic CORE ⟷ swappable domain pack",
+          "lines": [
+            1302,
+            1304
+          ]
+        },
+        {
+          "label": "Y-T202 (2026-06-15) · doc_builder Coverage Gate + cross-role single-source link",
+          "lines": [
+            1305,
+            1307
+          ]
+        },
+        {
+          "label": "Y-T205 (2026-06-16) · harness_editor — auditor-bar + minimal-output design principles made explicit",
+          "lines": [
+            1308,
+            1310
+          ]
+        },
+        {
+          "label": "Y-T206 (2026-06-16) · harness_editor — single front-door rule for new project skills",
+          "lines": [
+            1311,
+            1313
+          ]
+        },
+        {
+          "label": "Y-T213 (2026-06-17) · D2 cheap-model delegation tier — qwen-agent ported to Haiku",
+          "lines": [
+            1314,
+            1316
+          ]
+        },
+        {
+          "label": "Y-2026-06-18 · T-214 (D3) Skills-as-discipline upgrade",
+          "lines": [
+            1317,
+            1325
+          ]
+        },
+        {
+          "label": "Y-entry 2026-06-18 · T-215 bucket the skills",
+          "lines": [
+            1326,
+            1332
+          ]
+        },
+        {
+          "label": "Y-entry 2026-06-18 · T-215 post-close scrutinize review",
+          "lines": [
+            1333,
+            1340
+          ]
+        },
+        {
+          "label": "Y-T221 (2026-06-22) · token harness — signal-box (4-box) PRIMARY, char-estimate demoted to secondary",
+          "lines": [
+            1341,
+            1348
+          ]
+        },
+        {
+          "label": "Y-T235 (2026-06-22) · token harness — CFP-041 fixed at ROOT (subagent guard in posttool_track.py)",
+          "lines": [
+            1349,
+            1357
+          ]
+        },
+        {
+          "label": "Y-T223 (2026-06-22) — Lean-pass: harness is LEAN-BY-DESIGN; cross-cutting dedup REJECTED as a class",
+          "lines": [
+            1358,
+            1370
+          ]
+        },
+        {
+          "label": "Y-T241 (2026-06-22)",
+          "lines": [
+            1371,
+            1379
+          ]
+        },
+        {
+          "label": "Y-T233 (2026-06-22)",
+          "lines": [
+            1380,
+            1390
+          ]
+        },
+        {
+          "label": "Y-T230 (2026-06-22) — surgical-change CORE: §Surgical Scope + [scope-creep] gate in mece_plan_schema.md · 1-line Hard Rule in harness_editor+editor+coder · AGENTS Completion-Gate pointer · reused File: field · baseline fix from dogfood · flow_updated=yes",
+          "lines": [
+            1391,
+            1392
+          ]
+        },
+        {
+          "label": "Y-T234+T231+T232 (2026-06-22) — Karpathy efficiency hot-path trims (3 tasks, one session)",
+          "lines": [
+            1393,
+            1404
+          ]
+        },
+        {
+          "label": "Y-2026-06-22 T-228 scope-grill mode",
+          "lines": [
+            1405,
+            1407
+          ]
+        },
+        {
+          "label": "Y-2026-06-22 T-224 out_of_scope rejection memory",
+          "lines": [
+            1408,
+            1410
+          ]
+        },
+        {
+          "label": "Y-2026-06-23 T-227 git-guardrails hook",
+          "lines": [
+            1411,
+            1424
+          ]
+        },
+        {
+          "label": "Y-2026-06-23b T-227 follow-up — close the `git -C` bypass (scrutinize finding)",
+          "lines": [
+            1425,
+            1434
+          ]
+        },
+        {
+          "label": "Y-2026-06-23c T-236 evaluated → WONT-MERGE (decline with evidence)",
+          "lines": [
+            1435,
+            1441
+          ]
+        },
+        {
+          "label": "Y-2026-06-23d T-238 variable_manager + file_manager → index_manager (MERGE · done)",
+          "lines": [
+            1442,
+            1459
+          ]
+        },
+        {
+          "label": "Y-entry 2026-06-23 · T-252 · index-sync COMPLETION BLOCK (closes CFP-043)",
+          "lines": [
+            1460,
+            1499
+          ]
+        },
+        {
+          "label": "Y-entry 2026-06-29 · T-287 · L2 real-usage (CHAT_TOTAL = REAL from transcript)",
+          "lines": [
+            1500,
+            1506
+          ]
+        },
+        {
+          "label": "Y-entry 2026-06-29 · T-288 · multi-provider token accuracy (A→B→C · reordered B-first)",
+          "lines": [
+            1507,
+            1514
+          ]
+        },
+        {
+          "label": "Y-entry 2026-06-29 · T-289 · word-level vocabulary bank (S1 of 4-part user-modeling build)",
+          "lines": [
+            1515,
+            1521
+          ]
+        },
+        {
+          "label": "Y-entry 2026-06-29 · T-290 · spaced-repetition scheduler (S2 of user-modeling)",
+          "lines": [
+            1522,
+            1528
+          ]
+        },
+        {
+          "label": "Y-2026-06-29 — T-291 gloss-depth controller (S3 of user-modeling)",
+          "lines": [
+            1529,
+            1535
+          ]
+        },
+        {
+          "label": "Y-2026-06-29 — T-292 single-source consolidation (S4 of user-modeling)",
+          "lines": [
+            1536,
+            1541
+          ]
+        },
+        {
+          "label": "Y-2026-07-02 — T-298 Single Task Standard (core rule, all projects)",
+          "lines": [
+            1542,
+            1547
+          ]
+        },
+        {
+          "label": "Y-2026-07-02 — T-297 Loop safety + budget layer (build BY HAND · bootstrap)",
+          "lines": [
+            1548,
+            1555
+          ]
+        },
+        {
+          "label": "Y-2026-07-03 — T-304 Headless danger-gate ENFORCEMENT hook (build BY HAND · bootstrap)",
+          "lines": [
+            1556,
+            1563
+          ]
+        },
+        {
+          "label": "Y-2026-07-03 — T-305 Label sub-layer (CREATION path · schema + store + drift-check)",
+          "lines": [
+            1564,
+            1571
+          ]
+        },
+        {
+          "label": "Y-2026-07-03 — T-300 Roadmap = big-task-only (retire per-section registration)",
+          "lines": [
+            1572,
+            1578
+          ]
+        },
+        {
+          "label": "Y-2026-07-04 — T-306 Create-time tagging forcing function ([tag-needed])",
+          "lines": [
+            1579,
+            1584
+          ]
+        },
+        {
+          "label": "Y-2026-07-04 — T-301 Reversible exec_log offload (park + retrieve)",
+          "lines": [
+            1585,
+            1590
+          ]
+        },
+        {
+          "label": "Y-2026-07-04 — T-302 Content-type-aware view compression (deterministic)",
+          "lines": [
+            1591,
+            1596
+          ]
+        },
+        {
+          "label": "Y-2026-07-06 — T-303 Cache-stable prefix guard (detect-only)",
+          "lines": [
+            1597,
+            1602
+          ]
+        },
+        {
+          "label": "Y-2026-07-06 — T-307 Label read-side wiring (last Headroom-parity piece)",
+          "lines": [
+            1603,
+            1608
+          ]
+        },
+        {
+          "label": "Y-2026-07-06 — T-307 CONSOLIDATION (scrutinize + reuse-first correction)",
+          "lines": [
+            1609,
+            1615
+          ]
+        },
+        {
+          "label": "Y-2026-07-07 — T-311 headroom-emit + quiz-bias fix",
+          "lines": [
+            1616,
+            1621
+          ]
+        },
+        {
+          "label": "Y-2026-07-09 — T-318 install/update hardening (DOC-ONLY)",
+          "lines": [
+            1622,
+            1627
+          ]
+        },
+        {
+          "label": "Y-2026-07-09 — T-314 plugin-aware detach (reusable) + LMS migration",
+          "lines": [
+            1628,
+            1633
+          ]
+        },
+        {
+          "label": "Y-2026-07-10 — T-322 per-event index-sync TRIGGER (auto · plan-free)",
+          "lines": [
+            1634,
+            1639
+          ]
+        },
+        {
+          "label": "Y-2026-07-10 — T-321 · Parallel-cycle execution + spawn-by-model (visible + hard-enforced)",
+          "lines": [
+            1640,
+            1652
+          ]
+        },
+        {
+          "label": "Y-2026-07-11 — T-321 fix-pass (3rd-party test defects)",
+          "lines": [
+            1653,
+            1661
+          ]
+        },
+        {
+          "label": "Y-2026-07-12 — T-321 fix-pass-2 (loop_engineer health-check)",
+          "lines": [
+            1662,
+            1668
+          ]
+        },
+        {
+          "label": "Y-2026-07-12 — T-321 fix-pass-3 (3rd independent audit)",
+          "lines": [
+            1669,
+            1676
+          ]
+        },
+        {
+          "label": "Y-2026-07-13 · T-323 · Boot init-preflight HARD gate",
+          "lines": [
+            1677,
+            1683
+          ]
+        },
+        {
+          "label": "Y-2026-07-13 · T-321c + T-323-polish · deferred hardening (7 items + stdin test)",
+          "lines": [
+            1684,
+            1695
+          ]
+        },
+        {
+          "label": "Y-2026-07-13 · T-319 · Agent Dev Wiki STAGE 1 (cross-machine CFP failure sharing)",
+          "lines": [
+            1696,
+            1706
+          ]
+        },
+        {
+          "label": "T-319 STAGE 2 — cross-machine learning goes LIVE + Track 2 + transport (2026-07-14)",
+          "lines": [
+            1707,
+            1716
+          ]
+        },
+        {
+          "label": "T-325 — skill_gate false-block: the marker writer missed the real load path (2026-07-14)",
+          "lines": [
+            1717,
+            1723
+          ]
+        },
+        {
+          "label": "T-324 — close-gate broadened: \"review demanded\" → \"finished artifact built\" (2026-07-14)",
+          "lines": [
+            1724,
+            1731
+          ]
+        },
+        {
+          "label": "T-326 — stale constitution docs converged to single source (2026-07-15)",
+          "lines": [
+            1732,
+            1738
+          ]
+        },
+        {
+          "label": "T-328 — the MECE-plan `Model:` field made BINDING (plan-driven tier routing) (2026-07-15)",
+          "lines": [
+            1739,
+            1746
+          ]
+        },
+        {
+          "label": "T-329 — PATH A plan-clear converted to deterministic `scripts/clear_plan.py` (2026-07-15)",
+          "lines": [
+            1747,
+            1754
+          ]
+        },
+        {
+          "label": "T-331 — \"done = propagated\" baked into the Completion Gate + one-command release.py (2026-07-15)",
+          "lines": [
+            1755,
+            1762
+          ]
+        },
+        {
+          "label": "T-332 — other-machine update detection + notify (2026-07-15)",
+          "lines": [
+            1763,
+            1770
+          ]
+        },
+        {
+          "label": "Y91 · T-345 · plan-time context pre-compression (PROACTIVE headroom)",
+          "lines": [
+            1771,
+            1779
+          ]
+        },
+        {
+          "label": "Y92 · T-360 · guided Layer-1 machine install in harness_setup + stale README fix",
+          "lines": [
+            1780,
+            1786
+          ]
+        },
+        {
+          "label": "Y93 · T-357 · hook hot-path performance (5 of 6 fixes · no behavior change)",
+          "lines": [
+            1787,
+            1793
+          ]
+        },
+        {
+          "label": "Y-2026-08-03 · T-362 · wave-skill-loading via ownership-aware plan + gate",
+          "lines": [
+            1794,
+            1802
+          ]
+        },
+        {
+          "label": "Y-2026-08-03 · T-363 · context-compression enforcement actually fires",
+          "lines": [
+            1803,
+            1811
+          ]
+        },
+        {
+          "label": "Y-2026-08-03 · T-364 · lookup usage-learning (query_hits) — lookup ranks by behaviorally-confirmed usage 🟢",
+          "lines": [
+            1812,
+            1901
+          ]
+        },
+        {
+          "label": "Y-2026-09-11 · T-463 · cross-agent portability process — registry + hook-independent enforcement-liveness probe 🟢",
+          "lines": [
+            1902,
+            1910
+          ]
+        },
+        {
+          "label": "Y-2026-09-15 · T-468 · fix the ticket-filing wall (scoped extends + roadmap plan-gate exemption) + Remediation Aggregator 🟢",
+          "lines": [
+            1911,
+            1919
+          ]
+        },
+        {
+          "label": "2026-09-15 · T-474 · ownership gate on Bash writes (single choke-point at phase_gate) · v1.52.3",
+          "lines": [
+            1920,
+            1928
+          ]
+        },
+        {
+          "label": "2026-09-18 · T-495 + T-496 · verify-before-warn on the token footer + CFP-file authoring-exempt · v1.52.19",
+          "lines": [
+            1929,
+            1937
+          ]
+        },
+        {
+          "label": "2026-09-18 · T-487 + T-488 + T-489 · plugin-only false-alarm cluster (enforcement / index-sync / conformance oracle) · v1.52.21",
+          "lines": [
+            1938,
+            1945
+          ]
+        },
+        {
+          "label": "T-484 · 2026-09-18 · Autonomous harness-anomaly doctor (suspicion trigger)",
+          "lines": [
+            1946,
+            1951
+          ]
+        },
+        {
+          "label": "T-501 · 2026-09-21 · Wire 2 silent-anomaly detectors into the doctor inbox · v1.56.0",
+          "lines": [
+            1952,
+            1959
+          ]
+        },
+        {
+          "label": "T-502 · 2026-09-21 · Remediate 3 oversize SKILL.md (SKILL_detail.md + @ref split) · v1.57.0",
+          "lines": [
+            1960,
+            1966
+          ]
+        },
+        {
+          "label": "T-494 · 2026-09-21 · [Doctor] visible banner + hard hook — announce every self-heal, un-skippable · v1.59.0",
+          "lines": [
+            1967,
+            1975
+          ]
+        },
+        {
+          "label": "Y-2026-09-22 · T-483 · Frontier-based clarify (§G0 frontier-empty stop + per-question recommended answer)",
+          "lines": [
+            1976,
+            1984
+          ]
+        },
+        {
+          "label": "Y-2026-09-22 · T-493 · Medium-tier robustness-floor PROOF (--tier-floor: cold-Sonnet spawn matrix, semantic-graded)",
+          "lines": [
+            1985,
+            1993
+          ]
+        },
+        {
+          "label": "Y-2026-09-22 · T-506 · Safe behavior-preserving CLAUDE.md<->AGENTS.md dedup (collapse duplicate gate restatements to pointers)",
+          "lines": [
+            1994,
+            2002
+          ]
+        },
+        {
+          "label": "Y-2026-09-22 · T-507 · Review-Gates dedup part 2 (collapse Gate 3 skeptical + Gate 4 scrutinize restatements to pointers)",
+          "lines": [
+            2003,
+            2011
+          ]
+        },
+        {
+          "label": "Y-2026-09-22 · T-492 · Windows-native machine-install (port machine_install.sh → C2 pattern)",
+          "lines": [
+            2012,
+            2018
+          ]
+        }
+      ]
+    }
+  },
+  "knowledge/loop_engineer_spec.md": {
+    "labels_by_topic": {
+      "doc_navigation": [
+        {
+          "label": "0. One-line",
+          "lines": [
+            47,
+            54
+          ]
+        },
+        {
+          "label": "1. The 4 traps a naive build falls into",
+          "lines": [
+            55,
+            65
+          ]
+        },
+        {
+          "label": "2. State model — single source = `mece_plan.md`",
+          "lines": [
+            66,
+            67
+          ]
+        },
+        {
+          "label": "2.1 Single-writer rule (round-1 point 1)",
+          "lines": [
+            68,
+            70
+          ]
+        },
+        {
+          "label": "2.2 Plan header carries live counters (orchestrator-only)",
+          "lines": [
+            71,
+            78
+          ]
+        },
+        {
+          "label": "2.3 `[/]` IS the lock (round-1 point 2)",
+          "lines": [
+            79,
+            85
+          ]
+        },
+        {
+          "label": "2.4 reasoning_round — the real runaway backstop",
+          "lines": [
+            86,
+            90
+          ]
+        },
+        {
+          "label": "2.5 The only two files outside mece_plan.md",
+          "lines": [
+            91,
+            98
+          ]
+        },
+        {
+          "label": "3. Budget & context management (round-3 points 2 & 3)",
+          "lines": [
+            99,
+            102
+          ]
+        },
+        {
+          "label": "3A. Weekly spend cap — the STOP-the-week guard",
+          "lines": [
+            103,
+            113
+          ]
+        },
+        {
+          "label": "3B. Context-window compact policy — the per-wave control (round-3 point 3)",
+          "lines": [
+            114,
+            121
+          ]
+        },
+        {
+          "label": "4. Permissions & Out-of-Scope (round-2 points 4 & 5)",
+          "lines": [
+            122,
+            136
+          ]
+        },
+        {
+          "label": "5. Phase 0 — Preflight Gate (cheap, every trigger)",
+          "lines": [
+            137,
+            149
+          ]
+        },
+        {
+          "label": "6. Phase 1 — Task Intake",
+          "lines": [
+            150,
+            151
+          ]
+        },
+        {
+          "label": "6.1 Selection rule (round-3 point 1 + round-5 point 1 — explicit priority)",
+          "lines": [
+            152,
+            158
+          ]
+        },
+        {
+          "label": "6.2 Task Standard — every new task (round-5 point 1 — the headers the loop needs)",
+          "lines": [
+            159,
+            235
+          ]
+        },
+        {
+          "label": "6.3 Upstream: ticket-intake skill (planned — NOT built here)",
+          "lines": [
+            236,
+            238
+          ]
+        },
+        {
+          "label": "6.4 Runtime intake card (round-1 step 1 — what the loop reads when it picks the task)",
+          "lines": [
+            239,
+            252
+          ]
+        },
+        {
+          "label": "6.5 Small-Tasks Pool (the standing bucket for small work)",
+          "lines": [
+            253,
+            262
+          ]
+        },
+        {
+          "label": "7. Phase 2 — Tight MECE Plan",
+          "lines": [
+            263,
+            267
+          ]
+        },
+        {
+          "label": "7.1 Per sub-task block (round-1 step 2 — orchestrator writes into `mece_plan.md`)",
+          "lines": [
+            268,
+            276
+          ]
+        },
+        {
+          "label": "7.2 Auto-confirm policy (full autonomy)",
+          "lines": [
+            277,
+            285
+          ]
+        },
+        {
+          "label": "8. Phase 3 — Execution (guarded wave loop · Workflow script)",
+          "lines": [
+            286,
+            307
+          ]
+        },
+        {
+          "label": "8.1 The hard guards (read/written from disk)",
+          "lines": [
+            308,
+            316
+          ]
+        },
+        {
+          "label": "8.2 Danger gates (R14/R15) headless = HALT → PR. Never auto-yes.",
+          "lines": [
+            317,
+            320
+          ]
+        },
+        {
+          "label": "9. Phase 4 — Close",
+          "lines": [
+            321,
+            333
+          ]
+        },
+        {
+          "label": "10. Escalation → PR",
+          "lines": [
+            334,
+            340
+          ]
+        },
+        {
+          "label": "11. Guard-rail system at a glance",
+          "lines": [
+            341,
+            360
+          ]
+        },
+        {
+          "label": "12. What to build / change",
+          "lines": [
+            361,
+            362
+          ]
+        },
+        {
+          "label": "NEW",
+          "lines": [
+            363,
+            372
+          ]
+        },
+        {
+          "label": "MODIFY",
+          "lines": [
+            373,
+            380
+          ]
+        },
+        {
+          "label": "OPEN DECISIONS still needed",
+          "lines": [
+            381,
+            387
+          ]
+        },
+        {
+          "label": "13. Reuse map (don't rebuild)",
+          "lines": [
+            388,
+            401
+          ]
+        }
+      ]
+    }
+  },
+  "knowledge/token-efficiency-implementation-checklist-for-agent-systems-2026-05-31.md": {
+    "labels_by_topic": {
+      "doc_navigation": [
+        {
+          "label": "Summary",
+          "lines": [
+            62,
+            65
+          ]
+        },
+        {
+          "label": "Scope",
+          "lines": [
+            66,
+            77
+          ]
+        },
+        {
+          "label": "Phase 1 - Establish Baseline Observability",
+          "lines": [
+            78,
+            81
+          ]
+        },
+        {
+          "label": "Checklist",
+          "lines": [
+            82,
+            88
+          ]
+        },
+        {
+          "label": "Required Telemetry",
+          "lines": [
+            89,
+            107
+          ]
+        },
+        {
+          "label": "Phase 2 - Build Token Attribution by Lifecycle Stage",
+          "lines": [
+            108,
+            111
+          ]
+        },
+        {
+          "label": "Attribution Buckets",
+          "lines": [
+            112,
+            124
+          ]
+        },
+        {
+          "label": "Checklist",
+          "lines": [
+            125,
+            135
+          ]
+        },
+        {
+          "label": "Phase 3 - Stabilize the Prompt Prefix",
+          "lines": [
+            136,
+            139
+          ]
+        },
+        {
+          "label": "Checklist",
+          "lines": [
+            140,
+            146
+          ]
+        },
+        {
+          "label": "Validation Signals",
+          "lines": [
+            147,
+            159
+          ]
+        },
+        {
+          "label": "Phase 4 - Reduce Retrieval Waste",
+          "lines": [
+            160,
+            163
+          ]
+        },
+        {
+          "label": "Checklist",
+          "lines": [
+            164,
+            172
+          ]
+        },
+        {
+          "label": "Quality Guardrails",
+          "lines": [
+            173,
+            185
+          ]
+        },
+        {
+          "label": "Phase 5 - Redesign Tool Schemas and Tool Results",
+          "lines": [
+            186,
+            189
+          ]
+        },
+        {
+          "label": "Checklist for Tool Schemas",
+          "lines": [
+            190,
+            195
+          ]
+        },
+        {
+          "label": "Checklist for Tool Results",
+          "lines": [
+            196,
+            202
+          ]
+        },
+        {
+          "label": "Validation Signals",
+          "lines": [
+            203,
+            215
+          ]
+        },
+        {
+          "label": "Phase 6 - Manage Conversation State Growth",
+          "lines": [
+            216,
+            219
+          ]
+        },
+        {
+          "label": "Checklist",
+          "lines": [
+            220,
+            227
+          ]
+        },
+        {
+          "label": "State-Policy Choices",
+          "lines": [
+            228,
+            241
+          ]
+        },
+        {
+          "label": "Phase 7 - Add Output Controls",
+          "lines": [
+            242,
+            245
+          ]
+        },
+        {
+          "label": "Checklist",
+          "lines": [
+            246,
+            252
+          ]
+        },
+        {
+          "label": "Guardrails",
+          "lines": [
+            253,
+            265
+          ]
+        },
+        {
+          "label": "Phase 8 - Evaluate Provider-Specific Levers",
+          "lines": [
+            266,
+            267
+          ]
+        },
+        {
+          "label": "Checklist by Provider",
+          "lines": [
+            268,
+            281
+          ]
+        },
+        {
+          "label": "Phase 9 - Run Controlled Experiments",
+          "lines": [
+            282,
+            283
+          ]
+        },
+        {
+          "label": "Experiment Design Checklist",
+          "lines": [
+            284,
+            290
+          ]
+        },
+        {
+          "label": "Suggested Experiment Order",
+          "lines": [
+            291,
+            300
+          ]
+        },
+        {
+          "label": "Phase 10 - Operationalize the Practice",
+          "lines": [
+            301,
+            302
+          ]
+        },
+        {
+          "label": "Checklist",
+          "lines": [
+            303,
+            311
+          ]
+        },
+        {
+          "label": "Implementation Readiness Scorecard",
+          "lines": [
+            312,
+            324
+          ]
+        },
+        {
+          "label": "Recommended First 30 Days",
+          "lines": [
+            325,
+            333
+          ]
+        },
+        {
+          "label": "Action Items",
+          "lines": [
+            334,
+            344
+          ]
+        },
+        {
+          "label": "Backlinks",
+          "lines": [
+            345,
+            347
+          ]
+        }
+      ]
+    }
+  },
+  "knowledge/token-telemetry-schema-and-dashboard-spec-for-agent-systems-2026-05-31.md": {
+    "labels_by_topic": {
+      "doc_navigation": [
+        {
+          "label": "Summary",
+          "lines": [
+            53,
+            56
+          ]
+        },
+        {
+          "label": "Design Goals",
+          "lines": [
+            57,
+            65
+          ]
+        },
+        {
+          "label": "Core Telemetry Model",
+          "lines": [
+            66,
+            67
+          ]
+        },
+        {
+          "label": "Event Layers",
+          "lines": [
+            68,
+            76
+          ]
+        },
+        {
+          "label": "Canonical Task-Level Schema",
+          "lines": [
+            77,
+            110
+          ]
+        },
+        {
+          "label": "Canonical Call-Level Schema",
+          "lines": [
+            111,
+            143
+          ]
+        },
+        {
+          "label": "Canonical Attribution Schema",
+          "lines": [
+            144,
+            161
+          ]
+        },
+        {
+          "label": "Required vs Recommended Fields",
+          "lines": [
+            162,
+            172
+          ]
+        },
+        {
+          "label": "Provider Mapping Guide",
+          "lines": [
+            173,
+            183
+          ]
+        },
+        {
+          "label": "Ingestion Strategy",
+          "lines": [
+            184,
+            185
+          ]
+        },
+        {
+          "label": "Minimum Viable Pipeline",
+          "lines": [
+            186,
+            193
+          ]
+        },
+        {
+          "label": "Derived Metrics to Compute",
+          "lines": [
+            194,
+            205
+          ]
+        },
+        {
+          "label": "Dashboard Specification",
+          "lines": [
+            206,
+            207
+          ]
+        },
+        {
+          "label": "Dashboard 1 - Executive Overview",
+          "lines": [
+            208,
+            219
+          ]
+        },
+        {
+          "label": "Dashboard 2 - Workflow Diagnostics",
+          "lines": [
+            220,
+            231
+          ]
+        },
+        {
+          "label": "Dashboard 3 - Cache and Context Health",
+          "lines": [
+            232,
+            243
+          ]
+        },
+        {
+          "label": "Dashboard 4 - Provider and Model Comparison",
+          "lines": [
+            244,
+            254
+          ]
+        },
+        {
+          "label": "Dashboard 5 - Incident and Spike Detection",
+          "lines": [
+            255,
+            267
+          ]
+        },
+        {
+          "label": "Recommended Queries",
+          "lines": [
+            268,
+            269
+          ]
+        },
+        {
+          "label": "Query 1 - Most Expensive Workflows",
+          "lines": [
+            270,
+            282
+          ]
+        },
+        {
+          "label": "Query 2 - Largest Token Buckets",
+          "lines": [
+            283,
+            295
+          ]
+        },
+        {
+          "label": "Query 3 - Cache Performance",
+          "lines": [
+            296,
+            307
+          ]
+        },
+        {
+          "label": "Rollout Checklist",
+          "lines": [
+            308,
+            309
+          ]
+        },
+        {
+          "label": "Phase 1 - Minimum Instrumentation",
+          "lines": [
+            310,
+            314
+          ]
+        },
+        {
+          "label": "Phase 2 - Attribution and Cost Model",
+          "lines": [
+            315,
+            319
+          ]
+        },
+        {
+          "label": "Phase 3 - Dashboard and Alerting",
+          "lines": [
+            320,
+            324
+          ]
+        },
+        {
+          "label": "Phase 4 - Experiment Support",
+          "lines": [
+            325,
+            329
+          ]
+        },
+        {
+          "label": "Quality Guardrails",
+          "lines": [
+            330,
+            338
+          ]
+        },
+        {
+          "label": "Action Items",
+          "lines": [
+            339,
+            349
+          ]
+        },
+        {
+          "label": "Backlinks",
+          "lines": [
+            350,
+            352
+          ]
+        }
+      ]
+    }
+  }
+}

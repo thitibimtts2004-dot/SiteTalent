@@ -24,6 +24,7 @@ export default function WorkerTable({
   const [site, setSite] = useState("");
   const [con, setCon] = useState("");
   const [skill, setSkill] = useState("");
+  const [lvl, setLvl] = useState(""); // "" = ทุกระดับ · "1" · "2" (only meaningful with a skill)
   const [page, setPage] = useState(0);
 
   const filtered = useMemo(() => {
@@ -31,7 +32,11 @@ export default function WorkerTable({
     return workers.filter((w) => {
       if (site && w.site !== site) return false;
       if (con && w.contractor !== con) return false;
-      if (skill && !(w.skills[skill] >= 1)) return false;
+      if (skill) {
+        const lv = w.skills[skill] ?? 0;
+        // level chosen → exact match · no level → any proficiency (>=1)
+        if (lvl ? lv !== Number(lvl) : lv < 1) return false;
+      }
       if (
         s &&
         !w.name.toLowerCase().includes(s) &&
@@ -40,7 +45,23 @@ export default function WorkerTable({
         return false;
       return true;
     });
-  }, [workers, q, site, con, skill]);
+  }, [workers, q, site, con, skill, lvl]);
+
+  // Where do the matching workers concentrate? (answers Q4 — only with a skill picked)
+  const topGroup = (key: "site" | "contractor") => {
+    const counts = new Map<string, number>();
+    for (const w of filtered) counts.set(w[key], (counts.get(w[key]) ?? 0) + 1);
+    let best = "";
+    let n = 0;
+    for (const [k, v] of counts)
+      if (v > n) {
+        best = k;
+        n = v;
+      }
+    return best ? { name: best, n } : null;
+  };
+  const topSite = skill ? topGroup("site") : null;
+  const topCon = skill ? topGroup("contractor") : null;
 
   const pages = Math.max(1, Math.ceil(filtered.length / PAGE));
   const cur = Math.min(page, pages - 1);
@@ -89,11 +110,39 @@ export default function WorkerTable({
             </option>
           ))}
         </select>
+        <select
+          value={lvl}
+          onChange={onFilter(setLvl)}
+          className={ctl}
+          disabled={!skill}
+          title={!skill ? "เลือกทักษะก่อน" : "กรองตามระดับความชำนาญ"}
+        >
+          <option value="">ทุกระดับ</option>
+          <option value="1">ระดับ 1 (ต้องมีคนคุม)</option>
+          <option value="2">ระดับ 2 (ทำเองได้)</option>
+        </select>
       </div>
 
       <div className="text-sm text-slate-500">
         พบ {filtered.length.toLocaleString()} คน
       </div>
+
+      {skill && filtered.length > 0 && (topSite || topCon) && (
+        <div className="rounded-lg border border-blue-100 bg-blue-50 px-3 py-2 text-sm text-slate-700">
+          เจอมากสุดที่{" "}
+          {topSite && (
+            <>
+              <b className="text-slate-900">{topSite.name}</b> ({topSite.n} คน)
+            </>
+          )}
+          {topSite && topCon && " · "}
+          {topCon && (
+            <>
+              ผรม <b className="text-slate-900">{topCon.name}</b> ({topCon.n} คน)
+            </>
+          )}
+        </div>
+      )}
 
       <div className="overflow-x-auto rounded-xl border border-slate-200 bg-white">
         <table className="w-full text-sm">

@@ -1,3 +1,1026 @@
 {
-  "variables": {}
+  "variables": {
+    "metadata": {
+      "type": "PageComponent",
+      "source": "app/layout.tsx",
+      "line": 5,
+      "line_end": 8,
+      "read_hint": {
+        "offset": 1,
+        "limit": 18
+      },
+      "keywords": [
+        "layout",
+        "metadata"
+      ],
+      "used_in": []
+    },
+    "RootLayout": {
+      "type": "PageComponent",
+      "source": "app/layout.tsx",
+      "line": 10,
+      "line_end": 31,
+      "read_hint": {
+        "offset": 5,
+        "limit": 36
+      },
+      "keywords": [
+        "layout",
+        "root"
+      ],
+      "used_in": []
+    },
+    "dynamic": {
+      "type": "PageComponent",
+      "source": "app/page.tsx",
+      "line": 6,
+      "line_end": 38,
+      "read_hint": {
+        "offset": 1,
+        "limit": 47
+      },
+      "keywords": [
+        "dynamic",
+        "page"
+      ],
+      "used_in": []
+    },
+    "Home": {
+      "type": "PageComponent",
+      "source": "app/page.tsx",
+      "line": 8,
+      "line_end": 38,
+      "read_hint": {
+        "offset": 3,
+        "limit": 45
+      },
+      "keywords": [
+        "home",
+        "page"
+      ],
+      "used_in": []
+    },
+    "SitesPage": {
+      "type": "PageComponent",
+      "source": "app/sites/page.tsx",
+      "line": 6,
+      "line_end": 27,
+      "read_hint": {
+        "offset": 1,
+        "limit": 36
+      },
+      "keywords": [
+        "page",
+        "sites"
+      ],
+      "used_in": []
+    },
+    "WorkersPage": {
+      "type": "PageComponent",
+      "source": "app/workers/page.tsx",
+      "line": 6,
+      "line_end": 29,
+      "read_hint": {
+        "offset": 1,
+        "limit": 38
+      },
+      "keywords": [
+        "page",
+        "workers"
+      ],
+      "used_in": []
+    },
+    "KpiCards": {
+      "type": "ReactComponent",
+      "source": "components/KpiCards.tsx",
+      "line": 21,
+      "line_end": 34,
+      "read_hint": {
+        "offset": 16,
+        "limit": 28
+      },
+      "keywords": [
+        "cards",
+        "kpi"
+      ],
+      "used_in": []
+    },
+    "Nav": {
+      "type": "ReactComponent",
+      "source": "components/Nav.tsx",
+      "line": 14,
+      "line_end": 40,
+      "read_hint": {
+        "offset": 9,
+        "limit": 41
+      },
+      "keywords": [
+        "nav"
+      ],
+      "used_in": []
+    },
+    "RollupTable": {
+      "type": "ReactComponent",
+      "source": "components/RollupTable.tsx",
+      "line": 8,
+      "line_end": 88,
+      "read_hint": {
+        "offset": 3,
+        "limit": 80
+      },
+      "keywords": [
+        "rollup",
+        "table"
+      ],
+      "used_in": []
+    },
+    "SkillDatum": {
+      "type": "Interface",
+      "source": "components/SkillBarChart.tsx",
+      "line": 13,
+      "line_end": 17,
+      "read_hint": {
+        "offset": 8,
+        "limit": 19
+      },
+      "keywords": [
+        "bar",
+        "chart",
+        "datum",
+        "skill"
+      ],
+      "used_in": []
+    },
+    "SkillBarChart": {
+      "type": "ReactComponent",
+      "source": "components/SkillBarChart.tsx",
+      "line": 23,
+      "line_end": 71,
+      "read_hint": {
+        "offset": 18,
+        "limit": 63
+      },
+      "keywords": [
+        "bar",
+        "chart",
+        "skill"
+      ],
+      "used_in": []
+    },
+    "WorkerTable": {
+      "type": "ReactComponent",
+      "source": "components/WorkerTable.tsx",
+      "line": 14,
+      "line_end": 239,
+      "read_hint": {
+        "offset": 9,
+        "limit": 80
+      },
+      "keywords": [
+        "table",
+        "worker"
+      ],
+      "used_in": []
+    },
+    "getOverview": {
+      "type": "Function",
+      "source": "lib/data.ts",
+      "line": 75,
+      "line_end": 77,
+      "read_hint": {
+        "offset": 70,
+        "limit": 17
+      },
+      "keywords": [
+        "data",
+        "get",
+        "lib",
+        "overview"
+      ],
+      "used_in": []
+    },
+    "getBySkill": {
+      "type": "Function",
+      "source": "lib/data.ts",
+      "line": 79,
+      "line_end": 81,
+      "read_hint": {
+        "offset": 74,
+        "limit": 17
+      },
+      "keywords": [
+        "by",
+        "data",
+        "get",
+        "lib",
+        "skill"
+      ],
+      "used_in": []
+    },
+    "getBySite": {
+      "type": "Function",
+      "source": "lib/data.ts",
+      "line": 83,
+      "line_end": 86,
+      "read_hint": {
+        "offset": 78,
+        "limit": 18
+      },
+      "keywords": [
+        "by",
+        "data",
+        "get",
+        "lib",
+        "site"
+      ],
+      "used_in": []
+    },
+    "getByContractor": {
+      "type": "Function",
+      "source": "lib/data.ts",
+      "line": 88,
+      "line_end": 91,
+      "read_hint": {
+        "offset": 83,
+        "limit": 18
+      },
+      "keywords": [
+        "by",
+        "contractor",
+        "data",
+        "get",
+        "lib"
+      ],
+      "used_in": []
+    },
+    "WorkerFilters": {
+      "type": "Interface",
+      "source": "lib/data.ts",
+      "line": 93,
+      "line_end": 98,
+      "read_hint": {
+        "offset": 88,
+        "limit": 20
+      },
+      "keywords": [
+        "data",
+        "filters",
+        "lib",
+        "worker"
+      ],
+      "used_in": []
+    },
+    "listWorkers": {
+      "type": "Function",
+      "source": "lib/data.ts",
+      "line": 100,
+      "line_end": 101,
+      "read_hint": {
+        "offset": 95,
+        "limit": 16
+      },
+      "keywords": [
+        "data",
+        "lib",
+        "list",
+        "workers"
+      ],
+      "used_in": []
+    },
+    "firebaseConfigured": {
+      "type": "Function",
+      "source": "lib/firebase.ts",
+      "line": 14,
+      "line_end": 22,
+      "read_hint": {
+        "offset": 9,
+        "limit": 23
+      },
+      "keywords": [
+        "configured",
+        "firebase",
+        "lib"
+      ],
+      "used_in": []
+    },
+    "getAdminDb": {
+      "type": "Function",
+      "source": "lib/firebaseAdmin.ts",
+      "line": 12,
+      "line_end": 23,
+      "read_hint": {
+        "offset": 7,
+        "limit": 26
+      },
+      "keywords": [
+        "admin",
+        "db",
+        "firebase",
+        "get",
+        "lib"
+      ],
+      "used_in": []
+    },
+    "SkillMeta": {
+      "type": "Interface",
+      "source": "lib/skills.ts",
+      "line": 3,
+      "line_end": 7,
+      "read_hint": {
+        "offset": 1,
+        "limit": 19
+      },
+      "keywords": [
+        "lib",
+        "meta",
+        "skill",
+        "skills"
+      ],
+      "used_in": []
+    },
+    "SKILLS": {
+      "type": "Function",
+      "source": "lib/skills.ts",
+      "line": 9,
+      "line_end": 10,
+      "read_hint": {
+        "offset": 4,
+        "limit": 16
+      },
+      "keywords": [
+        "lib",
+        "skills"
+      ],
+      "used_in": []
+    },
+    "SKILL_IDS": {
+      "type": "Function",
+      "source": "lib/skills.ts",
+      "line": 29,
+      "line_end": 32,
+      "read_hint": {
+        "offset": 24,
+        "limit": 18
+      },
+      "keywords": [
+        "lib",
+        "skill_ids",
+        "skills"
+      ],
+      "used_in": []
+    },
+    "skillLabel": {
+      "type": "Function",
+      "source": "lib/skills.ts",
+      "line": 31,
+      "line_end": 32,
+      "read_hint": {
+        "offset": 26,
+        "limit": 16
+      },
+      "keywords": [
+        "label",
+        "lib",
+        "skill",
+        "skills"
+      ],
+      "used_in": []
+    },
+    "SkillLevel": {
+      "type": "Interface",
+      "source": "lib/types.ts",
+      "line": 2,
+      "line_end": 12,
+      "read_hint": {
+        "offset": 1,
+        "limit": 25
+      },
+      "keywords": [
+        "level",
+        "lib",
+        "skill",
+        "types"
+      ],
+      "used_in": []
+    },
+    "WorkerTotals": {
+      "type": "Interface",
+      "source": "lib/types.ts",
+      "line": 6,
+      "line_end": 12,
+      "read_hint": {
+        "offset": 1,
+        "limit": 21
+      },
+      "keywords": [
+        "lib",
+        "totals",
+        "types",
+        "worker"
+      ],
+      "used_in": []
+    },
+    "Worker": {
+      "type": "Interface",
+      "source": "lib/types.ts",
+      "line": 14,
+      "line_end": 25,
+      "read_hint": {
+        "offset": 9,
+        "limit": 26
+      },
+      "keywords": [
+        "lib",
+        "types",
+        "worker"
+      ],
+      "used_in": []
+    },
+    "SkillRollup": {
+      "type": "Interface",
+      "source": "lib/types.ts",
+      "line": 28,
+      "line_end": 32,
+      "read_hint": {
+        "offset": 23,
+        "limit": 19
+      },
+      "keywords": [
+        "lib",
+        "rollup",
+        "skill",
+        "types"
+      ],
+      "used_in": []
+    },
+    "Overview": {
+      "type": "Interface",
+      "source": "lib/types.ts",
+      "line": 35,
+      "line_end": 41,
+      "read_hint": {
+        "offset": 30,
+        "limit": 21
+      },
+      "keywords": [
+        "lib",
+        "overview",
+        "types"
+      ],
+      "used_in": []
+    },
+    "BySkill": {
+      "type": "Interface",
+      "source": "lib/types.ts",
+      "line": 44,
+      "line_end": 54,
+      "read_hint": {
+        "offset": 39,
+        "limit": 25
+      },
+      "keywords": [
+        "by",
+        "lib",
+        "skill",
+        "types"
+      ],
+      "used_in": []
+    },
+    "GroupRollup": {
+      "type": "Interface",
+      "source": "lib/types.ts",
+      "line": 47,
+      "line_end": 54,
+      "read_hint": {
+        "offset": 42,
+        "limit": 22
+      },
+      "keywords": [
+        "group",
+        "lib",
+        "rollup",
+        "types"
+      ],
+      "used_in": []
+    },
+    "NormalizedData": {
+      "type": "Interface",
+      "source": "lib/types.ts",
+      "line": 57,
+      "line_end": 63,
+      "read_hint": {
+        "offset": 52,
+        "limit": 21
+      },
+      "keywords": [
+        "data",
+        "lib",
+        "normalized",
+        "types"
+      ],
+      "used_in": []
+    },
+    "RoundSource": {
+      "type": "Interface",
+      "source": "lib/types.ts",
+      "line": 70,
+      "line_end": 75,
+      "read_hint": {
+        "offset": 65,
+        "limit": 20
+      },
+      "keywords": [
+        "lib",
+        "round",
+        "source",
+        "types"
+      ],
+      "used_in": []
+    },
+    "RoundStatus": {
+      "type": "Interface",
+      "source": "lib/types.ts",
+      "line": 73,
+      "line_end": 75,
+      "read_hint": {
+        "offset": 68,
+        "limit": 17
+      },
+      "keywords": [
+        "lib",
+        "round",
+        "status",
+        "types"
+      ],
+      "used_in": []
+    },
+    "Round": {
+      "type": "Interface",
+      "source": "lib/types.ts",
+      "line": 76,
+      "line_end": 89,
+      "read_hint": {
+        "offset": 71,
+        "limit": 28
+      },
+      "keywords": [
+        "lib",
+        "round",
+        "types"
+      ],
+      "used_in": []
+    },
+    "SHEET_NAME": {
+      "type": "Function",
+      "source": "lib/xlsxMap.ts",
+      "line": 4,
+      "line_end": 18,
+      "read_hint": {
+        "offset": 1,
+        "limit": 29
+      },
+      "keywords": [
+        "lib",
+        "map",
+        "sheet_name",
+        "xlsx"
+      ],
+      "used_in": []
+    },
+    "HEADER_ROW": {
+      "type": "Function",
+      "source": "lib/xlsxMap.ts",
+      "line": 5,
+      "line_end": 18,
+      "read_hint": {
+        "offset": 1,
+        "limit": 28
+      },
+      "keywords": [
+        "header_row",
+        "lib",
+        "map",
+        "xlsx"
+      ],
+      "used_in": []
+    },
+    "FIRST_DATA_ROW": {
+      "type": "Function",
+      "source": "lib/xlsxMap.ts",
+      "line": 6,
+      "line_end": 18,
+      "read_hint": {
+        "offset": 1,
+        "limit": 27
+      },
+      "keywords": [
+        "first_data_row",
+        "lib",
+        "map",
+        "xlsx"
+      ],
+      "used_in": []
+    },
+    "META_COLS": {
+      "type": "Function",
+      "source": "lib/xlsxMap.ts",
+      "line": 9,
+      "line_end": 18,
+      "read_hint": {
+        "offset": 4,
+        "limit": 24
+      },
+      "keywords": [
+        "lib",
+        "map",
+        "meta_cols",
+        "xlsx"
+      ],
+      "used_in": []
+    },
+    "SKILL_BASE_COLS": {
+      "type": "Function",
+      "source": "lib/xlsxMap.ts",
+      "line": 27,
+      "line_end": 35,
+      "read_hint": {
+        "offset": 22,
+        "limit": 23
+      },
+      "keywords": [
+        "lib",
+        "map",
+        "skill_base_cols",
+        "xlsx"
+      ],
+      "used_in": []
+    },
+    "UNRELIABLE_TOTAL_COLS": {
+      "type": "Function",
+      "source": "lib/xlsxMap.ts",
+      "line": 35,
+      "line_end": 35,
+      "read_hint": {
+        "offset": 30,
+        "limit": 15
+      },
+      "keywords": [
+        "lib",
+        "map",
+        "unreliable_total_cols",
+        "xlsx"
+      ],
+      "used_in": []
+    },
+    "CROSSCHECK_SHEET": {
+      "type": "Function",
+      "source": "lib/xlsxMap.ts",
+      "line": 38,
+      "line_end": 38,
+      "read_hint": {
+        "offset": 33,
+        "limit": 15
+      },
+      "keywords": [
+        "crosscheck_sheet",
+        "lib",
+        "map",
+        "xlsx"
+      ],
+      "used_in": []
+    },
+    "upsertFirestore": {
+      "type": "Function",
+      "source": "scripts/import.ts",
+      "line": 245,
+      "line_end": 300,
+      "read_hint": {
+        "offset": 240,
+        "limit": 70
+      },
+      "keywords": [
+        "firestore",
+        "import",
+        "scripts",
+        "upsert"
+      ],
+      "used_in": []
+    },
+    "TrendsPage": {
+      "type": "PageComponent",
+      "source": "app/trends/page.tsx",
+      "line": 6,
+      "line_end": 37,
+      "read_hint": {
+        "offset": 1,
+        "limit": 46
+      },
+      "keywords": [
+        "page",
+        "trends"
+      ],
+      "used_in": []
+    },
+    "TrendTable": {
+      "type": "ReactComponent",
+      "source": "components/TrendTable.tsx",
+      "line": 23,
+      "line_end": 93,
+      "read_hint": {
+        "offset": 18,
+        "limit": 80
+      },
+      "keywords": [
+        "table",
+        "trend"
+      ],
+      "used_in": []
+    },
+    "diffRollups": {
+      "type": "Function",
+      "source": "lib/data.ts",
+      "line": 151,
+      "line_end": 181,
+      "read_hint": {
+        "offset": 146,
+        "limit": 45
+      },
+      "keywords": [
+        "data",
+        "diff",
+        "lib",
+        "rollups"
+      ],
+      "used_in": []
+    },
+    "getRoundTrend": {
+      "type": "Function",
+      "source": "lib/data.ts",
+      "line": 234,
+      "line_end": 267,
+      "read_hint": {
+        "offset": 229,
+        "limit": 48
+      },
+      "keywords": [
+        "data",
+        "get",
+        "lib",
+        "round",
+        "trend"
+      ],
+      "used_in": []
+    },
+    "TrendPoint": {
+      "type": "Interface",
+      "source": "lib/types.ts",
+      "line": 97,
+      "line_end": 102,
+      "read_hint": {
+        "offset": 92,
+        "limit": 20
+      },
+      "keywords": [
+        "lib",
+        "point",
+        "trend",
+        "types"
+      ],
+      "used_in": []
+    },
+    "GroupTrend": {
+      "type": "Interface",
+      "source": "lib/types.ts",
+      "line": 105,
+      "line_end": 114,
+      "read_hint": {
+        "offset": 100,
+        "limit": 24
+      },
+      "keywords": [
+        "group",
+        "lib",
+        "trend",
+        "types"
+      ],
+      "used_in": []
+    },
+    "RoundMeta": {
+      "type": "Interface",
+      "source": "lib/types.ts",
+      "line": 117,
+      "line_end": 120,
+      "read_hint": {
+        "offset": 112,
+        "limit": 18
+      },
+      "keywords": [
+        "lib",
+        "meta",
+        "round",
+        "types"
+      ],
+      "used_in": []
+    },
+    "RoundTrend": {
+      "type": "Interface",
+      "source": "lib/types.ts",
+      "line": 123,
+      "line_end": 130,
+      "read_hint": {
+        "offset": 118,
+        "limit": 22
+      },
+      "keywords": [
+        "lib",
+        "round",
+        "trend",
+        "types"
+      ],
+      "used_in": []
+    },
+    "CriticalityPage": {
+      "type": "PageComponent",
+      "source": "app/criticality/page.tsx",
+      "line": 6,
+      "line_end": 26,
+      "read_hint": {
+        "offset": 1,
+        "limit": 35
+      },
+      "keywords": [
+        "criticality",
+        "page"
+      ],
+      "used_in": []
+    },
+    "CriticalityTable": {
+      "type": "ReactComponent",
+      "source": "components/CriticalityTable.tsx",
+      "line": 88,
+      "line_end": 159,
+      "read_hint": {
+        "offset": 83,
+        "limit": 80
+      },
+      "keywords": [
+        "criticality",
+        "table"
+      ],
+      "used_in": []
+    },
+    "flagSkill": {
+      "type": "Function",
+      "source": "lib/data.ts",
+      "line": 280,
+      "line_end": 289,
+      "read_hint": {
+        "offset": 275,
+        "limit": 24
+      },
+      "keywords": [
+        "data",
+        "flag",
+        "lib",
+        "skill"
+      ],
+      "used_in": []
+    },
+    "buildCriticality": {
+      "type": "Function",
+      "source": "lib/data.ts",
+      "line": 320,
+      "line_end": 362,
+      "read_hint": {
+        "offset": 315,
+        "limit": 57
+      },
+      "keywords": [
+        "build",
+        "criticality",
+        "data",
+        "lib"
+      ],
+      "used_in": []
+    },
+    "getCriticality": {
+      "type": "Function",
+      "source": "lib/data.ts",
+      "line": 377,
+      "line_end": 391,
+      "read_hint": {
+        "offset": 372,
+        "limit": 29
+      },
+      "keywords": [
+        "criticality",
+        "data",
+        "get",
+        "lib"
+      ],
+      "used_in": []
+    },
+    "ShortageFlags": {
+      "type": "Interface",
+      "source": "lib/types.ts",
+      "line": 140,
+      "line_end": 144,
+      "read_hint": {
+        "offset": 135,
+        "limit": 19
+      },
+      "keywords": [
+        "flags",
+        "lib",
+        "shortage",
+        "types"
+      ],
+      "used_in": []
+    },
+    "SkillProportion": {
+      "type": "Interface",
+      "source": "lib/types.ts",
+      "line": 148,
+      "line_end": 159,
+      "read_hint": {
+        "offset": 143,
+        "limit": 26
+      },
+      "keywords": [
+        "lib",
+        "proportion",
+        "skill",
+        "types"
+      ],
+      "used_in": []
+    },
+    "ScopeBreach": {
+      "type": "Interface",
+      "source": "lib/types.ts",
+      "line": 162,
+      "line_end": 165,
+      "read_hint": {
+        "offset": 157,
+        "limit": 18
+      },
+      "keywords": [
+        "breach",
+        "lib",
+        "scope",
+        "types"
+      ],
+      "used_in": []
+    },
+    "SkillCriticality": {
+      "type": "Interface",
+      "source": "lib/types.ts",
+      "line": 177,
+      "line_end": 189,
+      "read_hint": {
+        "offset": 172,
+        "limit": 27
+      },
+      "keywords": [
+        "criticality",
+        "lib",
+        "skill",
+        "types"
+      ],
+      "used_in": []
+    },
+    "CriticalityReport": {
+      "type": "Interface",
+      "source": "lib/types.ts",
+      "line": 192,
+      "line_end": 195,
+      "read_hint": {
+        "offset": 187,
+        "limit": 18
+      },
+      "keywords": [
+        "criticality",
+        "lib",
+        "report",
+        "types"
+      ],
+      "used_in": []
+    },
+    "GroupNone": {
+      "type": "Interface",
+      "source": "lib/types.ts",
+      "line": 170,
+      "line_end": 174,
+      "read_hint": {
+        "offset": 165,
+        "limit": 19
+      },
+      "keywords": [
+        "group",
+        "lib",
+        "none",
+        "types"
+      ],
+      "used_in": []
+    }
+  }
 }

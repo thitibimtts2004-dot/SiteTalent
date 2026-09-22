@@ -1,0 +1,1 @@
+{"section":"S3","task_id":"T-005","status":"done","verdict":"confirm","test_exit":0,"tsc_exit":0,"mutation_bit":true,"notes":"npm run test:criticality: C1-C8 all pass, exit 0; test genuinely bites (mutation forced 6 FAIL incl C1/C3-boundary-adjacent cases); package.json test:criticality script correct."}

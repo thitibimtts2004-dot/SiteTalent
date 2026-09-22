@@ -1,12 +1,32 @@
-task: SiteTalent — round-aware data layer (Phase 1 of Login-feature plan)
+task: SiteTalent dashboard redesign (Canva-based, simplified, action-first) — T-015
 phase: done
-next: Phase 2 = 6-digit-code Login + route guard (app/login, session cookie, middleware); Phase 3 = admin user-management page. auditLog enabled per user decision. roundId format = monthly YYYY-MM.
+next: T-015 CLOSED — home dashboard redesign shipped + verified + user-approved. Files: lib/dashboard.ts (+test), components/Dashboard.tsx, app/page.tsx, package.json (test:dashboard). Roadmap [X] T-015 done 2026-09-22. Full scrutinize pass=go. session_handoff.md written. NO Propagation (app code). Pre-existing engine drift left for harness-setup task: 3 deleted knowledge/ files (harness_authoring_techniques, harness_flow_20260525, loop_engineer_spec) still referenced by the constitution. Next natural step (separate task): user drops master .xlsx -> npm run import for real 1531-worker numbers.
 
-## Phase 1 — round-aware import/data (DONE, code + partial verify)
-- lib/types.ts: added Round / RoundSource / RoundStatus types
-- scripts/import.ts: --round/--date/--label/--source args; writes rounds/{roundId}/workers/* + rounds/{roundId}/summary/* + rounds/{roundId} meta doc; sets config/app.currentRoundId; archives previous current round
-- lib/data.ts: reads config/app.currentRoundId then rounds/{roundId}/summary/* + rounds/{roundId}/workers; fixture fallback preserved
-- VERIFIED (all pass): tsc --noEmit clean · npm run import wrote round 2026-09 (1531 workers, anchor 239/53/89, VALIDATION PASSED) · all 3 pages render LIVE from round 2026-09 — / (1531/6/59/7%), /sites (6 sites + 59 contractors, counts match), /workers (filters + list, no hang)
-- Fixed a wedged dev server mid-verify: killed stuck PID 18172 on port 3000 (taskkill), restarted clean via preview_start; the `.next` EPERM lock cleared when the holding process died (rm -rf .next was permission-denied but not needed).
+decision_drilldown_LOCKED (user this turn): Option B — the drill-down under the scatter is a WORKER-LEVEL searchable table (internal-org use). Sending worker name/code to the browser is ACCEPTED by the user for this internal tool (intentional exception to data.ts "no PII to browser"). ClientWorker shape = {code, name, site, contractor, position, l0, l1, l2}. Both the aggregations AND the table consume this one array. Table = searchable by name/code, filterable, reacts to the position filter + scatter group selection.
+skeptical_constraints_to_apply in S1: guard divide-by-zero (pctIndependent when l1+l2=0, pctSkilled when total=0 → return 0); drill-down/table + scatter share the SAME aggregate arrays (single-source, no drift); Top-10 contractor sort has a deterministic tie-break (headcount desc, then name).
 
-engine: manual-boot ok (v1.37.0 at plugin cache) · hooks: OFF (boot glob broken by `ls -F` alias appending *; needs client restart for hooks) — gates run manually
+decisions_locked:
+  - Base = user's Canva 4-chart layout. Priority: cut complexity, easy to read, immediately actionable.
+  - Headline metric LOCKED: %skilled = (Lv1+Lv2) / (Lv1+Lv2+Zero) over worker x skill CELLS (zeros INCLUDED in denominator). Single threshold = 65%. NO exclude-level-0 toggle (drop it — cut complexity). This is the "density / coverage" reading and matches the Canva donut.
+  - Q1/Q2 KEEP: donut (cell distribution 0/1/2) + KPIs (%skilled, %independent=Lv2/(Lv1+Lv2)) + 100%-stacked bars by SITE (6) and by CONTRACTOR (Top 10 by headcount).
+  - Q3 DROPPED: per-single-skill % impossible — level-0 = "worker not recorded on that skill", cannot attribute the zero to a skill group, so per-skill denominator is unreliable. (Aggregate is fine because its denominator = workers x 17, known.)
+  - Q4 KEEP: position (ตำแหน่ง) filter re-renders every chart; ADD a drill-down worker table under the scatter, synthesized from the data we have.
+  - Q5 DROPPED: only one assessment round exists; no re-assessment plan yet -> no trend.
+  - Q6 KEEP: scatter X=headcount, Y=%skilled, dashed 65% line, green(pass)/red(fail) zones; toggle SITE view / CONTRACTOR view (contractor view shows all ~59 as dots).
+
+data_status:
+  - REAL data = 1531 workers / 6 sites / 59 contractors, but the master .xlsx is NOT in the repo. data/normalized.json (60 workers / 6 sites / 8 contractors) is a synthetic DEV FIXTURE.
+  - BLOCKER for real NUMBERS (not for building): user must drop the master .xlsx into data/ -> run `npm run import` -> normalized.json becomes real. Code is data-shape-driven so it works against fixture now, real after import.
+  - Canva numbers (5400 / 16.7 / 50 / 33.3) were placeholders — ignore.
+
+mockup:
+  - Interactive prototype delivered to user: scratchpad/mockup.html (generator scratchpad/gen_mockup.py). Default view = the LOCKED metric. Reflects all decisions above.
+
+impl_targets (when building):
+  - lib/data.ts (group aggregation: per-group cell L0/L1/L2, %skilled density, headcount; position filter; contractor top-10; scatter series site/contractor)
+  - components/: new/updated chart components (donut, KPI row, 100%-stacked bar, scatter with 65% line + view toggle, position filter control, Q4 drill-down worker table)
+  - app/page.tsx wiring
+  - Confirm terminology: "โครงการ/project" in Canva == site (6). Contractor == ผู้รับเหมา (59).
+
+done_prior:
+  - harness v1.62.4 setup COMPLETE (separate closed task).

@@ -1,0 +1,8 @@
+{
+  "verdict": "confirm",
+  "test_exit": 0,
+  "tsc_exit": 0,
+  "mutation_bit": true,
+  "restored_ok": true,
+  "notes": "noneIn lists every group with none>0 (not only breachers, unlike breachesIn/anyFlag), filters none>0, sorts desc (b.none-a.none), EMPTY_ROLLUP fallback so absent skill s02 gives none=0 and is excluded. flagSkill/thresholds/breachesIn/proportionFor untouched (additive). All C1-C9 + C8 pass; tsc clean. Sort-flip mutation caught by C9 desc; restored byte-for-byte, retested green."
+}

@@ -4,5 +4,22 @@
   "note": "Fresh per-project topic vocabulary (v3 shape) — seed as work begins. Closed vocabulary: agents assign topics only from this list, no free-text tags. `topics` is the UNION of topics_by_domain. NO harness topics inherited.",
   "domains": [],
   "topics_by_domain": {},
-  "topics": []
+  "topics": [
+    "agent_boot_sequence",
+    "agent_hard_constraints",
+    "coding_failure_patterns",
+    "destructive_action_gates",
+    "project_overview",
+    "error_index",
+    "repository_structure_map"
+  ],
+  "descriptions": {
+    "agent_boot_sequence": "agent boot sequence",
+    "agent_hard_constraints": "agent hard constraints",
+    "coding_failure_patterns": "coding failure patterns",
+    "destructive_action_gates": "destructive action gates",
+    "project_overview": "project overview",
+    "error_index": "error index",
+    "repository_structure_map": "repository structure map"
+  }
 }
