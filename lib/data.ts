@@ -17,6 +17,7 @@ import { readFileSync } from "node:fs";
 import path from "node:path";
 import type { Firestore } from "firebase-admin/firestore";
 import { getAdminDb } from "./firebaseAdmin";
+import { cached } from "./dataCache";
 import { SKILL_IDS, skillLabel } from "./skills";
 import type {
   NormalizedData,
@@ -50,13 +51,46 @@ function fixture(): NormalizedData {
 // Non-null Firestore handle when a service account is set, else null (fixture).
 const live = () => getAdminDb();
 
+// ── Read cache (see lib/dataCache.ts) ─────────────────────────────────────
+// config/app is the only doc re-read on a timer. Everything else is keyed by
+// the import's dataVersion, so it is cached until the next `npm run import`.
+const seconds = (env: string | undefined, dflt: number) =>
+  (Number(env) > 0 ? Number(env) : dflt) * 1000;
+const CONFIG_TTL_MS = seconds(process.env.DATA_CACHE_CONFIG_TTL_SECONDS, 300);
+// Fallback for data imported before dataVersion existed (no version to key on).
+const UNVERSIONED_TTL_MS = seconds(process.env.DATA_CACHE_TTL_SECONDS, 3600);
+
+interface RoundPointer {
+  roundId: string | null;
+  version: string | null; // set by scripts/import.ts on every import
+}
+
+/** config/app → which round to show + its data version (1 read per CONFIG_TTL). */
+function roundPointer(db: Firestore): Promise<RoundPointer> {
+  return cached(db, "config/app", { ttlMs: CONFIG_TTL_MS, persist: db === live() }, async () => {
+    const snap = await db.collection("config").doc("app").get();
+    const d = snap.exists
+      ? (snap.data() as { currentRoundId?: string; dataVersion?: string })
+      : {};
+    return { roundId: d.currentRoundId ?? null, version: d.dataVersion ?? null };
+  });
+}
+
+/** Cache a read whose result can only change when a new import lands. */
+async function importCached<T>(db: Firestore, key: string, loader: () => Promise<T>): Promise<T> {
+  const { roundId, version } = await roundPointer(db);
+  const tag = version ? `v:${version}` : `unversioned:${roundId}`;
+  return cached(
+    db,
+    `${tag}|${key}`,
+    { ttlMs: version ? Infinity : UNVERSIONED_TTL_MS, persist: db === live() },
+    loader,
+  );
+}
+
 /** The round the dashboard should display, or null if none is configured. */
 async function currentRoundId(db: Firestore): Promise<string | null> {
-  const snap = await db.collection("config").doc("app").get();
-  const id = snap.exists
-    ? (snap.data() as { currentRoundId?: string }).currentRoundId
-    : undefined;
-  return id ?? null;
+  return (await roundPointer(db)).roundId;
 }
 
 /** Read one summary doc from the current round, or null (→ caller uses fixture). */
@@ -65,11 +99,13 @@ async function summaryDoc<T>(name: string): Promise<T | null> {
   if (!db) return null;
   const roundId = await currentRoundId(db);
   if (!roundId) return null;
-  const snap = await db
-    .collection("rounds").doc(roundId)
-    .collection("summary").doc(name)
-    .get();
-  return snap.exists ? (snap.data() as T) : null;
+  return importCached(db, `summary:${roundId}/${name}`, async () => {
+    const snap = await db
+      .collection("rounds").doc(roundId)
+      .collection("summary").doc(name)
+      .get();
+    return snap.exists ? (snap.data() as T) : null;
+  });
 }
 
 export async function getOverview(): Promise<Overview> {
@@ -104,11 +140,13 @@ export async function listWorkers(
   const db = live();
   const roundId = db ? await currentRoundId(db) : null;
   if (db && roundId) {
-    const snap = await db
-      .collection("rounds").doc(roundId)
-      .collection("workers")
-      .get();
-    workers = snap.docs.map((d) => d.data() as Worker);
+    workers = await importCached(db, `workers:${roundId}`, async () => {
+      const snap = await db
+        .collection("rounds").doc(roundId)
+        .collection("workers")
+        .get();
+      return snap.docs.map((d) => d.data() as Worker);
+    });
   } else {
     workers = fixture().workers;
   }
@@ -188,12 +226,14 @@ async function previousRoundId(
   db: Firestore,
   currentId: string | null,
 ): Promise<string | null> {
-  const snap = await db
-    .collection("rounds")
-    .where("status", "==", "archived")
-    .get();
-  const rounds = snap.docs
-    .map((d) => ({ id: d.id, dataDate: (d.data() as Round).dataDate ?? "" }))
+  const archived = await importCached(db, "rounds:archived", async () => {
+    const snap = await db
+      .collection("rounds")
+      .where("status", "==", "archived")
+      .get();
+    return snap.docs.map((d) => ({ id: d.id, dataDate: (d.data() as Round).dataDate ?? "" }));
+  });
+  const rounds = archived
     .filter((r) => r.id !== currentId)
     .sort((a, b) =>
       a.dataDate === b.dataDate
@@ -209,20 +249,24 @@ async function summaryGroupsFor(
   roundId: string,
   name: "bySite" | "byContractor",
 ): Promise<GroupRollup[]> {
-  const snap = await db
-    .collection("rounds").doc(roundId)
-    .collection("summary").doc(name)
-    .get();
-  return snap.exists
-    ? ((snap.data() as { groups?: GroupRollup[] }).groups ?? [])
-    : [];
+  return importCached(db, `groups:${roundId}/${name}`, async () => {
+    const snap = await db
+      .collection("rounds").doc(roundId)
+      .collection("summary").doc(name)
+      .get();
+    return snap.exists
+      ? ((snap.data() as { groups?: GroupRollup[] }).groups ?? [])
+      : [];
+  });
 }
 
 /** Read a round's label + dataDate for the trend header. */
 async function roundMeta(db: Firestore, roundId: string): Promise<RoundMeta> {
-  const snap = await db.collection("rounds").doc(roundId).get();
-  const r = snap.exists ? (snap.data() as Round) : null;
-  return { label: r?.label ?? roundId, dataDate: r?.dataDate ?? "" };
+  return importCached(db, `meta:${roundId}`, async () => {
+    const snap = await db.collection("rounds").doc(roundId).get();
+    const r = snap.exists ? (snap.data() as Round) : null;
+    return { label: r?.label ?? roundId, dataDate: r?.dataDate ?? "" };
+  });
 }
 
 /**

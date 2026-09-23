@@ -294,7 +294,10 @@ export async function upsertFirestore(
     await db.collection("rounds").doc(prev).set({ status: "archived" }, { merge: true });
     console.log(`Firestore: archived previous round ${prev}.`);
   }
-  await db.collection("config").doc("app").set({ currentRoundId: round }, { merge: true });
+  // dataVersion changes on every import → busts the dashboard read cache (lib/dataCache.ts)
+  await db
+    .collection("config").doc("app")
+    .set({ currentRoundId: round, dataVersion: new Date().toISOString() }, { merge: true });
 
   console.log(`Firestore: wrote round ${round} — ${written} workers + 4 summary docs; currentRoundId=${round}.`);
 }
