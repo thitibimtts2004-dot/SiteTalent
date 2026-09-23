@@ -153,3 +153,12 @@
   Out-of-Scope: page content, charts, data layer and cache unchanged; login (Phase 3) not included.
   Open-Questions: (1) logo file + format from the user; (2) sidebar theme light (white, current look) vs dark (navy) — or derive from the logo's brand colour.
   Relate File: components/Nav.tsx, app/layout.tsx, components/DataStatusBar.tsx, app/page.tsx, app/sites/page.tsx, app/workers/page.tsx, app/criticality/page.tsx, app/trends/page.tsx, public/ (new)
+
+## T-018: Home dashboard filters — site / contractor / skill (+ position)
+- [X] T-018 · P1 · depends_on: T-015 · done 2026-09-23 · attempts:1 · Independent-of: T-008 (home page only; T-008 = all pages)
+  Title: Filter the home dashboard by site, contractor and skill (one value each) and re-render every chart
+  ContextTask: User request 2026-09-23 — scope agreed: home page only (other pages later via T-008), single-select skill, single-select site/contractor. Per-skill levels now reach the browser as a compact 17-digit `sk` string (not PII, ~30KB for 1531 workers) so the skill filter can recompute client-side.
+  Goal: a filter bar (ไซต์ · ผู้รับเหมา · ทักษะ · ตำแหน่ง) re-scopes KPIs, donut, both stacked bars, the scatter and the worker table; a chosen skill makes every number count that one skill only (one cell per worker); each dropdown only offers values that still exist under the other filters; active filters show as removable chips + "ล้างตัวกรอง"; state lives in the URL (?site=&contractor=&skill=&position=) so it survives reload and can be shared.
+  How-Check: npm run test:dashboard (filter + cascading-option cases) + npx tsc --noEmit; open /?site=Escent%20Hatyai%202&skill=s01 → cells 239/53/89 (anchor), headcount 381, %skilled 37.3%, contractor dropdown narrowed to 19; pick a contractor, remove the skill chip, then "ล้างตัวกรอง" → numbers + URL follow each step and return to 1531 / 6 / 59.
+  Out-of-Scope: /sites, /workers, /criticality, /trends unchanged; multi-select; the data layer/cache.
+  Relate File: lib/dashboard.ts, lib/dashboard.test.ts, components/Dashboard.tsx, app/page.tsx

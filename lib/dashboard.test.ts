@@ -98,6 +98,36 @@ const mixed = aggregate([
 ]).byContractor;
 check("headcount beats name", mixed[0].name === "c99" && mixed[0].headcount === 3);
 
+console.log("filters — site / contractor / skill (T-018)");
+// sk digits in SKILL_IDS order: s01 = first char, s02 = second
+const fw: ClientWorker[] = [
+  { ...cw("F1", "ก", "A", "X", "p1", 15, 1, 1), sk: "21" + "0".repeat(15) },
+  { ...cw("F2", "ข", "A", "Y", "p2", 16, 1, 0), sk: "01" + "0".repeat(15) },
+  { ...cw("F3", "ค", "B", "Y", "p1", 16, 0, 1), sk: "12" + "0".repeat(15) },
+];
+const bySiteA = aggregate(fw, { site: "A" });
+check("site filter headcount", bySiteA.headcount === 2 && bySiteA.bySite.length === 1);
+check("site filter cells = F1+F2 totals", bySiteA.cells.l0 === 31 && bySiteA.cells.l1 === 2 && bySiteA.cells.l2 === 1);
+const conY = aggregate(fw, { contractor: "Y" });
+check("contractor filter headcount", conY.headcount === 2 && conY.allContractors.length === 1);
+const s01 = aggregate(fw, { skill: "s01" }); // levels 2,0,1 → one cell each
+check("skill filter: one cell per worker", s01.cells.l0 === 1 && s01.cells.l1 === 1 && s01.cells.l2 === 1);
+check("skill filter %skilled = 2/3", near(s01.pctSkilled, (2 / 3) * 100));
+const s02A = aggregate(fw, { skill: "s02", site: "A" }); // F1=1, F2=1
+check("skill+site combine", s02A.cells.l1 === 2 && s02A.cells.l0 === 0 && s02A.cells.l2 === 0);
+check("skill filter per-site row", s02A.bySite[0].l1 === 2 && s02A.bySite[0].headcount === 2);
+check("string arg still = position", aggregate(fw, "p1").headcount === 2);
+// cascading options: each list ignores its own filter, honours the others
+const optA = aggregate(fw, { site: "A" });
+check("site options ignore own filter", optA.sites.join(",") === "A,B");
+check("contractor options scoped by site", optA.contractors.join(",") === "X,Y");
+const optY = aggregate(fw, { contractor: "Y" });
+check("site options scoped by contractor", optY.sites.join(",") === "A,B");
+check("position options scoped by contractor", optY.positions.join(",") === "p1,p2");
+const optB = aggregate(fw, { site: "B" });
+check("contractor options narrow to the site", optB.contractors.join(",") === "Y");
+check("no match → zeros, no crash", aggregate(fw, { site: "none" }).headcount === 0);
+
 console.log("slimWorker — maps totals, keeps code+name, drops the rest");
 const full: Worker = {
   code: "K1",
@@ -114,6 +144,7 @@ const slim = slimWorker(full);
 check("slim keeps code+name", slim.code === "K1" && slim.name === "กิตติ");
 check("slim maps l0/l1/l2", slim.l0 === 10 && slim.l1 === 5 && slim.l2 === 2);
 check("slim drops per-skill+assessor", !("skills" in slim) && !("assessor" in slim) && !("totals" in slim));
+check("slim encodes per-skill levels", slim.sk === "21" + "0".repeat(15));
 
 console.log(failures ? `\n${failures} FAILED` : "\nall passed");
 process.exit(failures ? 1 : 0);

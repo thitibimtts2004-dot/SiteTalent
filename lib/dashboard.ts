@@ -12,10 +12,11 @@
  * Both are returned as PERCENTAGE POINTS (0..100) so the scatter's 65% line reads y=65.
  */
 import type { Worker } from "./types";
+import { SKILL_IDS } from "./skills";
 
 /** The slim, browser-safe shape sent to the client. For this INTERNAL tool the
  *  user accepted worker code+name reaching the browser (drill-down search table);
- *  the per-skill map + assessor/date are dropped. */
+ *  per-skill LEVELS travel as the compact `sk` digits (not PII); assessor/date are dropped. */
 export interface ClientWorker {
   code: string;
   name: string;
@@ -25,6 +26,17 @@ export interface ClientWorker {
   l0: number; // skills at level 0 (ทำไม่ได้/ไม่ได้บันทึก)
   l1: number; // skills at level 1 (ทำได้บางส่วน)
   l2: number; // skills at level 2 (ทำได้ผ่านมาตรฐาน)
+  /** per-skill level as one digit each, in SKILL_IDS order (e.g. "01200…", 17 chars) —
+   *  lets the skill filter recompute every chart for a single skill. Not PII. */
+  sk?: string;
+}
+
+/** The four home-dashboard filters; each is ONE value or unset (= all). */
+export interface DashboardFilters {
+  position?: string;
+  site?: string;
+  contractor?: string;
+  skill?: string; // a SKILL_IDS id, e.g. "s01"
 }
 
 /** One row of a site or contractor breakdown (drives the stacked bars + scatter). */
@@ -46,7 +58,25 @@ export interface DashboardData {
   bySite: GroupRow[]; // all sites, name asc
   byContractor: GroupRow[]; // Top 10 by headcount (desc), then name asc — for the stacked bar only
   allContractors: GroupRow[]; // EVERY contractor, same order — for the scatter + counts
-  positions: string[]; // every position in the input, sorted — stable filter options
+  // filter options — each list ignores its OWN filter but honours the others,
+  // so a dropdown never empties itself and only offers values that still exist
+  positions: string[];
+  sites: string[];
+  contractors: string[];
+}
+
+type Levels = (w: ClientWorker) => { l0: number; l1: number; l2: number };
+
+/** All 17 skills (the worker's own l0/l1/l2 totals). */
+const allSkillLevels: Levels = (w) => w;
+
+/** ONE skill: each worker contributes exactly one cell at that skill's level. */
+function oneSkillLevels(skillId: string): Levels {
+  const i = SKILL_IDS.indexOf(skillId);
+  return (w) => {
+    const lv = i < 0 ? 0 : Number(w.sk?.[i] ?? 0);
+    return { l0: lv === 0 ? 1 : 0, l1: lv === 1 ? 1 : 0, l2: lv === 2 ? 1 : 0 };
+  };
 }
 
 /** Drop a full Worker to the browser-safe ClientWorker shape. */
@@ -60,6 +90,7 @@ export function slimWorker(w: Worker): ClientWorker {
     l0: w.totals.none,
     l1: w.totals.lvl1,
     l2: w.totals.lvl2,
+    sk: SKILL_IDS.map((id) => String(w.skills[id] ?? 0)).join(""),
   };
 }
 
@@ -76,20 +107,25 @@ export function pctIndependent(l1: number, l2: number): number {
 }
 
 /** Sum a set of workers into one GroupRow (name supplied by the caller). */
-function rowFor(name: string, ws: ClientWorker[]): GroupRow {
+function rowFor(name: string, ws: ClientWorker[], levels: Levels): GroupRow {
   let l0 = 0;
   let l1 = 0;
   let l2 = 0;
   for (const w of ws) {
-    l0 += w.l0;
-    l1 += w.l1;
-    l2 += w.l2;
+    const v = levels(w);
+    l0 += v.l0;
+    l1 += v.l1;
+    l2 += v.l2;
   }
   return { name, headcount: ws.length, l0, l1, l2, pctSkilled: pctSkilled(l0, l1, l2) };
 }
 
 /** Group workers by a key, returning one GroupRow per distinct value. */
-function groupRows(ws: ClientWorker[], key: (w: ClientWorker) => string): GroupRow[] {
+function groupRows(
+  ws: ClientWorker[],
+  key: (w: ClientWorker) => string,
+  levels: Levels,
+): GroupRow[] {
   const buckets = new Map<string, ClientWorker[]>();
   for (const w of ws) {
     const k = key(w);
@@ -97,7 +133,7 @@ function groupRows(ws: ClientWorker[], key: (w: ClientWorker) => string): GroupR
     if (b) b.push(w);
     else buckets.set(k, [w]);
   }
-  return [...buckets.entries()].map(([name, group]) => rowFor(name, group));
+  return [...buckets.entries()].map(([name, group]) => rowFor(name, group, levels));
 }
 
 /**
@@ -113,39 +149,50 @@ function byHeadcountThenName(a: GroupRow, b: GroupRow): number {
   return collator.compare(a.name, b.name);
 }
 
+/** Does worker `w` pass every set filter except the one named in `skip`? */
+function passes(w: ClientWorker, f: DashboardFilters, skip?: keyof DashboardFilters): boolean {
+  if (skip !== "position" && f.position && w.position !== f.position) return false;
+  if (skip !== "site" && f.site && w.site !== f.site) return false;
+  if (skip !== "contractor" && f.contractor && w.contractor !== f.contractor) return false;
+  return true;
+}
+
+// blank values are dropped: an "" option would collide with the "all" option
+const uniqSorted = (xs: string[]) =>
+  [...new Set(xs.filter((x) => x.trim() !== ""))].sort(collator.compare);
+
 /**
  * Aggregate the worker list into everything the dashboard renders.
- * When `position` is given, only workers in that position feed the numbers —
- * but `positions[]` is always derived from the FULL input so the filter options
- * never change as you filter.
+ * position/site/contractor narrow WHICH workers count; skill narrows WHICH cells
+ * count (one skill → one cell per worker). A bare string is read as `position`
+ * (the original single-filter signature).
  */
-export function aggregate(workers: ClientWorker[], position?: string): DashboardData {
-  const positions = [...new Set(workers.map((w) => w.position))].sort(collator.compare);
+export function aggregate(
+  workers: ClientWorker[],
+  filters: DashboardFilters | string = {},
+): DashboardData {
+  const f: DashboardFilters = typeof filters === "string" ? { position: filters } : filters;
+  const levels = f.skill ? oneSkillLevels(f.skill) : allSkillLevels;
 
-  const scoped =
-    position && position.length > 0 ? workers.filter((w) => w.position === position) : workers;
+  const scoped = workers.filter((w) => passes(w, f));
+  const total = rowFor("", scoped, levels);
 
-  let l0 = 0;
-  let l1 = 0;
-  let l2 = 0;
-  for (const w of scoped) {
-    l0 += w.l0;
-    l1 += w.l1;
-    l2 += w.l2;
-  }
-
-  const bySite = groupRows(scoped, (w) => w.site).sort((a, b) => collator.compare(a.name, b.name));
-  const allContractors = groupRows(scoped, (w) => w.contractor).sort(byHeadcountThenName);
+  const bySite = groupRows(scoped, (w) => w.site, levels).sort((a, b) =>
+    collator.compare(a.name, b.name),
+  );
+  const allContractors = groupRows(scoped, (w) => w.contractor, levels).sort(byHeadcountThenName);
   const byContractor = allContractors.slice(0, 10);
 
   return {
-    cells: { l0, l1, l2 },
-    pctSkilled: pctSkilled(l0, l1, l2),
-    pctIndependent: pctIndependent(l1, l2),
+    cells: { l0: total.l0, l1: total.l1, l2: total.l2 },
+    pctSkilled: total.pctSkilled,
+    pctIndependent: pctIndependent(total.l1, total.l2),
     headcount: scoped.length,
     bySite,
     byContractor,
     allContractors,
-    positions,
+    positions: uniqSorted(workers.filter((w) => passes(w, f, "position")).map((w) => w.position)),
+    sites: uniqSorted(workers.filter((w) => passes(w, f, "site")).map((w) => w.site)),
+    contractors: uniqSorted(workers.filter((w) => passes(w, f, "contractor")).map((w) => w.contractor)),
   };
 }

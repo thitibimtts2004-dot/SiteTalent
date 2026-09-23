@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   PieChart,
   Pie,
@@ -18,7 +18,8 @@ import {
   ReferenceArea,
 } from "recharts";
 import { aggregate } from "@/lib/dashboard";
-import type { ClientWorker, GroupRow } from "@/lib/dashboard";
+import type { ClientWorker, DashboardFilters, GroupRow } from "@/lib/dashboard";
+import { SKILLS, skillLabel } from "@/lib/skills";
 
 const THAI = '"Noto Sans Thai", ui-sans-serif, system-ui, sans-serif';
 // mockup palette
@@ -91,22 +92,56 @@ function StackedByGroup({ rows }: { rows: GroupRow[] }) {
 }
 
 // ── main ───────────────────────────────────────────────────────────────
-export default function Dashboard({ workers }: { workers: ClientWorker[] }) {
-  const [position, setPosition] = useState("");
+/** URL query keys ↔ filter fields (?position=&site=&contractor=&skill=). */
+const FILTER_KEYS = ["position", "site", "contractor", "skill"] as const;
+type FilterKey = (typeof FILTER_KEYS)[number];
+
+export default function Dashboard({
+  workers,
+  initialFilters = {},
+}: {
+  workers: ClientWorker[];
+  initialFilters?: DashboardFilters;
+}) {
+  const [filters, setFilters] = useState<DashboardFilters>(initialFilters);
   const [scatterView, setScatterView] = useState<ScatterView>("site");
   const [search, setSearch] = useState("");
   const [selected, setSelected] = useState<Selected>(null);
 
-  // one aggregate call drives KPIs + donut + both bar charts + the scatter
-  const data = useMemo(() => aggregate(workers, position), [workers, position]);
+  // keep the URL in sync (shareable / survives reload) without a server round-trip
+  useEffect(() => {
+    const q = new URLSearchParams();
+    for (const k of FILTER_KEYS) if (filters[k]) q.set(k, filters[k]!);
+    const qs = q.toString();
+    window.history.replaceState(null, "", qs ? `?${qs}` : window.location.pathname);
+  }, [filters]);
 
-  // worker-level rows for the drill-down table (same position scope as the charts)
+  const setFilter = (k: FilterKey, v: string) => {
+    setFilters((f) => ({ ...f, [k]: v || undefined }));
+    setSelected(null); // a scatter selection may no longer be in scope
+  };
+  const clearAll = () => {
+    setFilters({});
+    setSelected(null);
+  };
+
+  // one aggregate call drives KPIs + donut + both bar charts + the scatter
+  const data = useMemo(() => aggregate(workers, filters), [workers, filters]);
+
+  // worker-level rows for the drill-down table (same worker scope as the charts)
   const scopedWorkers = useMemo(
-    () => (position ? workers.filter((w) => w.position === position) : workers),
-    [workers, position],
+    () =>
+      workers.filter(
+        (w) =>
+          (!filters.position || w.position === filters.position) &&
+          (!filters.site || w.site === filters.site) &&
+          (!filters.contractor || w.contractor === filters.contractor),
+      ),
+    [workers, filters],
   );
 
   const scatterRows = scatterView === "site" ? data.bySite : data.allContractors;
+  const skillName = filters.skill ? skillLabel(filters.skill) : null;
 
   const donut = [
     { key: "l2", name: "ระดับ 2 (ทำได้ผ่านมาตรฐาน)", value: data.cells.l2, fill: C.l2 },
@@ -130,33 +165,69 @@ export default function Dashboard({ workers }: { workers: ClientWorker[] }) {
     setSelected(null); // a selection from the other view no longer applies
   };
 
+  const selects: { key: FilterKey; label: string; all: string; options: { value: string; label: string }[] }[] = [
+    { key: "site", label: "ไซต์", all: "ทุกไซต์", options: data.sites.map((v) => ({ value: v, label: v })) },
+    {
+      key: "contractor",
+      label: "ผู้รับเหมา",
+      all: "ทุกผู้รับเหมา",
+      options: data.contractors.map((v) => ({ value: v, label: v })),
+    },
+    { key: "skill", label: "ทักษะ", all: "ทุกทักษะ", options: SKILLS.map((s) => ({ value: s.id, label: s.label })) },
+    { key: "position", label: "ตำแหน่ง", all: "ทุกตำแหน่ง", options: data.positions.map((v) => ({ value: v, label: v })) },
+  ];
+  const active = selects.filter((s) => filters[s.key]);
+
   return (
     <div className="space-y-6">
-      {/* controls */}
-      <div className="flex flex-wrap items-center gap-3">
-        <label className="text-sm text-slate-600" htmlFor="pos">
-          ตำแหน่ง
-        </label>
-        <select
-          id="pos"
-          value={position}
-          onChange={(e) => {
-            setPosition(e.target.value);
-            setSelected(null);
-          }}
-          className="rounded-lg border border-slate-300 bg-white px-3 py-1.5 text-sm text-slate-800"
-        >
-          <option value="">ทุกตำแหน่ง</option>
-          {data.positions.map((p) => (
-            <option key={p} value={p}>
-              {p}
-            </option>
+      {/* filter bar */}
+      <div className="rounded-xl border border-slate-200 bg-white p-4">
+        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+          {selects.map((s) => (
+            <label key={s.key} className="flex flex-col gap-1 text-xs text-slate-500">
+              {s.label}
+              <select
+                value={filters[s.key] ?? ""}
+                onChange={(e) => setFilter(s.key, e.target.value)}
+                className={`rounded-lg border bg-white px-3 py-1.5 text-sm text-slate-800 ${
+                  filters[s.key] ? "border-purple-400" : "border-slate-300"
+                }`}
+              >
+                <option value="">{s.all}</option>
+                {/* keep a selected value visible even if other filters removed it from the list */}
+                {filters[s.key] && !s.options.some((o) => o.value === filters[s.key]) && (
+                  <option value={filters[s.key]}>{filters[s.key]}</option>
+                )}
+                {s.options.map((o) => (
+                  <option key={o.value} value={o.value}>
+                    {o.label}
+                  </option>
+                ))}
+              </select>
+            </label>
           ))}
-        </select>
-        {position && (
-          <span className="rounded-full bg-purple-50 px-3 py-1 text-xs text-purple-700">
-            กรอง: {position}
-          </span>
+        </div>
+        {active.length > 0 && (
+          <div className="mt-3 flex flex-wrap items-center gap-2">
+            {active.map((s) => (
+              <button
+                key={s.key}
+                type="button"
+                onClick={() => setFilter(s.key, "")}
+                className="rounded-full bg-purple-50 px-3 py-1 text-xs text-purple-700 hover:bg-purple-100"
+                title="เอาตัวกรองนี้ออก"
+              >
+                {s.label}: {s.key === "skill" ? skillName : filters[s.key]} ✕
+              </button>
+            ))}
+            <button
+              type="button"
+              onClick={clearAll}
+              className="text-xs text-slate-500 underline hover:text-slate-800"
+            >
+              ล้างตัวกรอง
+            </button>
+          </div>
         )}
       </div>
 
@@ -178,7 +249,7 @@ export default function Dashboard({ workers }: { workers: ClientWorker[] }) {
 
       {/* donut + summary */}
       <div className="grid gap-6 md:grid-cols-2">
-        <Panel title="สัดส่วนระดับทักษะ (ทุกเซลล์)">
+        <Panel title={skillName ? `สัดส่วนระดับทักษะ — ${skillName}` : "สัดส่วนระดับทักษะ (ทุกเซลล์)"}>
           <div style={{ width: "100%", height: 280 }}>
             <ResponsiveContainer>
               <PieChart>
