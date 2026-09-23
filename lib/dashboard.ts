@@ -99,10 +99,17 @@ function groupRows(ws: ClientWorker[], key: (w: ClientWorker) => string): GroupR
   return [...buckets.entries()].map(([name, group]) => rowFor(name, group));
 }
 
+/**
+ * One fixed-locale collator for every sort here. aggregate() runs on BOTH the
+ * server (SSR) and the browser; a bare localeCompare() uses each runtime's
+ * default locale, so Thai/Latin labels sorted differently → hydration mismatch.
+ */
+const collator = new Intl.Collator("th");
+
 /** Deterministic order: headcount desc, then name asc (kills sort ambiguity on ties). */
 function byHeadcountThenName(a: GroupRow, b: GroupRow): number {
   if (b.headcount !== a.headcount) return b.headcount - a.headcount;
-  return a.name.localeCompare(b.name);
+  return collator.compare(a.name, b.name);
 }
 
 /**
@@ -112,9 +119,7 @@ function byHeadcountThenName(a: GroupRow, b: GroupRow): number {
  * never change as you filter.
  */
 export function aggregate(workers: ClientWorker[], position?: string): DashboardData {
-  const positions = [...new Set(workers.map((w) => w.position))].sort((a, b) =>
-    a.localeCompare(b),
-  );
+  const positions = [...new Set(workers.map((w) => w.position))].sort(collator.compare);
 
   const scoped =
     position && position.length > 0 ? workers.filter((w) => w.position === position) : workers;
@@ -128,7 +133,7 @@ export function aggregate(workers: ClientWorker[], position?: string): Dashboard
     l2 += w.l2;
   }
 
-  const bySite = groupRows(scoped, (w) => w.site).sort((a, b) => a.name.localeCompare(b.name));
+  const bySite = groupRows(scoped, (w) => w.site).sort((a, b) => collator.compare(a.name, b.name));
   const byContractor = groupRows(scoped, (w) => w.contractor)
     .sort(byHeadcountThenName)
     .slice(0, 10);
