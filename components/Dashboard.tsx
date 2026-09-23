@@ -91,6 +91,34 @@ function StackedByGroup({ rows }: { rows: GroupRow[] }) {
   );
 }
 
+/** % printed in the middle of each donut slice (hidden on slivers < 3%). */
+function renderPctLabel(p: {
+  cx: number;
+  cy: number;
+  midAngle: number;
+  innerRadius: number;
+  outerRadius: number;
+  percent: number;
+}) {
+  if (p.percent < 0.03) return null;
+  const r = (p.innerRadius + p.outerRadius) / 2;
+  const a = (-p.midAngle * Math.PI) / 180;
+  return (
+    <text
+      x={p.cx + r * Math.cos(a)}
+      y={p.cy + r * Math.sin(a)}
+      textAnchor="middle"
+      dominantBaseline="central"
+      fill="#1e293b"
+      fontFamily={THAI}
+      fontSize={13}
+      fontWeight={600}
+    >
+      {`${(p.percent * 100).toFixed(1)}%`}
+    </text>
+  );
+}
+
 // ── main ───────────────────────────────────────────────────────────────
 /** URL query keys ↔ filter fields (?position=&site=&contractor=&skill=). */
 const FILTER_KEYS = ["position", "site", "contractor", "skill"] as const;
@@ -143,11 +171,13 @@ export default function Dashboard({
   const scatterRows = scatterView === "site" ? data.bySite : data.allContractors;
   const skillName = filters.skill ? skillLabel(filters.skill) : null;
 
+  const cellTotal = data.cells.l0 + data.cells.l1 + data.cells.l2;
+  const share = (v: number) => (cellTotal === 0 ? 0 : (v / cellTotal) * 100);
   const donut = [
     { key: "l2", name: "ระดับ 2 (ทำได้ผ่านมาตรฐาน)", value: data.cells.l2, fill: C.l2 },
     { key: "l1", name: "ระดับ 1 (ทำได้บางส่วน)", value: data.cells.l1, fill: C.l1 },
     { key: "l0", name: "ระดับ 0 (ยังทำไม่ได้)", value: data.cells.l0, fill: C.l0 },
-  ];
+  ].map((d) => ({ ...d, name: `${d.name} ${pct(share(d.value))}` }));
 
   // table = scoped workers, narrowed by the clicked scatter group + the search box
   const tableRows = useMemo(() => {
@@ -260,13 +290,18 @@ export default function Dashboard({
                   innerRadius={70}
                   outerRadius={110}
                   paddingAngle={2}
+                  labelLine={false}
+                  label={renderPctLabel}
                 >
                   {donut.map((d) => (
                     <Cell key={d.key} fill={d.fill} />
                   ))}
                 </Pie>
                 <Tooltip
-                  formatter={(v: number, name: string) => [`${v.toLocaleString()} เซลล์`, name]}
+                  formatter={(v: number, name: string) => [
+                    `${v.toLocaleString()} ${filters.skill ? "คน" : "เซลล์"}`,
+                    name,
+                  ]}
                   contentStyle={{ fontFamily: THAI, fontSize: 12 }}
                 />
                 <Legend wrapperStyle={{ fontFamily: THAI, fontSize: 12 }} />

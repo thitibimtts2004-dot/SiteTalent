@@ -7,7 +7,7 @@ export default async function TrendsPage() {
   const trend = await getRoundTrend();
 
   return (
-    <main className="mx-auto max-w-6xl space-y-8 p-6 md:p-8">
+    <main className="w-full space-y-8 p-6 md:p-8">
       <header>
         <h1 className="text-2xl font-semibold text-slate-900">แนวโน้มระหว่างรอบ</h1>
         <p className="mt-1 text-sm text-slate-500">

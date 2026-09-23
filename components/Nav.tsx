@@ -15,7 +15,7 @@ export default function Nav() {
   const path = usePathname();
   return (
     <nav className="border-b border-slate-200 bg-white">
-      <div className="mx-auto flex max-w-7xl items-center gap-1 px-4 md:px-8">
+      <div className="flex w-full items-center gap-1 px-4 md:px-8">
         <span className="mr-4 py-3 font-semibold text-blue-600">SiteTalent</span>
         {LINKS.map((l) => {
           const active =

@@ -31,7 +31,7 @@ export default async function Home({ searchParams }: { searchParams: Search }) {
   const workers = (await listWorkers()).map(slimWorker);
 
   return (
-    <main className="mx-auto max-w-6xl p-6 md:p-8">
+    <main className="w-full p-6 md:p-8">
       <header className="mb-6">
         <h1 className="text-2xl font-semibold text-slate-900">ภาพรวมทักษะผู้รับเหมา</h1>
         <p className="mt-1 text-sm text-slate-500">
