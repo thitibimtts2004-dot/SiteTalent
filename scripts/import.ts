@@ -37,6 +37,7 @@ import type {
   RoundSource,
 } from "../lib/types";
 import { getAdminDb } from "../lib/firebaseAdmin";
+import { snapshotChunks } from "../lib/workerSnapshot";
 
 const DATA_DIR = "data";
 const OUT = `${DATA_DIR}/normalized.json`;
@@ -284,6 +285,16 @@ export async function upsertFirestore(
     written++;
   }
   if (n) await batch.commit();
+
+  // worker SNAPSHOT: the whole list in a few docs so the dashboard reads ~4 docs
+  // instead of ~1.5k on a cold cache (serverless instances start cold often).
+  // Stored as a JSON string so Firestore does not index every nested field.
+  const chunks = snapshotChunks(data.workers);
+  for (let i = 0; i < chunks.length; i++) {
+    await roundRef.collection("snapshot").doc(`workers_${i}`).set({ json: chunks[i] });
+  }
+  // readers trust workerChunks, so stale workers_N docs from a bigger past import are ignored
+  await roundRef.set({ workerChunks: chunks.length }, { merge: true });
 
   // flip the previous current round to archived, then point config at this one
   const cfgSnap = await db.collection("config").doc("app").get();

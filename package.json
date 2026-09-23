@@ -11,7 +11,8 @@
     "test:round": "tsx scripts/import.round.test.ts",
     "test:trend": "tsx lib/trend.test.ts",
     "test:criticality": "tsx lib/criticality.test.ts",
-    "test:dashboard": "tsx lib/dashboard.test.ts"
+    "test:dashboard": "tsx lib/dashboard.test.ts",
+    "test:cache": "tsx lib/dataCache.test.ts"
   },
   "dependencies": {
     "next": "^15.1.6",

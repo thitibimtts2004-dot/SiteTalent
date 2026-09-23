@@ -17,7 +17,8 @@ import { readFileSync } from "node:fs";
 import path from "node:path";
 import type { Firestore } from "firebase-admin/firestore";
 import { getAdminDb } from "./firebaseAdmin";
-import { cached } from "./dataCache";
+import { cached, staleSince } from "./dataCache";
+import { workersFromChunks } from "./workerSnapshot";
 import { SKILL_IDS, skillLabel } from "./skills";
 import type {
   NormalizedData,
@@ -126,6 +127,30 @@ export async function getByContractor(): Promise<GroupRollup[]> {
   return d?.groups ?? fixture().byContractor;
 }
 
+export interface DataStatus {
+  source: "live" | "fixture";
+  roundLabel: string | null;
+  importedAt: string | null; // ISO
+  staleSince: string | null; // ISO — set while a failed live read is being covered by cache
+}
+
+/** Where the numbers on screen come from + how fresh they are (for the status bar). */
+export async function getDataStatus(): Promise<DataStatus> {
+  const db = live();
+  const roundId = db ? await currentRoundId(db) : null;
+  if (!db || !roundId) {
+    return { source: "fixture", roundLabel: null, importedAt: null, staleSince: null };
+  }
+  const info = await roundInfo(db, roundId);
+  const stale = staleSince();
+  return {
+    source: "live",
+    roundLabel: info.label,
+    importedAt: info.importedAt,
+    staleSince: stale ? new Date(stale).toISOString() : null,
+  };
+}
+
 export interface WorkerFilters {
   site?: string;
   contractor?: string;
@@ -135,16 +160,27 @@ export interface WorkerFilters {
 
 export async function listWorkers(
   filters: WorkerFilters = {},
+  db: Firestore | null = live(), // injectable for tests
 ): Promise<Worker[]> {
   let workers: Worker[];
-  const db = live();
   const roundId = db ? await currentRoundId(db) : null;
   if (db && roundId) {
     workers = await importCached(db, `workers:${roundId}`, async () => {
-      const snap = await db
-        .collection("rounds").doc(roundId)
-        .collection("workers")
-        .get();
+      const roundRef = db.collection("rounds").doc(roundId);
+      const { workerChunks } = await roundInfo(db, roundId);
+      if (workerChunks > 0) {
+        // snapshot path: ~4 reads for the whole list
+        const docs = await Promise.all(
+          Array.from({ length: workerChunks }, (_, i) =>
+            roundRef.collection("snapshot").doc(`workers_${i}`).get(),
+          ),
+        );
+        if (docs.every((d) => d.exists)) {
+          return workersFromChunks(docs.map((d) => (d.data() as { json: string }).json));
+        }
+      }
+      // legacy path (no/partial snapshot): one read per worker doc
+      const snap = await roundRef.collection("workers").get();
       return snap.docs.map((d) => d.data() as Worker);
     });
   } else {
@@ -260,13 +296,30 @@ async function summaryGroupsFor(
   });
 }
 
+interface RoundInfo extends RoundMeta {
+  importedAt: string | null; // ISO; null when absent
+  workerChunks: number; // 0 = no snapshot (imported before snapshots existed)
+}
+
+/** One cached read of rounds/{id}: header meta + snapshot chunk count. */
+function roundInfo(db: Firestore, roundId: string): Promise<RoundInfo> {
+  return importCached(db, `round:${roundId}`, async () => {
+    const snap = await db.collection("rounds").doc(roundId).get();
+    const r = snap.exists ? (snap.data() as Round & { workerChunks?: number }) : null;
+    const ts = r?.importedAt as { toDate?: () => Date } | undefined;
+    return {
+      label: r?.label ?? roundId,
+      dataDate: r?.dataDate ?? "",
+      importedAt: typeof ts?.toDate === "function" ? ts.toDate().toISOString() : null,
+      workerChunks: r?.workerChunks ?? 0,
+    };
+  });
+}
+
 /** Read a round's label + dataDate for the trend header. */
 async function roundMeta(db: Firestore, roundId: string): Promise<RoundMeta> {
-  return importCached(db, `meta:${roundId}`, async () => {
-    const snap = await db.collection("rounds").doc(roundId).get();
-    const r = snap.exists ? (snap.data() as Round) : null;
-    return { label: r?.label ?? roundId, dataDate: r?.dataDate ?? "" };
-  });
+  const { label, dataDate } = await roundInfo(db, roundId);
+  return { label, dataDate };
 }
 
 /**

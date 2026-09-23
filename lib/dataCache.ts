@@ -35,7 +35,16 @@ const store: Store = (g.__siteTalentDataCache ??= {
   inflight: new WeakMap(),
 });
 
-const DISK_DIR = path.join(process.cwd(), ".next", "cache", "sitetalent-data");
+// key → epoch ms of the cached copy being served because a live read failed
+const g2 = globalThis as { __siteTalentStale?: Map<string, number> };
+const staleKeys: Map<string, number> = (g2.__siteTalentStale ??= new Map());
+
+/** Epoch ms of the oldest copy currently served after a failed read, or null if all fresh. */
+export function staleSince(): number | null {
+  return staleKeys.size ? Math.min(...staleKeys.values()) : null;
+}
+
+const DISK_DIR =path.join(process.cwd(), ".next", "cache", "sitetalent-data");
 
 function mapFor<V>(wm: WeakMap<object, Map<string, V>>, owner: object): Map<string, V> {
   let m = wm.get(owner);
@@ -102,6 +111,7 @@ export async function cached<T>(
       const e = { value, at: Date.now() };
       mem.set(key, e);
       if (opts.persist) writeDisk(key, e);
+      staleKeys.delete(key);
       return value;
     } catch (err) {
       if (stale) {
@@ -110,6 +120,7 @@ export async function cached<T>(
             `${new Date(stale.at).toISOString()}:`,
           (err as Error).message,
         );
+        staleKeys.set(key, stale.at);
         return stale.value as T;
       }
       throw err;
