@@ -27,8 +27,6 @@ const C = { l2: "#E8722C", l1: "#EEC79A", l0: "#A9A9A9", accent: "#6C3BE0" };
 const PASS = "#16a34a";
 const FAIL = "#dc2626";
 const THRESHOLD = 65; // %skilled target line
-// one chart height for the 4-up row so all four charts fit above the fold on a 1080p screen
-const CHART_H = 380;
 
 const pct = (n: number) => `${n.toFixed(1)}%`;
 
@@ -38,18 +36,18 @@ type Selected = { type: ScatterView; name: string } | null;
 // ── small building blocks ────────────────────────────────────────────────
 function Card({ label, value, sub }: { label: string; value: string; sub?: string }) {
   return (
-    <div className="rounded-xl border border-slate-200 bg-white px-4 py-3 shadow-sm">
+    <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
       <div className="text-sm text-slate-500">{label}</div>
-      <div className="text-3xl font-semibold text-slate-900">{value}</div>
-      {sub && <div className="text-xs text-slate-400">{sub}</div>}
+      <div className="mt-1 text-3xl font-semibold text-slate-900">{value}</div>
+      {sub && <div className="mt-1 text-xs text-slate-400">{sub}</div>}
     </div>
   );
 }
 
 function Panel({ title, children }: { title: string; children: React.ReactNode }) {
   return (
-    <section className="min-w-0 rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
-      <h2 className="mb-2 text-base font-semibold text-slate-800">{title}</h2>
+    <section className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
+      <h2 className="mb-4 text-lg font-semibold text-slate-800">{title}</h2>
       {children}
     </section>
   );
@@ -57,18 +55,15 @@ function Panel({ title, children }: { title: string; children: React.ReactNode }
 
 /** 100%-stacked bar (level 0/1/2 mix per group). stackOffset="expand" normalizes
  *  each bar to 100% so you compare the MIX regardless of headcount. */
-/** Long Thai company names would eat the plot area in a narrow panel — trim, keep full name in the tooltip. */
-const shortName = (n: string) => (n.length > 16 ? `${n.slice(0, 15)}…` : n);
-
 function StackedByGroup({ rows }: { rows: GroupRow[] }) {
   return (
-    <div style={{ width: "100%", height: CHART_H }}>
+    <div style={{ width: "100%", height: Math.max(220, rows.length * 42) }}>
       <ResponsiveContainer>
         <BarChart
           data={rows}
           layout="vertical"
           stackOffset="expand"
-          margin={{ top: 4, right: 16, left: 4, bottom: 4 }}
+          margin={{ top: 4, right: 24, left: 8, bottom: 4 }}
         >
           <XAxis
             type="number"
@@ -78,17 +73,15 @@ function StackedByGroup({ rows }: { rows: GroupRow[] }) {
           <YAxis
             type="category"
             dataKey="name"
-            width={112}
-            interval={0}
-            tickFormatter={shortName}
-            tick={{ fontFamily: THAI, fontSize: 11, fill: "#334155" }}
+            width={150}
+            tick={{ fontFamily: THAI, fontSize: 12, fill: "#334155" }}
           />
           <Tooltip
             formatter={(v: number, name: string) => [`${v} เซลล์`, name]}
             labelFormatter={(l: string) => l}
             contentStyle={{ fontFamily: THAI, fontSize: 12 }}
           />
-          <Legend wrapperStyle={{ fontFamily: THAI, fontSize: 11, paddingTop: 4 }} />
+          <Legend wrapperStyle={{ fontFamily: THAI, fontSize: 12, paddingTop: 4 }} />
           <Bar dataKey="l2" name="ระดับ 2 (ทำได้ผ่านมาตรฐาน)" stackId="s" fill={C.l2} />
           <Bar dataKey="l1" name="ระดับ 1 (ทำได้บางส่วน)" stackId="s" fill={C.l1} />
           <Bar dataKey="l0" name="ระดับ 0 (ยังทำไม่ได้)" stackId="s" fill={C.l0} />
@@ -216,9 +209,9 @@ export default function Dashboard({
   const active = selects.filter((s) => filters[s.key]);
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-6">
       {/* filter bar */}
-      <div className="rounded-xl border border-slate-200 bg-white px-4 py-3">
+      <div className="rounded-xl border border-slate-200 bg-white p-4">
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
           {selects.map((s) => (
             <label key={s.key} className="flex flex-col gap-1 text-xs text-slate-500">
@@ -245,7 +238,7 @@ export default function Dashboard({
           ))}
         </div>
         {active.length > 0 && (
-          <div className="mt-2 flex flex-wrap items-center gap-2">
+          <div className="mt-3 flex flex-wrap items-center gap-2">
             {active.map((s) => (
               <button
                 key={s.key}
@@ -284,18 +277,18 @@ export default function Dashboard({
         />
       </div>
 
-      {/* the four charts: 4-up on wide screens (≥1536px), 2×2 on laptops, stacked on mobile */}
-      <div className="grid gap-4 lg:grid-cols-2 2xl:grid-cols-4">
+      {/* donut + summary */}
+      <div className="grid gap-6 md:grid-cols-2">
         <Panel title={skillName ? `สัดส่วนระดับทักษะ — ${skillName}` : "สัดส่วนระดับทักษะ (ทุกเซลล์)"}>
-          <div style={{ width: "100%", height: CHART_H }}>
+          <div style={{ width: "100%", height: 280 }}>
             <ResponsiveContainer>
               <PieChart>
                 <Pie
                   data={donut}
                   dataKey="value"
                   nameKey="name"
-                  innerRadius="48%"
-                  outerRadius="78%"
+                  innerRadius={70}
+                  outerRadius={110}
                   paddingAngle={2}
                   labelLine={false}
                   label={renderPctLabel}
@@ -311,7 +304,7 @@ export default function Dashboard({
                   ]}
                   contentStyle={{ fontFamily: THAI, fontSize: 12 }}
                 />
-                <Legend wrapperStyle={{ fontFamily: THAI, fontSize: 11 }} />
+                <Legend wrapperStyle={{ fontFamily: THAI, fontSize: 12 }} />
               </PieChart>
             </ResponsiveContainer>
           </div>
@@ -319,20 +312,21 @@ export default function Dashboard({
         <Panel title="ความชำนาญรายไซต์">
           <StackedByGroup rows={data.bySite} />
         </Panel>
+      </div>
 
-        <Panel title="ความชำนาญรายผู้รับเหมา (Top 10 ตามจำนวนคน)">
-          <StackedByGroup rows={data.byContractor} />
-        </Panel>
+      <Panel title="ความชำนาญรายผู้รับเหมา (Top 10 ตามจำนวนคน)">
+        <StackedByGroup rows={data.byContractor} />
+      </Panel>
 
       {/* scatter */}
-      <Panel title="จำนวนคน × %skilled (เป้า 65%)">
-        <div className="mb-1 flex flex-wrap items-center gap-2">
-          <span className="text-xs text-slate-600">มุมมอง:</span>
+      <Panel title="จำนวนคน × %skilled — หากลุ่มที่ต่ำกว่าเป้า 65%">
+        <div className="mb-3 flex items-center gap-2">
+          <span className="text-sm text-slate-600">มุมมอง:</span>
           {(["site", "contractor"] as ScatterView[]).map((v) => (
             <button
               key={v}
               onClick={() => switchScatter(v)}
-              className={`rounded-lg px-2.5 py-0.5 text-xs ${
+              className={`rounded-lg px-3 py-1 text-sm ${
                 scatterView === v
                   ? "bg-[#6C3BE0] text-white"
                   : "border border-slate-300 bg-white text-slate-700"
@@ -344,15 +338,15 @@ export default function Dashboard({
           {selected && (
             <button
               onClick={() => setSelected(null)}
-              className="ml-auto max-w-full truncate rounded-full bg-slate-100 px-3 py-0.5 text-xs text-slate-600"
+              className="ml-auto rounded-full bg-slate-100 px-3 py-1 text-xs text-slate-600"
             >
               ล้างตัวเลือก: {selected.name} ✕
             </button>
           )}
         </div>
-        <div style={{ width: "100%", height: CHART_H - 44 }}>
+        <div style={{ width: "100%", height: 340 }}>
           <ResponsiveContainer>
-            <ScatterChart margin={{ top: 8, right: 44, left: 0, bottom: 20 }}>
+            <ScatterChart margin={{ top: 12, right: 24, left: 8, bottom: 24 }}>
               {/* pass zone (green) above the line, fail zone (red) below */}
               <ReferenceArea y1={THRESHOLD} y2={100} fill={PASS} fillOpacity={0.06} />
               <ReferenceArea y1={0} y2={THRESHOLD} fill={FAIL} fillOpacity={0.06} />
@@ -399,11 +393,10 @@ export default function Dashboard({
             </ScatterChart>
           </ResponsiveContainer>
         </div>
-        <p className="text-xs text-slate-400">
-          เขียว = ผ่านเป้า · แดง = ต่ำกว่าเป้า · คลิกจุดเพื่อกรองตารางด้านล่าง
+        <p className="mt-2 text-xs text-slate-400">
+          จุดสีเขียว = ผ่านเป้า · จุดสีแดง = ต่ำกว่าเป้า · คลิกจุดเพื่อกรองตารางด้านล่าง
         </p>
       </Panel>
-      </div>
 
       {/* drill-down worker table (internal-use record lookup) */}
       <Panel title="ตารางรายบุคคล (ค้นหา/สืบค้นภายในองค์กร)">
