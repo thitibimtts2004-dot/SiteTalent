@@ -10,7 +10,7 @@ export default async function SitesPage() {
   ]);
 
   return (
-    <main className="w-full space-y-8 p-6 md:p-8">
+    <main className="mx-auto max-w-6xl space-y-8 p-6 md:p-8">
       <header>
         <h1 className="text-2xl font-semibold text-slate-900">
           รายไซต์ & ผู้รับเหมา

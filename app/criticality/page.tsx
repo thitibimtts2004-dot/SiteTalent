@@ -8,7 +8,7 @@ export default async function CriticalityPage() {
   const flaggedCount = report.skills.filter((s) => s.flagged).length;
 
   return (
-    <main className="w-full space-y-6 p-6 md:p-8">
+    <main className="mx-auto max-w-6xl space-y-6 p-6 md:p-8">
       <header>
         <h1 className="text-2xl font-semibold text-slate-900">จุดเสี่ยงทักษะ</h1>
         <p className="mt-1 text-sm text-slate-500">
