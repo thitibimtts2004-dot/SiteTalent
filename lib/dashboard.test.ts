@@ -85,6 +85,10 @@ const top = aggregate(twelve).byContractor;
 check("top-10 length", top.length === 10);
 check("top-10 first = c01", top[0].name === "c01");
 check("top-10 last = c10", top[9].name === "c10");
+// the scatter + KPI count need EVERY contractor, not just the Top 10
+const allCons = aggregate(twelve).allContractors;
+check("allContractors keeps all 12", allCons.length === 12);
+check("allContractors same order as top-10 prefix", allCons.slice(0, 10).every((g, i) => g.name === top[i].name));
 // headcount ordering wins over name: c99 with 3 workers must lead the 1-worker ties
 const mixed = aggregate([
   ...twelve,

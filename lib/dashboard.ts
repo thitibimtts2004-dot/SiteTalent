@@ -44,7 +44,8 @@ export interface DashboardData {
   pctIndependent: number; // 0..100
   headcount: number;
   bySite: GroupRow[]; // all sites, name asc
-  byContractor: GroupRow[]; // Top 10 by headcount (desc), then name asc
+  byContractor: GroupRow[]; // Top 10 by headcount (desc), then name asc — for the stacked bar only
+  allContractors: GroupRow[]; // EVERY contractor, same order — for the scatter + counts
   positions: string[]; // every position in the input, sorted — stable filter options
 }
 
@@ -134,9 +135,8 @@ export function aggregate(workers: ClientWorker[], position?: string): Dashboard
   }
 
   const bySite = groupRows(scoped, (w) => w.site).sort((a, b) => collator.compare(a.name, b.name));
-  const byContractor = groupRows(scoped, (w) => w.contractor)
-    .sort(byHeadcountThenName)
-    .slice(0, 10);
+  const allContractors = groupRows(scoped, (w) => w.contractor).sort(byHeadcountThenName);
+  const byContractor = allContractors.slice(0, 10);
 
   return {
     cells: { l0, l1, l2 },
@@ -145,6 +145,7 @@ export function aggregate(workers: ClientWorker[], position?: string): Dashboard
     headcount: scoped.length,
     bySite,
     byContractor,
+    allContractors,
     positions,
   };
 }

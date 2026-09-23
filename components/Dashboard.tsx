@@ -106,7 +106,7 @@ export default function Dashboard({ workers }: { workers: ClientWorker[] }) {
     [workers, position],
   );
 
-  const scatterRows = scatterView === "site" ? data.bySite : data.byContractor;
+  const scatterRows = scatterView === "site" ? data.bySite : data.allContractors;
 
   const donut = [
     { key: "l2", name: "ระดับ 2 (ทำได้ผ่านมาตรฐาน)", value: data.cells.l2, fill: C.l2 },
@@ -171,7 +171,7 @@ export default function Dashboard({ workers }: { workers: ClientWorker[] }) {
         <Card label="จำนวนคน" value={data.headcount.toLocaleString()} />
         <Card
           label="ไซต์ / ผู้รับเหมา"
-          value={`${data.bySite.length} / ${data.byContractor.length}`}
+          value={`${data.bySite.length} / ${data.allContractors.length}`}
           sub="ในมุมมองปัจจุบัน"
         />
       </div>
