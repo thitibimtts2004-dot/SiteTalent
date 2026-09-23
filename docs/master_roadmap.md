@@ -134,3 +134,12 @@
   How-Check: Run: npm run test:dashboard (locked formula + position filter) and npx tsc --noEmit; then open / . Expect: test + tsc exit 0; all charts render; changing the position filter re-renders every chart; scatter 65% line + zones + toggle work; drill-down table searchable by name/code and reacts to the position filter + a clicked scatter dot. NOTE: worker code+name DO reach the browser by design (Option B, internal-org tool — accepted exception to data.ts "no PII to browser"); per-skill map + assessor/date stay server-side.
   Out-of-Scope: other pages (/sites, /workers, /criticality, /trends) + their components UNCHANGED; trend/criticality machinery in lib/data.ts untouched; real 1531-worker numbers need the master .xlsx + npm run import (user-supplied).
   Relate File: lib/dashboard.ts, lib/dashboard.test.ts, components/Dashboard.tsx, app/page.tsx, package.json
+
+## T-016: Import the master assessment workbook → real 1531-worker data
+- [ ] T-016 · P1 · depends_on: — · Independent-of: T-015 (data-only delivery; no code change)
+  Title: Place the master assessment .xlsx in data/ and run the import so every page shows real numbers
+  ContextTask: All pages (/ dashboard, /sites, /workers, /criticality, /trends) run on the 60-worker DEV fixture (data/normalized.json). Confirmed 2026-09-22: NO .xlsx/.xls/.csv exists anywhere in the repo — data/ holds only the fixture. data/ is git-ignored (worker PII) so the master file is never committed; the data owner must place it on the machine that runs the import. Code is data-shape-driven — NO code change needed, only the source file. Full operator runbook: docs/TICKET-import-assessment-data.md.
+  Goal: real numbers (≈1531 workers / 6 sites / 59 contractors) render across the app.
+  How-Check: (1) copy the master workbook to data/<any-name>.xlsx (importer takes the first non-~$ .xlsx — scripts/import.ts findWorkbook ~line 70); it must have a sheet named exactly "ประเมินรายบุคคล", data from row 3, 17 base skill cols in {0,1,2} per lib/xlsxMap.ts. (2) optional Firestore write needs .env + serviceAccount*.json (both git-ignored). (3) Run: npm run import. Expect: exit 0, no "domain violation" warnings, data/normalized.json regenerated with real head-count; open / and the head-count KPI reads ≈1531 not 60.
+  Out-of-Scope: NO code change — pure data delivery. Parse failure = fix the workbook (sheet name / columns / values), not the importer.
+  Relate File: scripts/import.ts, lib/xlsxMap.ts, data/normalized.json (output), docs/TICKET-import-assessment-data.md
