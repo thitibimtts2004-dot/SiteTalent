@@ -242,12 +242,12 @@ function report(data: NormalizedData, domainViolations: number): boolean {
   return ok;
 }
 
-async function upsertFirestore(
+export async function upsertFirestore(
   data: NormalizedData,
   meta: RoundMeta,
   sourceRef: string,
+  db: ReturnType<typeof getAdminDb> = getAdminDb(),
 ) {
-  const db = getAdminDb();
   if (!db) {
     console.log("\nFirestore: skipped (no FIREBASE_SERVICE_ACCOUNT_PATH) — fixture only.");
     return;
@@ -310,4 +310,8 @@ async function main() {
   console.log("\nVALIDATION PASSED");
 }
 
-main().catch((e) => { console.error(e); process.exit(1); });
+// Run only when executed directly (`tsx scripts/import.ts` / `npm run import`),
+// NOT when imported by a test — otherwise importing upsertFirestore would run main().
+if (/[\\/]import\.ts$/.test(process.argv[1] || "")) {
+  main().catch((e) => { console.error(e); process.exit(1); });
+}

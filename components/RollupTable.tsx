@@ -19,6 +19,9 @@ export default function RollupTable({
     r.name.toLowerCase().includes(q.trim().toLowerCase()),
   );
   const maxLvl2 = Math.max(1, ...rows.map((r) => r.lvl2));
+  // level-1 total per group is not stored on GroupRollup — sum it from bySkill
+  const lvl1Of = (r: GroupRollup) =>
+    Object.values(r.bySkill).reduce((a, s) => a + s.lvl1, 0);
 
   return (
     <section className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
@@ -42,6 +45,7 @@ export default function RollupTable({
             <tr className="border-b border-slate-200 text-left text-slate-500">
               <th className="py-2 pr-4 font-medium">ชื่อ</th>
               <th className="py-2 pr-4 text-right font-medium">จำนวนคน</th>
+              <th className="py-2 pr-4 text-right font-medium">ระดับ1 (รวม)</th>
               <th className="py-2 pr-4 text-right font-medium">ระดับ2 (รวม)</th>
               <th className="py-2 font-medium">สัดส่วนระดับ2</th>
             </tr>
@@ -53,7 +57,10 @@ export default function RollupTable({
                 <td className="py-2 pr-4 text-right tabular-nums text-slate-700">
                   {r.workers.toLocaleString()}
                 </td>
-                <td className="py-2 pr-4 text-right tabular-nums text-slate-700">
+                <td className="py-2 pr-4 text-right tabular-nums text-amber-700">
+                  {lvl1Of(r).toLocaleString()}
+                </td>
+                <td className="py-2 pr-4 text-right tabular-nums text-green-700">
                   {r.lvl2.toLocaleString()}
                 </td>
                 <td className="py-2">
@@ -68,7 +75,7 @@ export default function RollupTable({
             ))}
             {filtered.length === 0 && (
               <tr>
-                <td colSpan={4} className="py-4 text-center text-slate-400">
+                <td colSpan={5} className="py-4 text-center text-slate-400">
                   ไม่พบข้อมูล
                 </td>
               </tr>

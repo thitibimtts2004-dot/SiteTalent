@@ -17,6 +17,8 @@ data/normalized.json
 # misc
 *.log
 .DS_Store
+._*
+.AppleDouble
 
 # raw source data + fixtures (contains worker PII — never publish)
 data/

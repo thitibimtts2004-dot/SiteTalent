@@ -6,6 +6,8 @@ import { usePathname } from "next/navigation";
 const LINKS = [
   { href: "/", label: "ภาพรวม" },
   { href: "/sites", label: "ไซต์ & ผู้รับเหมา" },
+  { href: "/trends", label: "แนวโน้ม" },
+  { href: "/criticality", label: "จุดเสี่ยง" },
   { href: "/workers", label: "รายบุคคล" },
 ];
 
