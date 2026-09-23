@@ -31,8 +31,8 @@ export default async function Home({ searchParams }: { searchParams: Search }) {
   const workers = (await listWorkers()).map(slimWorker);
 
   return (
-    <main className="w-full p-6 md:p-8">
-      <header className="mb-6">
+    <main className="w-full p-4 md:px-6 md:py-5">
+      <header className="mb-4">
         <h1 className="text-2xl font-semibold text-slate-900">ภาพรวมทักษะผู้รับเหมา</h1>
         <p className="mt-1 text-sm text-slate-500">
           สัดส่วนทักษะ (%skilled = ทำได้ ÷ ทั้งหมด) แยกตามไซต์และผู้รับเหมา · กรองตามไซต์ ผู้รับเหมา
