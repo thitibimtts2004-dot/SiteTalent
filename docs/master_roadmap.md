@@ -65,7 +65,7 @@
   Relate File: components/RollupTable.tsx, app/sites/page.tsx, lib/types.ts
 
 ## T-008: Linked scope filter — pick a site/contractor once, every view re-scopes
-- [ ] T-008 · P1 · depends_on: —
+- [X] T-008 · done 2026-09-24 · attempts:1 · tool_calls:~90 · P1 · depends_on: —
   Title: Global filter bar (site + contractor) that re-scopes all views, with URL state, active-filter chips, and a clear button
   ContextTask: User wants click-to-filter interactivity (confirmed 2026-09-17): choosing a scope should filter every view at once — the easiest path to answers. This is the SHARED foundation the drill-downs T-009..T-012 hook into. Data accessors must accept a {site?, contractor?} scope and recompute rollups for it (single source for scope).
   Goal: a sticky filter bar with site + contractor selectors; selection recomputes overview KPIs, skill chart, and criticality for that scope; scope stored in the URL query (?site=&contractor=) so a filtered view is shareable/bookmarkable; active filters shown as removable chips plus a "ล้างตัวกรอง" clear.
@@ -136,7 +136,7 @@
   Relate File: lib/dashboard.ts, lib/dashboard.test.ts, components/Dashboard.tsx, app/page.tsx, package.json
 
 ## T-016: Import the master assessment workbook → real 1531-worker data
-- [ ] T-016 · P1 · depends_on: — · Independent-of: T-015 (data-only delivery; no code change)
+- [X] T-016 · done 2026-09-24 (already satisfied: live Firestore holds the 1531-worker import; verified via /workers 1,531) · P1 · depends_on: — · Independent-of: T-015 (data-only delivery; no code change)
   Title: Place the master assessment .xlsx in data/ and run the import so every page shows real numbers
   ContextTask: All pages (/ dashboard, /sites, /workers, /criticality, /trends) run on the 60-worker DEV fixture (data/normalized.json). Confirmed 2026-09-22: NO .xlsx/.xls/.csv exists anywhere in the repo — data/ holds only the fixture. data/ is git-ignored (worker PII) so the master file is never committed; the data owner must place it on the machine that runs the import. Code is data-shape-driven — NO code change needed, only the source file. Full operator runbook: docs/TICKET-import-assessment-data.md.
   Goal: real numbers (≈1531 workers / 6 sites / 59 contractors) render across the app.

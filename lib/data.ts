@@ -20,6 +20,8 @@ import { getAdminDb } from "./firebaseAdmin";
 import { cached, staleSince } from "./dataCache";
 import { workersFromChunks } from "./workerSnapshot";
 import { SKILL_IDS, skillLabel } from "./skills";
+import { rollupWorkers, type Rollups } from "./rollup";
+import { isScoped, type Scope } from "./scope";
 import type {
   NormalizedData,
   Overview,
@@ -117,14 +119,39 @@ export async function getBySkill(): Promise<BySkill> {
   return (await summaryDoc<BySkill>("bySkill")) ?? fixture().bySkill;
 }
 
-export async function getBySite(): Promise<GroupRollup[]> {
+export async function getBySite(scope: Scope = {}): Promise<GroupRollup[]> {
+  if (isScoped(scope)) return (await getScopedRollups(scope)).bySite;
   const d = await summaryDoc<{ groups: GroupRollup[] }>("bySite");
   return d?.groups ?? fixture().bySite;
 }
 
-export async function getByContractor(): Promise<GroupRollup[]> {
+export async function getByContractor(scope: Scope = {}): Promise<GroupRollup[]> {
+  if (isScoped(scope)) return (await getScopedRollups(scope)).byContractor;
   const d = await summaryDoc<{ groups: GroupRollup[] }>("byContractor");
   return d?.groups ?? fixture().byContractor;
+}
+
+/**
+ * All four rollups for a scope (T-008). Unscoped → the precomputed summary docs
+ * (no extra reads). Scoped → recomputed from the scoped workers with the same
+ * math as the import (lib/rollup.ts), so the numbers are directly comparable.
+ */
+export async function getScopedRollups(
+  scope: Scope = {},
+  db: Firestore | null = live(), // injectable for tests (scoped path only)
+): Promise<Rollups> {
+  if (!isScoped(scope)) {
+    const [overview, bySkill, bySite, byContractor] = await Promise.all([
+      getOverview(),
+      getBySkill(),
+      getBySite(),
+      getByContractor(),
+    ]);
+    return { overview, bySkill, bySite, byContractor };
+  }
+  return rollupWorkers(
+    await listWorkers({ site: scope.site, contractor: scope.contractor }, db),
+  );
 }
 
 export interface DataStatus {
@@ -470,19 +497,20 @@ async function currentRoundMeta(db: Firestore | null): Promise<RoundMeta> {
  * Per-skill criticality for the current round. Composes the existing accessors
  * (each round-aware + fixture-degrading), so it works before Firestore is set.
  * `db` is injectable for the round header; the rollup reads self-resolve live.
+ * `scope` (T-008) narrows it to one site / contractor — flags are then scored
+ * against that scope's own headcount.
  */
 export async function getCriticality(
   db: Firestore | null = live(),
+  scope: Scope = {},
 ): Promise<CriticalityReport> {
-  const [overview, bySkill, sites, contractors, round] = await Promise.all([
-    getOverview(),
-    getBySkill(),
-    getBySite(),
-    getByContractor(),
+  const [rollups, round] = await Promise.all([
+    getScopedRollups(scope),
     currentRoundMeta(db),
   ]);
+  const { overview, bySkill, bySite, byContractor } = rollups;
   return {
     round,
-    skills: buildCriticality(overview.workers, bySkill, sites, contractors),
+    skills: buildCriticality(overview.workers, bySkill, bySite, byContractor),
   };
 }

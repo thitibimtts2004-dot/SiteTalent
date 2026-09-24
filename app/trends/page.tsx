@@ -1,10 +1,20 @@
 import { getRoundTrend } from "@/lib/data";
+import { scopeFrom, isScoped } from "@/lib/scope";
 import TrendTable from "@/components/TrendTable";
 
 export const dynamic = "force-dynamic";
 
-export default async function TrendsPage() {
+type SearchParams = Promise<Record<string, string | string[] | undefined>>;
+
+export default async function TrendsPage({ searchParams }: { searchParams: SearchParams }) {
+  const scope = scopeFrom(await searchParams);
   const trend = await getRoundTrend();
+  // T-008: trends only filter rows (site table by site, contractor table by
+  // contractor) — round history is not recomputed per scope
+  const bySite = scope.site ? trend.bySite.filter((r) => r.name === scope.site) : trend.bySite;
+  const byContractor = scope.contractor
+    ? trend.byContractor.filter((r) => r.name === scope.contractor)
+    : trend.byContractor;
 
   return (
     <main className="mx-auto max-w-6xl space-y-8 p-6 md:p-8">
@@ -15,12 +25,17 @@ export default async function TrendsPage() {
             ? `เทียบ ${trend.previous?.label ?? "รอบก่อน"} → ${trend.current.label} · แต่ละช่องแสดงค่ารอบนี้ พร้อมการเปลี่ยนแปลง (▲ เพิ่ม · ▼ ลด)`
             : "เปรียบเทียบจำนวนคนและทักษะระดับ 1/2 ของแต่ละกลุ่มระหว่างรอบการประเมิน"}
         </p>
+        {isScoped(scope) && (
+          <p className="mt-1 text-xs text-purple-700">
+            ตัวกรองหน้านี้กรองแถวเท่านั้น — ตัวเลขแต่ละแถวยังเป็นยอดรวมทั้งกลุ่ม
+          </p>
+        )}
       </header>
 
       {trend.hasPrevious ? (
         <>
-          <TrendTable title="ตามไซต์งาน" rows={trend.bySite} unit="ไซต์" />
-          <TrendTable title="ตามบริษัทผู้รับเหมา" rows={trend.byContractor} unit="บริษัท" />
+          <TrendTable title="ตามไซต์งาน" rows={bySite} unit="ไซต์" />
+          <TrendTable title="ตามบริษัทผู้รับเหมา" rows={byContractor} unit="บริษัท" />
         </>
       ) : (
         <div className="rounded-xl border border-slate-200 bg-white p-8 text-center shadow-sm">

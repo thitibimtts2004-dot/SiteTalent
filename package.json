@@ -12,7 +12,8 @@
     "test:trend": "tsx lib/trend.test.ts",
     "test:criticality": "tsx lib/criticality.test.ts",
     "test:dashboard": "tsx lib/dashboard.test.ts",
-    "test:cache": "tsx lib/dataCache.test.ts"
+    "test:cache": "tsx lib/dataCache.test.ts",
+    "test:rollup": "tsx lib/rollup.test.ts"
   },
   "dependencies": {
     "next": "^15.1.6",

@@ -1,13 +1,19 @@
 import { listWorkers, getBySite, getByContractor } from "@/lib/data";
+import { scopeFrom } from "@/lib/scope";
 import WorkerTable from "@/components/WorkerTable";
 
 export const dynamic = "force-dynamic";
 
-export default async function WorkersPage() {
+type SearchParams = Promise<Record<string, string | string[] | undefined>>;
+
+export default async function WorkersPage({ searchParams }: { searchParams: SearchParams }) {
+  // T-008: only the scoped workers reach the table; its own site/contractor
+  // dropdowns list just what is left inside the scope
+  const scope = scopeFrom(await searchParams);
   const [workers, sites, contractors] = await Promise.all([
-    listWorkers(),
-    getBySite(),
-    getByContractor(),
+    listWorkers(scope),
+    getBySite(scope),
+    getByContractor(scope),
   ]);
 
   return (

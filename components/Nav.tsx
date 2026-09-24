@@ -1,7 +1,9 @@
 "use client";
 
+import { Suspense } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
+import { scopeFrom, scopeQuery } from "@/lib/scope";
 
 const LINKS = [
   { href: "/", label: "ภาพรวม" },
@@ -12,6 +14,21 @@ const LINKS = [
 ];
 
 export default function Nav() {
+  // useSearchParams needs a Suspense boundary; the fallback is the same nav without scope
+  return (
+    <Suspense fallback={<NavBar query="" />}>
+      <ScopedNav />
+    </Suspense>
+  );
+}
+
+/** Links carry the current ?site=&contractor= so the scope survives page switches (T-008). */
+function ScopedNav() {
+  const params = useSearchParams();
+  return <NavBar query={scopeQuery(scopeFrom(params))} />;
+}
+
+function NavBar({ query }: { query: string }) {
   const path = usePathname();
   return (
     <nav className="border-b border-slate-200 bg-white">
@@ -23,7 +40,7 @@ export default function Nav() {
           return (
             <Link
               key={l.href}
-              href={l.href}
+              href={`${l.href}${query}`}
               className={`border-b-2 px-3 py-3 text-sm transition ${
                 active
                   ? "border-blue-600 text-blue-700"
