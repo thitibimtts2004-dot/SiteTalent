@@ -1,8 +1,3 @@
-task: merge feature branches into main + fix hydration mismatch (2026-09-23)
-phase: in_progress
-next: user to `git push origin main` (29e150e hydration fix is local-only). Optional: `git stash drop` once satisfied — stash@{0} holds stale pre-merge harness session state (pop did not apply; current hook-regenerated files are newer, nothing of project value lost).
-
-- Merged origin/feat/dashboards-and-harness (app code only: T-015 dashboard, /criticality, /trends, 4 test suites) + origin/feat/import-assessment-data (T-016 ticket). Harness files + macOS-only .claude/launch.json kept at main versions. Both merges already on origin/main.
-- Verified post-merge: tsc clean, 4 test suites pass, next build clean, 5 pages 200 with live data (1531 workers / 6 sites).
-- Fixed SSR hydration mismatch: lib/dashboard.ts sorts used bare localeCompare (server vs en-US browser ordered Thai/Latin differently) → shared Intl.Collator("th"). Verified no hydration error in console.
-- Team notes: T-016 already satisfied on this machine; roadmap T-006 block contains T-015 text (source-branch issue, untouched); team commits harness/.sessions files to git.
+task: T-008 global scope filter (site + contractor) across all views
+phase: done
+next: T-008 closed 2026-09-24 (S1-S5 [X], roadmap [X] T-008 + T-016). Uncommitted: lib/rollup.ts, lib/rollup.test.ts, lib/scope.ts, components/FilterBar.tsx, components/Nav.tsx, app/layout.tsx, lib/data.ts, package.json, 4 pages (sites/workers/criticality/trends). Next candidates: T-009..T-012 drill-downs (consume the scope bar).

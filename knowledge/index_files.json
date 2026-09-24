@@ -606,12 +606,61 @@
   ".sessions\\active_thread.md": {
     "description": "task: merge feature branches into main + fix hydration mismatch (2026-09-23)",
     "backfill_pending": true,
-    "size": 8,
+    "size": 3,
     "related": []
   },
   "C:\\Users\\101527\\.claude\\projects\\D--SiteTalent\\memory\\project_sitetalent_data_cache.md": {
     "description": "---",
     "backfill_pending": true,
-    "size": 17
+    "size": 17,
+    "related": []
+  },
+  "C:\\Users\\101527\\AppData\\Local\\Temp\\claude\\D--SiteTalent\\73f64132-191b-4027-af59-ef10fbee02b3\\scratchpad\\mece_plan_T008.md": {
+    "description": "MECE Plan — T-008 Global scope filter (site + contractor) across all views",
+    "backfill_pending": true,
+    "size": 88,
+    "related": []
+  },
+  ".sessions\\mece_plan.md": {
+    "description": "MECE Plan — T-008 Global scope filter (site + contractor) across all views",
+    "backfill_pending": true,
+    "size": 141,
+    "related": []
+  },
+  ".sessions\\session_handoff.md": {
+    "description": "skill_name: agent",
+    "backfill_pending": true,
+    "size": 7,
+    "related": []
+  },
+  "docs\\master_roadmap.md": {
+    "description": "Master Roadmap",
+    "backfill_pending": true,
+    "size": 164,
+    "rules_defined": [
+      "T-000",
+      "T-001",
+      "T-002",
+      "T-003",
+      "T-004",
+      "T-005",
+      "T-006",
+      "T-007",
+      "T-008",
+      "T-009",
+      "T-010",
+      "T-011",
+      "T-012",
+      "T-013",
+      "T-014",
+      "T-016",
+      "T-017",
+      "T-018"
+    ],
+    "rules_referenced": [
+      "R15",
+      "T-015"
+    ],
+    "related": []
   }
 }

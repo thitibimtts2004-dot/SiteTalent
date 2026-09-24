@@ -1,0 +1,35 @@
+{
+  "section": "S1",
+  "status": "done",
+  "task_id": "T-008",
+  "blind": true,
+  "teardown": "clean",
+  "case_matrix": [
+    {
+      "case": "1-empty-input",
+      "expected": "workers0/sites0/contractors0/pct0/emptyGroups",
+      "actual": "{\"workers\":0,\"sites\":0,\"contractors\":0,\"overallLvl2Pct\":0}"
+    },
+    {
+      "case": "2-hand-built-3-workers-2sites-2contractors",
+      "expected": "overview{workers:3,sites:2,contractors:2,overallLvl2Pct:7.8 (=4/51*100 rounded)} + bySite[SiteA(w:2,lvl2:3),SiteB(w:1,lvl2:1)] + byContractor[ConX(w:2,lvl2:3),ConY(w:1,lvl2:1)] + bySkill s01-04 hand-computed, s05-17 all {none:3,lvl1:0,lvl2:0}",
+      "actual": "matched exactly (deep-equal on overview and bySkill; field checks on bySite/byContractor all passed)"
+    },
+    {
+      "case": "2b-tie-in-workers-count-ordering",
+      "expected": "bySite=[Site P,Site Q] byContractor=[Con1,Con2] (equal counts of 1, first-seen insertion order preserved by stable sort)",
+      "actual": "{\"bySite\":[\"Site P\",\"Site Q\"],\"byContractor\":[\"Con1\",\"Con2\"]}"
+    },
+    {
+      "case": "3-fixture-parity-data-normalized-json",
+      "expected": "rollupWorkers(fixture.workers) deep-equal fixture.{overview,bySkill,bySite,byContractor} (1531 workers, 6 sites, 59 contractors)",
+      "actual": "deep-equal passed on all four keys; overview={\"workers\":1531,\"sites\":6,\"contractors\":59,\"overallLvl2Pct\":7}"
+    },
+    {
+      "case": "4-single-site-subset",
+      "expected": "filtering fixture.workers to the largest site (Valles Haus, 674 workers) then rolling up yields sites=1, workers=674, bySite[0] and overall bySkill deep-equal the fixture's own bySite entry for that site",
+      "actual": "{\"sites\":1,\"workers\":674}; bySkill/lvl2 deep-equal passed"
+    }
+  ],
+  "verdict": "pass"
+}

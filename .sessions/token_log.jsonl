@@ -20,3 +20,14 @@
 {"ts":"2026-09-23T09:51:20Z","task":"merge feature branches into main + fix hydration mismatch (2026-09-23)","phase":"in_progress","session_total":147614,"chat_total":344086,"cache_read":0,"cache_write":0}
 {"ts":"2026-09-23T09:53:49Z","task":"merge feature branches into main + fix hydration mismatch (2026-09-23)","phase":"in_progress","session_total":154923,"chat_total":352311,"cache_read":0,"cache_write":0}
 {"ts":"2026-09-24T01:55:36Z","task":"merge feature branches into main + fix hydration mismatch (2026-09-23)","phase":"in_progress","session_total":157930,"chat_total":352069,"cache_read":0,"cache_write":0}
+{"ts":"2026-09-24T02:01:47Z","task":"merge feature branches into main + fix hydration mismatch (2026-09-23)","phase":"in_progress","session_total":158648,"chat_total":114809,"cache_read":0,"cache_write":0}
+{"ts":"2026-09-24T02:07:01Z","task":"merge feature branches into main + fix hydration mismatch (2026-09-23)","phase":"in_progress","session_total":159047,"chat_total":19899,"cache_read":0,"cache_write":0}
+{"ts":"2026-09-24T02:08:06Z","task":"merge feature branches into main + fix hydration mismatch (2026-09-23)","phase":"in_progress","session_total":161230,"chat_total":22082,"cache_read":0,"cache_write":0}
+{"ts":"2026-09-24T02:09:47Z","task":"merge feature branches into main + fix hydration mismatch (2026-09-23)","phase":"done","session_total":178544,"chat_total":39396,"cache_read":0,"cache_write":0}
+{"ts":"2026-09-24T02:16:02Z","task":"T-008 global scope filter (site + contractor) across all views merge feature branches into main + fix hydration mismatch (2026-09-23)","phase":"in_progress
+done","session_total":192448,"chat_total":153253,"cache_read":0,"cache_write":0}
+{"ts":"2026-09-24T02:32:11Z","task":"T-008 global scope filter (site + contractor) across all views merge feature branches into main + fix hydration mismatch (2026-09-23)","phase":"in_progress
+done","session_total":262700,"chat_total":89752,"cache_read":0,"cache_write":0}
+{"ts":"2026-09-24T02:40:31Z","task":"T-008 global scope filter (site + contractor) across all views merge feature branches into main + fix hydration mismatch (2026-09-23)","phase":"in_progress
+done","session_total":22627,"chat_total":51108,"cache_read":0,"cache_write":0}
+{"ts":"2026-09-24T02:44:56Z","task":"T-008 global scope filter (site + contractor) across all views","phase":"done","session_total":46017,"chat_total":175723,"cache_read":0,"cache_write":0}
