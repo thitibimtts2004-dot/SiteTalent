@@ -1,3 +1,19 @@
 {
-  "variables": {}
+  "variables": {
+    "upsertFirestore": {
+      "type": "Function",
+      "source": "scripts\\import.ts",
+      "line": 245,
+      "line_end": 303,
+      "read_hint": {
+        "offset": 240,
+        "limit": 73
+      },
+      "keywords": [
+        "firestore",
+        "upsert"
+      ],
+      "used_in": []
+    }
+  }
 }

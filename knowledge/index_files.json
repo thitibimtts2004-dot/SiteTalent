@@ -1,1 +1,617 @@
-{}
+{
+  "AGENTS.md": {
+    "description": "",
+    "topics": {
+      "major": [],
+      "minor": []
+    },
+    "backlinks": [],
+    "references": [],
+    "related": [],
+    "backfill_pending": true,
+    "rules_defined": [
+      "R4"
+    ],
+    "rules_referenced": [
+      "BC-L4",
+      "CFP-019",
+      "CFP-025",
+      "CFP-027",
+      "CFP-034",
+      "CFP-037",
+      "CFP-041",
+      "CFP-044",
+      "CFP-049",
+      "R1",
+      "R10",
+      "R11",
+      "R16",
+      "R3",
+      "R5",
+      "R6",
+      "R8",
+      "T-183",
+      "T-190",
+      "T-221",
+      "T-224",
+      "T-228",
+      "T-230",
+      "T-234",
+      "T-235",
+      "T-252",
+      "T-263",
+      "T-286",
+      "T-287",
+      "T-288",
+      "T-301",
+      "T-302",
+      "T-314",
+      "T-322",
+      "T-328",
+      "T-331",
+      "T-332",
+      "T-334",
+      "T-340",
+      "T-344",
+      "T-347",
+      "T-348",
+      "T-350",
+      "T-362",
+      "T-366",
+      "T-367",
+      "T-388",
+      "T-391",
+      "T-392",
+      "T-400"
+    ]
+  },
+  "CLAUDE.md": {
+    "description": "",
+    "topics": {
+      "major": [],
+      "minor": []
+    },
+    "backlinks": [],
+    "references": [],
+    "related": [],
+    "backfill_pending": true,
+    "rules_defined": [
+      "R1",
+      "R10",
+      "R11",
+      "R12",
+      "R13",
+      "R14",
+      "R15",
+      "R16",
+      "R2",
+      "R3",
+      "R4",
+      "R5",
+      "R6",
+      "R7",
+      "R8",
+      "R9",
+      "T-350"
+    ],
+    "rules_referenced": [
+      "BC-A",
+      "BC-B",
+      "BC-E",
+      "BC-active-fix",
+      "BC-topic-lookup",
+      "CFP-025",
+      "CFP-028",
+      "CFP-031",
+      "CFP-037",
+      "CFP-041",
+      "ERR-007",
+      "T-180",
+      "T-221",
+      "T-231",
+      "T-235",
+      "T-286",
+      "T-287",
+      "T-299",
+      "T-300",
+      "T-304",
+      "T-307",
+      "T-309",
+      "T-314",
+      "T-322",
+      "T-334",
+      "T-342",
+      "T-344",
+      "T-345",
+      "T-348",
+      "T-363",
+      "T-364",
+      "T-388",
+      "T-389",
+      "T-391",
+      "T-392"
+    ]
+  },
+  "CODING_FAILURE_PATTERNS.md": {
+    "description": "",
+    "topics": {
+      "major": [],
+      "minor": []
+    },
+    "backlinks": [],
+    "references": [],
+    "related": [],
+    "backfill_pending": true
+  },
+  "INVARIANTS.md": {
+    "description": "",
+    "topics": {
+      "major": [],
+      "minor": []
+    },
+    "backlinks": [],
+    "references": [],
+    "related": [],
+    "backfill_pending": true,
+    "rules_defined": [
+      "T-355"
+    ],
+    "rules_referenced": [
+      "CFP-009",
+      "R3"
+    ]
+  },
+  "README.md": {
+    "description": "",
+    "topics": {
+      "major": [],
+      "minor": []
+    },
+    "backlinks": [],
+    "references": [],
+    "related": [],
+    "backfill_pending": true
+  },
+  "docs/TICKET-import-assessment-data.md": {
+    "description": "",
+    "topics": {
+      "major": [],
+      "minor": []
+    },
+    "backlinks": [],
+    "references": [],
+    "related": [],
+    "backfill_pending": true
+  },
+  "docs/master_roadmap.md": {
+    "description": "",
+    "topics": {
+      "major": [],
+      "minor": []
+    },
+    "backlinks": [],
+    "references": [],
+    "related": [],
+    "backfill_pending": true
+  },
+  "error_index.md": {
+    "description": "",
+    "topics": {
+      "major": [],
+      "minor": []
+    },
+    "backlinks": [],
+    "references": [],
+    "related": [],
+    "backfill_pending": true
+  },
+  "knowledge/agent-dev-wiki-skill-sharing-spec.md": {
+    "description": "",
+    "topics": {
+      "major": [],
+      "minor": []
+    },
+    "backlinks": [],
+    "references": [],
+    "related": [],
+    "backfill_pending": true
+  },
+  "knowledge/agent-harness-skill-spec-closeout-writer-2026-05-28.md": {
+    "description": "",
+    "topics": {
+      "major": [],
+      "minor": []
+    },
+    "backlinks": [],
+    "references": [],
+    "related": [],
+    "backfill_pending": true
+  },
+  "knowledge/agent-harness-skill-spec-requirements-interviewer-2026-05-28.md": {
+    "description": "",
+    "topics": {
+      "major": [],
+      "minor": []
+    },
+    "backlinks": [],
+    "references": [],
+    "related": [],
+    "backfill_pending": true
+  },
+  "knowledge/agent-harness-skill-spec-skeptical-reviewer-2026-05-28.md": {
+    "description": "",
+    "topics": {
+      "major": [],
+      "minor": []
+    },
+    "backlinks": [],
+    "references": [],
+    "related": [],
+    "backfill_pending": true
+  },
+  "knowledge/agent-harness-skill-spec-verifier-orchestrator-2026-05-28.md": {
+    "description": "",
+    "topics": {
+      "major": [],
+      "minor": []
+    },
+    "backlinks": [],
+    "references": [],
+    "related": [],
+    "backfill_pending": true
+  },
+  "knowledge/answer_delivery_and_vocab_mastery_spec.md": {
+    "description": "",
+    "topics": {
+      "major": [],
+      "minor": []
+    },
+    "backlinks": [],
+    "references": [],
+    "related": [],
+    "backfill_pending": true
+  },
+  "knowledge/audit_engine_rubric.md": {
+    "description": "",
+    "topics": {
+      "major": [],
+      "minor": []
+    },
+    "backlinks": [],
+    "references": [],
+    "related": [],
+    "backfill_pending": true
+  },
+  "knowledge/boot_loop.md": {
+    "description": "",
+    "topics": {
+      "major": [],
+      "minor": []
+    },
+    "backlinks": [],
+    "references": [],
+    "related": [],
+    "backfill_pending": true
+  },
+  "knowledge/cfp-recording-flow.md": {
+    "description": "",
+    "topics": {
+      "major": [],
+      "minor": []
+    },
+    "backlinks": [],
+    "references": [],
+    "related": [],
+    "backfill_pending": true
+  },
+  "knowledge/cross_ref.json": {
+    "description": "",
+    "topics": {
+      "major": [],
+      "minor": []
+    },
+    "backlinks": [],
+    "references": [],
+    "related": [],
+    "backfill_pending": true
+  },
+  "knowledge/error_debug_loop.md": {
+    "description": "",
+    "topics": {
+      "major": [],
+      "minor": []
+    },
+    "backlinks": [],
+    "references": [],
+    "related": [],
+    "backfill_pending": true
+  },
+  "knowledge/file-discovery-flow.md": {
+    "description": "",
+    "topics": {
+      "major": [],
+      "minor": []
+    },
+    "backlinks": [],
+    "references": [],
+    "related": [],
+    "backfill_pending": true
+  },
+  "knowledge/file-lifecycle-flow.md": {
+    "description": "",
+    "topics": {
+      "major": [],
+      "minor": []
+    },
+    "backlinks": [],
+    "references": [],
+    "related": [],
+    "backfill_pending": true
+  },
+  "knowledge/glossary.md": {
+    "description": "",
+    "topics": {
+      "major": [],
+      "minor": []
+    },
+    "backlinks": [],
+    "references": [],
+    "related": [],
+    "backfill_pending": true
+  },
+  "knowledge/harness-file-role-map.md": {
+    "description": "",
+    "topics": {
+      "major": [],
+      "minor": []
+    },
+    "backlinks": [],
+    "references": [],
+    "related": [],
+    "backfill_pending": true
+  },
+  "knowledge/harness_authoring_techniques.md": {
+    "description": "",
+    "topics": {
+      "major": [],
+      "minor": []
+    },
+    "backlinks": [],
+    "references": [],
+    "related": [],
+    "backfill_pending": true
+  },
+  "knowledge/harness_flow_20260525.md": {
+    "description": "",
+    "topics": {
+      "major": [],
+      "minor": []
+    },
+    "backlinks": [],
+    "references": [],
+    "related": [],
+    "backfill_pending": true
+  },
+  "knowledge/info_gather_loop.md": {
+    "description": "",
+    "topics": {
+      "major": [],
+      "minor": []
+    },
+    "backlinks": [],
+    "references": [],
+    "related": [],
+    "backfill_pending": true
+  },
+  "knowledge/loop_engineer_spec.md": {
+    "description": "",
+    "topics": {
+      "major": [],
+      "minor": []
+    },
+    "backlinks": [],
+    "references": [],
+    "related": [],
+    "backfill_pending": true
+  },
+  "knowledge/loops_catalog.md": {
+    "description": "",
+    "topics": {
+      "major": [],
+      "minor": []
+    },
+    "backlinks": [],
+    "references": [],
+    "related": [],
+    "backfill_pending": true
+  },
+  "knowledge/mece_plan_loop.md": {
+    "description": "",
+    "topics": {
+      "major": [],
+      "minor": []
+    },
+    "backlinks": [],
+    "references": [],
+    "related": [],
+    "backfill_pending": true
+  },
+  "knowledge/per_turn_routing_loop.md": {
+    "description": "",
+    "topics": {
+      "major": [],
+      "minor": []
+    },
+    "backlinks": [],
+    "references": [],
+    "related": [],
+    "backfill_pending": true
+  },
+  "knowledge/react_execution_loop.md": {
+    "description": "",
+    "topics": {
+      "major": [],
+      "minor": []
+    },
+    "backlinks": [],
+    "references": [],
+    "related": [],
+    "backfill_pending": true
+  },
+  "knowledge/self_improvement_loop.md": {
+    "description": "",
+    "topics": {
+      "major": [],
+      "minor": []
+    },
+    "backlinks": [],
+    "references": [],
+    "related": [],
+    "backfill_pending": true
+  },
+  "knowledge/session_close_loop.md": {
+    "description": "",
+    "topics": {
+      "major": [],
+      "minor": []
+    },
+    "backlinks": [],
+    "references": [],
+    "related": [],
+    "backfill_pending": true
+  },
+  "knowledge/skill-index.md": {
+    "description": "",
+    "topics": {
+      "major": [],
+      "minor": []
+    },
+    "backlinks": [],
+    "references": [],
+    "related": [],
+    "backfill_pending": true
+  },
+  "knowledge/skill_authoring_principles.md": {
+    "description": "",
+    "topics": {
+      "major": [],
+      "minor": []
+    },
+    "backlinks": [],
+    "references": [],
+    "related": [],
+    "backfill_pending": true
+  },
+  "knowledge/skill_quality_checklist.md": {
+    "description": "",
+    "topics": {
+      "major": [],
+      "minor": []
+    },
+    "backlinks": [],
+    "references": [],
+    "related": [],
+    "backfill_pending": true
+  },
+  "knowledge/token_accounting_principles.md": {
+    "description": "",
+    "topics": {
+      "major": [],
+      "minor": []
+    },
+    "backlinks": [],
+    "references": [],
+    "related": [],
+    "backfill_pending": true
+  },
+  "knowledge/token_tracking_loop.md": {
+    "description": "",
+    "topics": {
+      "major": [],
+      "minor": []
+    },
+    "backlinks": [],
+    "references": [],
+    "related": [],
+    "backfill_pending": true
+  },
+  "knowledge/topic_facet_schema.md": {
+    "description": "",
+    "topics": {
+      "major": [],
+      "minor": []
+    },
+    "backlinks": [],
+    "references": [],
+    "related": [],
+    "backfill_pending": true
+  },
+  "knowledge/topic_registry.json": {
+    "description": "",
+    "topics": {
+      "major": [],
+      "minor": []
+    },
+    "backlinks": [],
+    "references": [],
+    "related": [],
+    "backfill_pending": true
+  },
+  "knowledge/workflow_review_pattern.md": {
+    "description": "",
+    "topics": {
+      "major": [],
+      "minor": []
+    },
+    "backlinks": [],
+    "references": [],
+    "related": [],
+    "backfill_pending": true
+  },
+  "scripts/import.round.test.ts": {
+    "description": "",
+    "topics": {
+      "major": [],
+      "minor": []
+    },
+    "backlinks": [],
+    "references": [],
+    "related": [],
+    "backfill_pending": true,
+    "imports": [
+      "scripts/import.ts"
+    ],
+    "extracted_at_hash": "28bc99ec",
+    "imported_by": []
+  },
+  "scripts/import.ts": {
+    "description": "",
+    "topics": {
+      "major": [],
+      "minor": []
+    },
+    "backlinks": [],
+    "references": [],
+    "related": [],
+    "backfill_pending": true,
+    "imports": [
+      "lib/firebaseAdmin.ts",
+      "lib/skills.ts"
+    ],
+    "extracted_at_hash": "a8123918",
+    "imported_by": [
+      "scripts/import.round.test.ts"
+    ]
+  },
+  ".sessions\\active_thread.md": {
+    "description": "task: merge feature branches into main + fix hydration mismatch (2026-09-23)",
+    "backfill_pending": true,
+    "size": 8,
+    "related": []
+  },
+  "C:\\Users\\101527\\.claude\\projects\\D--SiteTalent\\memory\\project_sitetalent_data_cache.md": {
+    "description": "---",
+    "backfill_pending": true,
+    "size": 17
+  }
+}

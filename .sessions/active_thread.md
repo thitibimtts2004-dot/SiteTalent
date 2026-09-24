@@ -1,12 +1,8 @@
-task: SiteTalent — round-aware data layer (Phase 1 of Login-feature plan)
-phase: done
-next: Phase 2 = 6-digit-code Login + route guard (app/login, session cookie, middleware); Phase 3 = admin user-management page. auditLog enabled per user decision. roundId format = monthly YYYY-MM.
+task: merge feature branches into main + fix hydration mismatch (2026-09-23)
+phase: in_progress
+next: user to `git push origin main` (29e150e hydration fix is local-only). Optional: `git stash drop` once satisfied — stash@{0} holds stale pre-merge harness session state (pop did not apply; current hook-regenerated files are newer, nothing of project value lost).
 
-## Phase 1 — round-aware import/data (DONE, code + partial verify)
-- lib/types.ts: added Round / RoundSource / RoundStatus types
-- scripts/import.ts: --round/--date/--label/--source args; writes rounds/{roundId}/workers/* + rounds/{roundId}/summary/* + rounds/{roundId} meta doc; sets config/app.currentRoundId; archives previous current round
-- lib/data.ts: reads config/app.currentRoundId then rounds/{roundId}/summary/* + rounds/{roundId}/workers; fixture fallback preserved
-- VERIFIED (all pass): tsc --noEmit clean · npm run import wrote round 2026-09 (1531 workers, anchor 239/53/89, VALIDATION PASSED) · all 3 pages render LIVE from round 2026-09 — / (1531/6/59/7%), /sites (6 sites + 59 contractors, counts match), /workers (filters + list, no hang)
-- Fixed a wedged dev server mid-verify: killed stuck PID 18172 on port 3000 (taskkill), restarted clean via preview_start; the `.next` EPERM lock cleared when the holding process died (rm -rf .next was permission-denied but not needed).
-
-engine: manual-boot ok (v1.37.0 at plugin cache) · hooks: OFF (boot glob broken by `ls -F` alias appending *; needs client restart for hooks) — gates run manually
+- Merged origin/feat/dashboards-and-harness (app code only: T-015 dashboard, /criticality, /trends, 4 test suites) + origin/feat/import-assessment-data (T-016 ticket). Harness files + macOS-only .claude/launch.json kept at main versions. Both merges already on origin/main.
+- Verified post-merge: tsc clean, 4 test suites pass, next build clean, 5 pages 200 with live data (1531 workers / 6 sites).
+- Fixed SSR hydration mismatch: lib/dashboard.ts sorts used bare localeCompare (server vs en-US browser ordered Thai/Latin differently) → shared Intl.Collator("th"). Verified no hydration error in console.
+- Team notes: T-016 already satisfied on this machine; roadmap T-006 block contains T-015 text (source-branch issue, untouched); team commits harness/.sessions files to git.
