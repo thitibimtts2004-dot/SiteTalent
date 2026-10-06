@@ -1,0 +1,30 @@
+ M .sessions/.active_skill
+ M .sessions/.boot_trace
+ M .sessions/.hook_heartbeat
+ M .sessions/.index_catchup
+ M .sessions/.scrutinize_log
+ M .sessions/.skeptical_ok
+ M .sessions/.task_closed
+ M .sessions/.thrash_state.json
+ M .sessions/.version_check
+ M .sessions/active_thread.md
+ M .sessions/conformance_progress.json
+ M .sessions/gather_complete.md
+ M .sessions/loop_token_ledger.json
+ M .sessions/mece_plan.md
+ M .sessions/reflections.md
+ M .sessions/session_context_cache.md
+ M .sessions/session_handoff.md
+ M .sessions/session_tokens.md
+ M .sessions/token_log.jsonl
+ M AGENTS.md
+ M CLAUDE.md
+ M app/sites/page.tsx
+ M components/RollupTable.tsx
+ M docs/master_roadmap.md
+ M knowledge/index_files.json
+ M tsconfig.tsbuildinfo
+?? .sessions/.scope_baseline
+?? .sessions/backup_constitution_2026-10-06/
+?? .sessions/session_005.json
+?? VERSION

@@ -83,7 +83,7 @@
   Relate File: app/page.tsx, components/SkillBarChart.tsx, app/workers/page.tsx
 
 ## T-010: Click a site/contractor row → scope every view to that group
-- [ ] T-010 · P1 · depends_on: T-007, T-008
+- [X] T-010 · P1 · depends_on: T-007, T-008 · done 2026-10-06 · attempts:1 · tool_calls:~18
   Title: Rows in the site/contractor tables drill down by setting the global scope filter
   ContextTask: Answers the Q1/Q2 drill-down — from "how many at each group" to "show me everything about this group". REUSES the T-008 scope filter rather than a separate mechanism (single source for scope).
   Goal: clicking a site or contractor row sets the T-008 scope to that group and navigates to the scoped overview; the active-filter chip reflects it.
@@ -92,7 +92,7 @@
   Relate File: components/RollupTable.tsx, app/sites/page.tsx, lib/data.ts
 
 ## T-011: Click a critical flag → the sites/contractors and workers behind it
-- [ ] T-011 · P1 · depends_on: T-005, T-003
+- [X] T-011 · done 2026-10-06 · attempts:1 · tool_calls:~18 (re-scoped to the finder jump = HR req #4 core; "where the shortage is" already shown by /criticality breaching-groups + none breakdown)
   Title: A flagged skill drills into where the shortage is and who does have the skill
   ContextTask: Answers the action question behind Q6 — a red flag is only useful if it says where to fix it. Links criticality (T-005) to the group ranking + finder (T-003).
   Goal: clicking a flagged skill (or a specific flag) shows that skill's proportion ranked by site and by contractor (worst first) and offers a one-click jump to the finder for that skill.

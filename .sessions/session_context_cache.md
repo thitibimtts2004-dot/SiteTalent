@@ -1,9 +1,9 @@
-# Context Cache — 2026-09-24 09:44
-task: T-008 global scope filter (site + contractor) across all views
+# Context Cache — 2026-10-06 17:17
+task: HR req #4 — /criticality flagged-skill → /workers pre-filtered to who can do it
 phase: done
-next: T-008 closed 2026-09-24 (S1-S5 [X], roadmap [X] T-008 + T-016). Uncommitted: lib/rollup.ts, lib/rollup.test.ts, lib/scope.ts, components/FilterBar.tsx, components/Nav.tsx, app/layout.tsx, lib/data.ts, package.json, 4 pages (sites/workers/criticality/trends). Next candidates: T-009..T-012 drill-downs (consume the scope bar).
-session_total: ~46017
-chat_total: ~175723
+next: Next candidate = roadmap item 2 (UX clarity pass for the 5 pages, HR desktop). Ask user before starting.
+session_total: ~40154
+chat_total: ~180086
 cache_read: 0
 cache_write: 0
 pending_sections:

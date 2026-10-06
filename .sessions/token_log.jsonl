@@ -31,3 +31,22 @@ done","session_total":262700,"chat_total":89752,"cache_read":0,"cache_write":0}
 {"ts":"2026-09-24T02:40:31Z","task":"T-008 global scope filter (site + contractor) across all views merge feature branches into main + fix hydration mismatch (2026-09-23)","phase":"in_progress
 done","session_total":22627,"chat_total":51108,"cache_read":0,"cache_write":0}
 {"ts":"2026-09-24T02:44:56Z","task":"T-008 global scope filter (site + contractor) across all views","phase":"done","session_total":46017,"chat_total":175723,"cache_read":0,"cache_write":0}
+{"ts":"2026-09-24T02:48:23Z","task":"T-008 global scope filter (site + contractor) across all views","phase":"done","session_total":1938,"chat_total":21438,"cache_read":0,"cache_write":0}
+{"ts":"2026-10-06T06:49:52Z","task":"T-008 global scope filter (site + contractor) across all views","phase":"done","session_total":17213,"chat_total":45694,"cache_read":0,"cache_write":0}
+{"ts":"2026-10-06T06:52:34Z","task":"T-008 global scope filter (site + contractor) across all views","phase":"done","session_total":17213,"chat_total":149687,"cache_read":0,"cache_write":0}
+{"ts":"2026-10-06T07:02:36Z","task":"T-008 global scope filter (site + contractor) across all views","phase":"done","session_total":22556,"chat_total":157861,"cache_read":0,"cache_write":0}
+{"ts":"2026-10-06T07:08:54Z","task":"T-008 global scope filter (site + contractor) across all views","phase":"done","session_total":23496,"chat_total":170938,"cache_read":0,"cache_write":0}
+{"ts":"2026-10-06T07:15:14Z","task":"T-008 global scope filter (site + contractor) across all views","phase":"done","session_total":7248,"chat_total":26748,"cache_read":0,"cache_write":0}
+{"ts":"2026-10-06T07:17:12Z","task":"T-008 global scope filter (site + contractor) across all views","phase":"done","session_total":8717,"chat_total":151091,"cache_read":0,"cache_write":0}
+{"ts":"2026-10-06T07:23:47Z","task":"T-008 global scope filter (site + contractor) across all views","phase":"done","session_total":6809,"chat_total":40137,"cache_read":0,"cache_write":0}
+{"ts":"2026-10-06T07:32:31Z","task":"T-008 global scope filter (site + contractor) across all views","phase":"done","session_total":25545,"chat_total":149046,"cache_read":0,"cache_write":0}
+{"ts":"2026-10-06T07:40:49Z","task":"T-010 rows in site/contractor tables drill down by setting the global scope filter","phase":"in_progress","session_total":29623,"chat_total":49123,"cache_read":0,"cache_write":0}
+{"ts":"2026-10-06T07:48:43Z","task":"T-010 rows in site/contractor tables drill down by setting the global scope filter","phase":"done","session_total":31456,"chat_total":168140,"cache_read":0,"cache_write":0}
+{"ts":"2026-10-06T07:51:13Z","task":"T-010 rows in site/contractor tables drill down by setting the global scope filter","phase":"done","session_total":31456,"chat_total":175719,"cache_read":0,"cache_write":0}
+{"ts":"2026-10-06T09:49:14Z","task":"re-plan — map the whole app against
+unknown","phase":"in_progress","session_total":17423,"chat_total":149099,"cache_read":0,"cache_write":0}
+{"ts":"2026-10-06T10:00:00Z","task":"re-plan — ground the dashboard on
+unknown","phase":"in_progress","session_total":20626,"chat_total":178922,"cache_read":0,"cache_write":0}
+{"ts":"2026-10-06T10:08:16Z","task":"HR req #4 — /criticality flagged-skill → /workers pre-filtered to who can do it","phase":"done","session_total":40154,"chat_total":152217,"cache_read":0,"cache_write":0}
+{"ts":"2026-10-06T10:12:10Z","task":"HR req #4 — /criticality flagged-skill → /workers pre-filtered to who can do it","phase":"done","session_total":40154,"chat_total":178332,"cache_read":0,"cache_write":0}
+{"ts":"2026-10-06T10:17:03Z","task":"HR req #4 — /criticality flagged-skill → /workers pre-filtered to who can do it","phase":"done","session_total":40154,"chat_total":180086,"cache_read":0,"cache_write":0}
