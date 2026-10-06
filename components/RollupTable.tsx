@@ -1,18 +1,26 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import type { GroupRollup } from "@/lib/types";
+import { scopeQuery, type Scope } from "@/lib/scope";
 
 /** Sortable-by-size rollup table with a name filter. Reused for both the
- *  per-site and per-contractor views. */
+ *  per-site and per-contractor views. Each row name drills down (T-010): it
+ *  links to the home overview with this group set as the global scope, merged
+ *  with any current scope so a filter on the other dimension survives. */
 export default function RollupTable({
   title,
   rows,
   unit,
+  scopeKey,
+  scope,
 }: {
   title: string;
   rows: GroupRollup[];
   unit: string;
+  scopeKey: "site" | "contractor";
+  scope: Scope;
 }) {
   const [q, setQ] = useState("");
   const filtered = rows.filter((r) =>
@@ -53,7 +61,14 @@ export default function RollupTable({
           <tbody>
             {filtered.map((r) => (
               <tr key={r.name} className="border-b border-slate-100">
-                <td className="py-2 pr-4 text-slate-800">{r.name}</td>
+                <td className="py-2 pr-4 text-slate-800">
+                  <Link
+                    href={`/${scopeQuery({ ...scope, [scopeKey]: r.name })}`}
+                    className="text-blue-700 hover:underline"
+                  >
+                    {r.name}
+                  </Link>
+                </td>
                 <td className="py-2 pr-4 text-right tabular-nums text-slate-700">
                   {r.workers.toLocaleString()}
                 </td>

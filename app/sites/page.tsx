@@ -26,8 +26,8 @@ export default async function SitesPage({ searchParams }: { searchParams: Search
         </p>
       </header>
 
-      <RollupTable title="ตามไซต์งาน" rows={sites} unit="ไซต์" />
-      <RollupTable title="ตามบริษัทผู้รับเหมา" rows={contractors} unit="บริษัท" />
+      <RollupTable title="ตามไซต์งาน" rows={sites} unit="ไซต์" scopeKey="site" scope={scope} />
+      <RollupTable title="ตามบริษัทผู้รับเหมา" rows={contractors} unit="บริษัท" scopeKey="contractor" scope={scope} />
     </main>
   );
 }
