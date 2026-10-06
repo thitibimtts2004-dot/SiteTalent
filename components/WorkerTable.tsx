@@ -15,15 +15,18 @@ export default function WorkerTable({
   workers,
   sites,
   contractors,
+  initialSkill = "",
 }: {
   workers: Worker[];
   sites: string[];
   contractors: string[];
+  /** Pre-select a skill filter (e.g. from a /criticality link · HR req #4). */
+  initialSkill?: string;
 }) {
   const [q, setQ] = useState("");
   const [site, setSite] = useState("");
   const [con, setCon] = useState("");
-  const [skill, setSkill] = useState("");
+  const [skill, setSkill] = useState(initialSkill);
   const [lvl, setLvl] = useState(""); // "" = ทุกระดับ · "1" · "2" (only meaningful with a skill)
   const [page, setPage] = useState(0);
 

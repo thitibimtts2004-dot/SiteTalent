@@ -9,7 +9,11 @@ type SearchParams = Promise<Record<string, string | string[] | undefined>>;
 export default async function WorkersPage({ searchParams }: { searchParams: SearchParams }) {
   // T-008: only the scoped workers reach the table; its own site/contractor
   // dropdowns list just what is left inside the scope
-  const scope = scopeFrom(await searchParams);
+  const sp = await searchParams;
+  const scope = scopeFrom(sp);
+  // HR req #4: a /criticality skill link lands here pre-filtered to that skill
+  const skillRaw = sp.skill;
+  const initialSkill = (Array.isArray(skillRaw) ? skillRaw[0] : skillRaw) ?? "";
   const [workers, sites, contractors] = await Promise.all([
     listWorkers(scope),
     getBySite(scope),
@@ -29,6 +33,7 @@ export default async function WorkersPage({ searchParams }: { searchParams: Sear
         workers={workers}
         sites={sites.map((s) => s.name)}
         contractors={contractors.map((c) => c.name)}
+        initialSkill={initialSkill}
       />
     </main>
   );

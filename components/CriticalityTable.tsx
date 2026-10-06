@@ -1,3 +1,4 @@
+import Link from "next/link";
 import type {
   SkillCriticality,
   ShortageFlags,
@@ -119,7 +120,15 @@ export default function CriticalityTable({
                 key={s.skillId}
                 className={`border-b border-slate-100 ${s.flagged ? "bg-red-50/30" : ""}`}
               >
-                <td className="py-2 pr-4 text-slate-800">{s.label}</td>
+                <td className="py-2 pr-4">
+                  <Link
+                    href={`/workers?skill=${s.skillId}`}
+                    title={`ดูรายชื่อคนที่ทำ "${s.label}" ได้`}
+                    className="text-slate-800 underline decoration-dotted decoration-slate-300 underline-offset-2 hover:text-blue-600 hover:decoration-blue-400"
+                  >
+                    {s.label}
+                  </Link>
+                </td>
                 <td className="py-2 pr-4 text-right tabular-nums text-slate-700">
                   {pct(s.overall.proficientPct)}
                 </td>
