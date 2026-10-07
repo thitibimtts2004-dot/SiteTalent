@@ -128,6 +128,33 @@ const optB = aggregate(fw, { site: "B" });
 check("contractor options narrow to the site", optB.contractors.join(",") === "Y");
 check("no match → zeros, no crash", aggregate(fw, { site: "none" }).headcount === 0);
 
+console.log("people view — each worker once, at their highest in-scope level");
+// F1 has a level-2 skill → 2 · F2 best is level 1 → 1 · F3 has a level-2 → 2 · Z all zero → 0
+const pw = [...fw, { ...cw("Z1", "ง", "B", "X", "p1", 17, 0, 0), sk: "0".repeat(17) }];
+const pAll = aggregate(pw);
+check("people split 1/1/2", pAll.people.l0 === 1 && pAll.people.l1 === 1 && pAll.people.l2 === 2);
+check("people sum = headcount", pAll.people.l0 + pAll.people.l1 + pAll.people.l2 === pAll.headcount);
+check("cells untouched by people view", pAll.cells.l0 === 64 && pAll.cells.l1 === 2 && pAll.cells.l2 === 2);
+const pSiteA = pAll.bySite.find((r) => r.name === "A")!;
+check("per-site people (A: F1→2, F2→1)", pSiteA.p0 === 0 && pSiteA.p1 === 1 && pSiteA.p2 === 1);
+const pSiteB = pAll.bySite.find((r) => r.name === "B")!;
+check("per-site people (B: F3→2, Z1→0)", pSiteB.p0 === 1 && pSiteB.p1 === 0 && pSiteB.p2 === 1);
+// one skill: a worker's level IS that skill's level (s01 digits 2,0,1,0)
+const pS01 = aggregate(pw, { skill: "s01" });
+check("skill filter people = that skill's level", pS01.people.l0 === 2 && pS01.people.l1 === 1 && pS01.people.l2 === 1);
+check("empty people = 0", aggregate([]).people.l0 + aggregate([]).people.l1 + aggregate([]).people.l2 === 0);
+
+console.log("bySkill — people per level for each of the 17 skills");
+// pw s01 digits 2,0,1,0 · s02 digits 1,1,2,0
+const sk = aggregate(pw).bySkill;
+check("bySkill has 17 rows in order", sk.length === 17 && sk[0].id === "s01" && sk[16].id === "s17");
+check("s01 people 2/1/1", sk[0].l0 === 2 && sk[0].l1 === 1 && sk[0].l2 === 1);
+check("s02 people 1/2/1", sk[1].l0 === 1 && sk[1].l1 === 2 && sk[1].l2 === 1);
+check("each skill row sums to headcount", sk.every((r) => r.l0 + r.l1 + r.l2 === 4));
+check("bySkill ignores the skill filter", aggregate(pw, { skill: "s01" }).bySkill[1].l1 === 2);
+check("bySkill honours the site filter", aggregate(pw, { site: "A" }).bySkill[0].l2 === 1 && aggregate(pw, { site: "A" }).bySkill[0].l0 === 1);
+check("bySkill label", sk[0].label === "งานปูน");
+
 console.log("slimWorker — maps totals, keeps code+name, drops the rest");
 const full: Worker = {
   code: "K1",

@@ -16,9 +16,10 @@ import {
   Scatter,
   ReferenceLine,
   ReferenceArea,
+  LabelList,
 } from "recharts";
 import { aggregate } from "@/lib/dashboard";
-import type { ClientWorker, DashboardFilters, GroupRow } from "@/lib/dashboard";
+import type { ClientWorker, DashboardFilters, GroupRow, SkillRow } from "@/lib/dashboard";
 import { SKILLS, skillLabel } from "@/lib/skills";
 
 const THAI = '"Noto Sans Thai", ui-sans-serif, system-ui, sans-serif';
@@ -29,6 +30,13 @@ const FAIL = "#dc2626";
 const THRESHOLD = 65; // %skilled target line
 
 const pct = (n: number) => `${n.toFixed(1)}%`;
+
+/** Level legend (people view: a worker sits in the bucket of their HIGHEST level). */
+const LEVEL_NAMES = {
+  l2: "ระดับ 2 (ทำได้ผ่านมาตรฐาน)",
+  l1: "ระดับ 1 (ทำได้บางส่วน)",
+  l0: "ระดับ 0 (ยังทำไม่ได้)",
+};
 
 type ScatterView = "site" | "contractor";
 type Selected = { type: ScatterView; name: string } | null;
@@ -53,8 +61,9 @@ function Panel({ title, children }: { title: string; children: React.ReactNode }
   );
 }
 
-/** 100%-stacked bar (level 0/1/2 mix per group). stackOffset="expand" normalizes
- *  each bar to 100% so you compare the MIX regardless of headcount. */
+/** 100%-stacked bar of PEOPLE per group, each worker at their highest level.
+ *  stackOffset="expand" normalizes each bar to 100% so you compare the MIX
+ *  regardless of headcount. */
 function StackedByGroup({ rows }: { rows: GroupRow[] }) {
   return (
     <div style={{ width: "100%", height: Math.max(220, rows.length * 42) }}>
@@ -77,17 +86,118 @@ function StackedByGroup({ rows }: { rows: GroupRow[] }) {
             tick={{ fontFamily: THAI, fontSize: 12, fill: "#334155" }}
           />
           <Tooltip
-            formatter={(v: number, name: string) => [`${v} เซลล์`, name]}
+            formatter={(v: number, name: string) => [`${v.toLocaleString()} คน`, name]}
             labelFormatter={(l: string) => l}
             contentStyle={{ fontFamily: THAI, fontSize: 12 }}
           />
           <Legend wrapperStyle={{ fontFamily: THAI, fontSize: 12, paddingTop: 4 }} />
-          <Bar dataKey="l2" name="ระดับ 2 (ทำได้ผ่านมาตรฐาน)" stackId="s" fill={C.l2} />
-          <Bar dataKey="l1" name="ระดับ 1 (ทำได้บางส่วน)" stackId="s" fill={C.l1} />
-          <Bar dataKey="l0" name="ระดับ 0 (ยังทำไม่ได้)" stackId="s" fill={C.l0} />
+          <Bar dataKey="p2" name={LEVEL_NAMES.l2} stackId="s" fill={C.l2} />
+          <Bar dataKey="p1" name={LEVEL_NAMES.l1} stackId="s" fill={C.l1} />
+          <Bar dataKey="p0" name={LEVEL_NAMES.l0} stackId="s" fill={C.l0} />
         </BarChart>
       </ResponsiveContainer>
     </div>
+  );
+}
+
+type SkillSort = "workforce" | "l2";
+
+/** People per skill (level 2 + level 1 stacked, absolute counts) — answers
+ *  "which skill has the most workers / the most level-2 workers?" for HR. */
+function SkillPanel({ rows, headcount }: { rows: SkillRow[]; headcount: number }) {
+  const [sort, setSort] = useState<SkillSort>("workforce");
+  const sorted = [...rows]
+    .sort((a, b) =>
+      sort === "l2" ? b.l2 - a.l2 || b.l1 - a.l1 : b.l1 + b.l2 - (a.l1 + a.l2) || b.l2 - a.l2,
+    )
+    .map((r) => ({ ...r, workforce: r.l1 + r.l2 })); // bar-end label
+  const byWorkforce = [...rows].sort((a, b) => b.l1 + b.l2 - (a.l1 + a.l2))[0];
+  const byL2 = [...rows].sort((a, b) => b.l2 - a.l2)[0];
+  const fewestL2 = [...rows].sort((a, b) => a.l2 - b.l2)[0];
+  const share = (n: number) => (headcount === 0 ? "0%" : pct((n / headcount) * 100));
+
+  return (
+    <Panel title="จำนวนคนรายทักษะ (17 ทักษะ)">
+      <div className="mb-3 flex flex-wrap items-center gap-2">
+        <span className="text-sm text-slate-600">เรียงตาม:</span>
+        {(
+          [
+            ["workforce", "แรงงานรวม (ระดับ 1 + 2)"],
+            ["l2", "ระดับ 2"],
+          ] as [SkillSort, string][]
+        ).map(([v, label]) => (
+          <button
+            key={v}
+            onClick={() => setSort(v)}
+            className={`rounded-lg px-3 py-1 text-sm ${
+              sort === v ? "bg-[#6C3BE0] text-white" : "border border-slate-300 bg-white text-slate-700"
+            }`}
+          >
+            {label}
+          </button>
+        ))}
+      </div>
+      {headcount > 0 && (
+        <div className="mb-4 grid gap-3 text-sm sm:grid-cols-3">
+          <div className="rounded-lg bg-slate-50 p-3">
+            <div className="text-xs text-slate-500">แรงงานมากที่สุด</div>
+            <div className="font-semibold text-slate-800">{byWorkforce.label}</div>
+            <div className="text-xs text-slate-500">
+              {(byWorkforce.l1 + byWorkforce.l2).toLocaleString()} คน ({share(byWorkforce.l1 + byWorkforce.l2)})
+            </div>
+          </div>
+          <div className="rounded-lg bg-slate-50 p-3">
+            <div className="text-xs text-slate-500">ระดับ 2 มากที่สุด</div>
+            <div className="font-semibold text-slate-800">{byL2.label}</div>
+            <div className="text-xs text-slate-500">
+              {byL2.l2.toLocaleString()} คน ({share(byL2.l2)})
+            </div>
+          </div>
+          <div className="rounded-lg bg-slate-50 p-3">
+            <div className="text-xs text-slate-500">ระดับ 2 น้อยที่สุด</div>
+            <div className="font-semibold text-slate-800">{fewestL2.label}</div>
+            <div className="text-xs text-slate-500">
+              {fewestL2.l2.toLocaleString()} คน ({share(fewestL2.l2)})
+            </div>
+          </div>
+        </div>
+      )}
+      <div style={{ width: "100%", height: 17 * 30 + 60 }}>
+        <ResponsiveContainer>
+          <BarChart data={sorted} layout="vertical" margin={{ top: 4, right: 48, left: 8, bottom: 4 }}>
+            <XAxis
+              type="number"
+              allowDecimals={false}
+              tick={{ fontFamily: THAI, fontSize: 12, fill: "#475569" }}
+            />
+            <YAxis
+              type="category"
+              dataKey="label"
+              width={170}
+              interval={0}
+              tick={{ fontFamily: THAI, fontSize: 12, fill: "#334155" }}
+            />
+            <Tooltip
+              formatter={(v: number, name: string) => [`${v.toLocaleString()} คน (${share(v)})`, name]}
+              contentStyle={{ fontFamily: THAI, fontSize: 12 }}
+            />
+            <Legend wrapperStyle={{ fontFamily: THAI, fontSize: 12, paddingTop: 4 }} />
+            <Bar dataKey="l2" name={LEVEL_NAMES.l2} stackId="s" fill={C.l2} />
+            <Bar dataKey="l1" name={LEVEL_NAMES.l1} stackId="s" fill={C.l1}>
+              <LabelList
+                dataKey="workforce"
+                position="right"
+                style={{ fontFamily: THAI, fontSize: 11, fill: "#475569" }}
+              />
+            </Bar>
+          </BarChart>
+        </ResponsiveContainer>
+      </div>
+      <p className="mt-2 text-xs text-slate-400">
+        1 คนทำได้หลายทักษะ จึงนับซ้ำได้ข้ามแถว — ตัวเลขแต่ละแถว = จำนวนคนที่ทำทักษะนั้นได้ (ห้ามรวมแถวเป็นจำนวนคน) ·
+        % เทียบกับจำนวนคนในมุมมองปัจจุบัน · กราฟนี้ไม่ขึ้นกับตัวกรองทักษะ
+      </p>
+    </Panel>
   );
 }
 
@@ -171,13 +281,11 @@ export default function Dashboard({
   const scatterRows = scatterView === "site" ? data.bySite : data.allContractors;
   const skillName = filters.skill ? skillLabel(filters.skill) : null;
 
-  const cellTotal = data.cells.l0 + data.cells.l1 + data.cells.l2;
-  const share = (v: number) => (cellTotal === 0 ? 0 : (v / cellTotal) * 100);
-  const donut = [
-    { key: "l2", name: "ระดับ 2 (ทำได้ผ่านมาตรฐาน)", value: data.cells.l2, fill: C.l2 },
-    { key: "l1", name: "ระดับ 1 (ทำได้บางส่วน)", value: data.cells.l1, fill: C.l1 },
-    { key: "l0", name: "ระดับ 0 (ยังทำไม่ได้)", value: data.cells.l0, fill: C.l0 },
-  ].map((d) => ({ ...d, name: `${d.name} ${pct(share(d.value))}` }));
+  // donut counts PEOPLE (each worker once, at their highest in-scope level)
+  const share = (v: number) => (data.headcount === 0 ? 0 : (v / data.headcount) * 100);
+  const donut = (["l2", "l1", "l0"] as const)
+    .map((k) => ({ key: k, name: LEVEL_NAMES[k], value: data.people[k], fill: C[k] }))
+    .map((d) => ({ ...d, name: `${d.name} ${pct(share(d.value))}` }));
 
   // table = scoped workers, narrowed by the clicked scatter group + the search box
   const tableRows = useMemo(() => {
@@ -277,9 +385,15 @@ export default function Dashboard({
         />
       </div>
 
+      <p className="-mt-2 text-xs text-slate-500">
+        💡 <b>%skilled</b> นับจากทุกคน × 17 ทักษะ จึงมักได้ค่าต่ำ (คน 1 คนทำเป็นไม่กี่ทักษะ) —
+        เหมาะใช้ <b>เทียบระหว่างไซต์/ผู้รับเหมา</b> มากกว่าดูค่าเดี่ยวเทียบเป้า 65% · ส่วนกราฟวงกลมและกราฟแท่ง
+        <b>นับเป็นคน</b> (1 คน = 1 นับ ตามระดับสูงสุดที่ทำได้)
+      </p>
+
       {/* donut + summary */}
       <div className="grid gap-6 md:grid-cols-2">
-        <Panel title={skillName ? `สัดส่วนระดับทักษะ — ${skillName}` : "สัดส่วนระดับทักษะ (ทุกเซลล์)"}>
+        <Panel title={skillName ? `สัดส่วนระดับทักษะ — ${skillName}` : "สัดส่วนคนตามระดับทักษะสูงสุด"}>
           <div style={{ width: "100%", height: 280 }}>
             <ResponsiveContainer>
               <PieChart>
@@ -299,7 +413,7 @@ export default function Dashboard({
                 </Pie>
                 <Tooltip
                   formatter={(v: number, name: string) => [
-                    `${v.toLocaleString()} ${filters.skill ? "คน" : "เซลล์"}`,
+                    `${v.toLocaleString()} คน`,
                     name,
                   ]}
                   contentStyle={{ fontFamily: THAI, fontSize: 12 }}
@@ -309,12 +423,14 @@ export default function Dashboard({
             </ResponsiveContainer>
           </div>
         </Panel>
-        <Panel title="ความชำนาญรายไซต์">
+        <Panel title="ความชำนาญรายไซต์ (นับเป็นคน)">
           <StackedByGroup rows={data.bySite} />
         </Panel>
       </div>
 
-      <Panel title="ความชำนาญรายผู้รับเหมา (Top 10 ตามจำนวนคน)">
+      <SkillPanel rows={data.bySkill} headcount={data.headcount} />
+
+      <Panel title="ความชำนาญรายผู้รับเหมา (Top 10 ตามจำนวนคน · นับเป็นคน)">
         <StackedByGroup rows={data.byContractor} />
       </Panel>
 

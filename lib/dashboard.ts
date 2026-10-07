@@ -9,10 +9,15 @@
  * Locked metric (signed-off):
  *   %skilled       = (l1 + l2) / (l0 + l1 + l2)   — over worker×skill CELLS, zeros included
  *   %independent   = l2 / (l1 + l2)               — of the recorded cells, how many are standard
+ *
+ * PEOPLE view (donut + stacked bars): each worker counts ONCE, at the highest
+ * level they reach across the in-scope skills (one skill filtered → that skill's
+ * level). Cells inflate "level 0" because a specialist is counted as unable in
+ * the ~15 trades that are not theirs; people answer "how many workers are ready".
  * Both are returned as PERCENTAGE POINTS (0..100) so the scatter's 65% line reads y=65.
  */
 import type { Worker } from "./types";
-import { SKILL_IDS } from "./skills";
+import { SKILLS, SKILL_IDS } from "./skills";
 
 /** The slim, browser-safe shape sent to the client. For this INTERNAL tool the
  *  user accepted worker code+name reaching the browser (drill-down search table);
@@ -47,17 +52,35 @@ export interface GroupRow {
   l1: number;
   l2: number;
   pctSkilled: number; // 0..100
+  // people by their highest in-scope level (each worker counted once)
+  p0: number;
+  p1: number;
+  p2: number;
+}
+
+/** People per level for ONE skill (each worker = 1 count at that skill's level). */
+export interface SkillRow {
+  id: string;
+  label: string;
+  l0: number;
+  l1: number;
+  l2: number;
 }
 
 /** Everything the dashboard renders for the current position filter. */
 export interface DashboardData {
   cells: { l0: number; l1: number; l2: number };
+  /** headcount split by each worker's highest in-scope level (sums to headcount) */
+  people: { l0: number; l1: number; l2: number };
   pctSkilled: number; // 0..100
   pctIndependent: number; // 0..100
   headcount: number;
   bySite: GroupRow[]; // all sites, name asc
   byContractor: GroupRow[]; // Top 10 by headcount (desc), then name asc — for the stacked bar only
   allContractors: GroupRow[]; // EVERY contractor, same order — for the scatter + counts
+  /** all 17 skills in SKILL_IDS order, over the scoped workers. IGNORES the skill
+   *  filter on purpose: this chart compares skills against each other. */
+  bySkill: SkillRow[];
   // filter options — each list ignores its OWN filter but honours the others,
   // so a dropdown never empties itself and only offers values that still exist
   positions: string[];
@@ -77,6 +100,23 @@ function oneSkillLevels(skillId: string): Levels {
     const lv = i < 0 ? 0 : Number(w.sk?.[i] ?? 0);
     return { l0: lv === 0 ? 1 : 0, l1: lv === 1 ? 1 : 0, l2: lv === 2 ? 1 : 0 };
   };
+}
+
+/** A worker's highest level across the in-scope skills (0 = none at level 1+). */
+const topLevel = (v: { l1: number; l2: number }): 0 | 1 | 2 => (v.l2 > 0 ? 2 : v.l1 > 0 ? 1 : 0);
+
+/** People per level for every skill. A worker with no `sk` counts as level 0. */
+function skillRows(ws: ClientWorker[]): SkillRow[] {
+  const rows = SKILLS.map((s) => ({ id: s.id, label: s.label, l0: 0, l1: 0, l2: 0 }));
+  for (const w of ws) {
+    rows.forEach((r, i) => {
+      const lv = Number(w.sk?.[i] ?? 0);
+      if (lv === 2) r.l2++;
+      else if (lv === 1) r.l1++;
+      else r.l0++;
+    });
+  }
+  return rows;
 }
 
 /** Drop a full Worker to the browser-safe ClientWorker shape. */
@@ -111,13 +151,25 @@ function rowFor(name: string, ws: ClientWorker[], levels: Levels): GroupRow {
   let l0 = 0;
   let l1 = 0;
   let l2 = 0;
+  const p = [0, 0, 0];
   for (const w of ws) {
     const v = levels(w);
     l0 += v.l0;
     l1 += v.l1;
     l2 += v.l2;
+    p[topLevel(v)]++;
   }
-  return { name, headcount: ws.length, l0, l1, l2, pctSkilled: pctSkilled(l0, l1, l2) };
+  return {
+    name,
+    headcount: ws.length,
+    l0,
+    l1,
+    l2,
+    pctSkilled: pctSkilled(l0, l1, l2),
+    p0: p[0],
+    p1: p[1],
+    p2: p[2],
+  };
 }
 
 /** Group workers by a key, returning one GroupRow per distinct value. */
@@ -185,12 +237,14 @@ export function aggregate(
 
   return {
     cells: { l0: total.l0, l1: total.l1, l2: total.l2 },
+    people: { l0: total.p0, l1: total.p1, l2: total.p2 },
     pctSkilled: total.pctSkilled,
     pctIndependent: pctIndependent(total.l1, total.l2),
     headcount: scoped.length,
     bySite,
     byContractor,
     allContractors,
+    bySkill: skillRows(scoped),
     positions: uniqSorted(workers.filter((w) => passes(w, f, "position")).map((w) => w.position)),
     sites: uniqSorted(workers.filter((w) => passes(w, f, "site")).map((w) => w.site)),
     contractors: uniqSorted(workers.filter((w) => passes(w, f, "contractor")).map((w) => w.contractor)),

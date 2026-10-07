@@ -5,13 +5,8 @@ import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
 import { scopeFrom, scopeQuery } from "@/lib/scope";
 
-const LINKS = [
-  { href: "/", label: "ภาพรวม" },
-  { href: "/sites", label: "ไซต์ & ผู้รับเหมา" },
-  { href: "/trends", label: "แนวโน้ม" },
-  { href: "/criticality", label: "จุดเสี่ยง" },
-  { href: "/workers", label: "รายบุคคล" },
-];
+// Overview-only: the other pages were retired from the menu (redirected in next.config.ts)
+const LINKS = [{ href: "/", label: "ภาพรวม" }];
 
 export default function Nav() {
   // useSearchParams needs a Suspense boundary; the fallback is the same nav without scope
