@@ -1,0 +1,6 @@
+# Firebase App Hosting config — read on every rollout from the GitHub repo.
+# Setup steps (Thai): docs/DEPLOY.md
+runConfig:
+  minInstances: 0 # scale to zero when nobody is using it (lowest cost)
+  maxInstances: 2
+  memoryMiB: 512
