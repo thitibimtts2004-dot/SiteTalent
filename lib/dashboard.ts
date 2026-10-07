@@ -6,11 +6,13 @@
  * position filter can re-render every chart client-side. This module holds NO
  * React and NO data access; it is a pure, testable core.
  *
- * Locked metric (signed-off):
- *   %skilled       = (l1 + l2) / (l0 + l1 + l2)   — over worker×skill CELLS, zeros included
- *   %independent   = l2 / (l1 + l2)               — of the recorded cells, how many are standard
+ * Metrics are PEOPLE-based (re-signed 2026-10-07 — the old cell-based %skilled read
+ * ~15% beside a donut showing ~68% of people at level 2, and could never reach 65%):
+ *   %skilled       = p2 / (p0 + p1 + p2)   — share of PEOPLE with ≥1 skill at level 2
+ *   %independent   = p2 / (p1 + p2)        — of the people who can do something, how many reach level 2
+ * `cells` (worker×skill counts) is still returned for reference only.
  *
- * PEOPLE view (donut + stacked bars): each worker counts ONCE, at the highest
+ * PEOPLE view (KPIs, donut, stacked bars, scatter): each worker counts ONCE, at the highest
  * level they reach across the in-scope skills (one skill filtered → that skill's
  * level). Cells inflate "level 0" because a specialist is counted as unable in
  * the ~15 trades that are not theirs; people answer "how many workers are ready".
@@ -42,7 +44,10 @@ export interface DashboardFilters {
   site?: string;
   contractor?: string;
   skill?: string; // a SKILL_IDS id, e.g. "s01"
+  level?: string; // "0" | "1" | "2" — each worker's HIGHEST in-scope level (donut slice)
 }
+
+export const LEVEL_KEYS = ["0", "1", "2"] as const;
 
 /** One row of a site or contractor breakdown (drives the stacked bars + scatter). */
 export interface GroupRow {
@@ -51,7 +56,7 @@ export interface GroupRow {
   l0: number;
   l1: number;
   l2: number;
-  pctSkilled: number; // 0..100
+  pctSkilled: number; // 0..100 — % of the group's people with ≥1 level-2 skill
   // people by their highest in-scope level (each worker counted once)
   p0: number;
   p1: number;
@@ -70,11 +75,22 @@ export interface SkillRow {
 /** Everything the dashboard renders for the current position filter. */
 export interface DashboardData {
   cells: { l0: number; l1: number; l2: number };
-  /** headcount split by each worker's highest in-scope level (sums to headcount) */
+  /** headcount split by each worker's highest in-scope level. IGNORES the level
+   *  filter so the donut keeps all three slices and can highlight the chosen one. */
   people: { l0: number; l1: number; l2: number };
+  /** people already at level 2 who ALSO hold a level-1 skill in scope — they sit in
+   *  people.l2, so the level-1 bucket alone undercounts who can be trained further.
+   *  Always 0 under a skill filter (one skill = one level per worker). */
+  upskillable: number;
   pctSkilled: number; // 0..100
   pctIndependent: number; // 0..100
   headcount: number;
+  siteCount: number; // distinct sites among the fully-filtered workers
+  contractorCount: number;
+  /** the fully-filtered workers (drives the drill-down table) */
+  workers: ClientWorker[];
+  // Cross-filter rule: each breakdown IGNORES its own filter (like the dropdown
+  // options) so a clicked chart keeps every bar and just highlights the selection.
   bySite: GroupRow[]; // all sites, name asc
   byContractor: GroupRow[]; // Top 10 by headcount (desc), then name asc — for the stacked bar only
   allContractors: GroupRow[]; // EVERY contractor, same order — for the scatter + counts
@@ -134,16 +150,16 @@ export function slimWorker(w: Worker): ClientWorker {
   };
 }
 
-/** (l1+l2)/(l0+l1+l2) as 0..100. GUARD: 0 when there are no cells. */
-export function pctSkilled(l0: number, l1: number, l2: number): number {
-  const total = l0 + l1 + l2;
-  return total === 0 ? 0 : ((l1 + l2) / total) * 100;
+/** p2/(p0+p1+p2) as 0..100 over PEOPLE counts. GUARD: 0 when there is nobody. */
+export function pctSkilled(p0: number, p1: number, p2: number): number {
+  const total = p0 + p1 + p2;
+  return total === 0 ? 0 : (p2 / total) * 100;
 }
 
-/** l2/(l1+l2) as 0..100. GUARD: 0 when nothing is recorded. */
-export function pctIndependent(l1: number, l2: number): number {
-  const recorded = l1 + l2;
-  return recorded === 0 ? 0 : (l2 / recorded) * 100;
+/** p2/(p1+p2) as 0..100 over PEOPLE counts. GUARD: 0 when nobody can do anything. */
+export function pctIndependent(p1: number, p2: number): number {
+  const recorded = p1 + p2;
+  return recorded === 0 ? 0 : (p2 / recorded) * 100;
 }
 
 /** Sum a set of workers into one GroupRow (name supplied by the caller). */
@@ -165,7 +181,7 @@ function rowFor(name: string, ws: ClientWorker[], levels: Levels): GroupRow {
     l0,
     l1,
     l2,
-    pctSkilled: pctSkilled(l0, l1, l2),
+    pctSkilled: pctSkilled(p[0], p[1], p[2]),
     p0: p[0],
     p1: p[1],
     p2: p[2],
@@ -201,11 +217,18 @@ function byHeadcountThenName(a: GroupRow, b: GroupRow): number {
   return collator.compare(a.name, b.name);
 }
 
-/** Does worker `w` pass every set filter except the one named in `skip`? */
-function passes(w: ClientWorker, f: DashboardFilters, skip?: keyof DashboardFilters): boolean {
+/** Does worker `w` pass every set filter except the one named in `skip`?
+ *  (skill narrows CELLS, not workers — it only matters here through `levels`.) */
+function passes(
+  w: ClientWorker,
+  f: DashboardFilters,
+  levels: Levels,
+  skip?: keyof DashboardFilters,
+): boolean {
   if (skip !== "position" && f.position && w.position !== f.position) return false;
   if (skip !== "site" && f.site && w.site !== f.site) return false;
   if (skip !== "contractor" && f.contractor && w.contractor !== f.contractor) return false;
+  if (skip !== "level" && f.level && String(topLevel(levels(w))) !== f.level) return false;
   return true;
 }
 
@@ -226,27 +249,40 @@ export function aggregate(
   const f: DashboardFilters = typeof filters === "string" ? { position: filters } : filters;
   const levels = f.skill ? oneSkillLevels(f.skill) : allSkillLevels;
 
-  const scoped = workers.filter((w) => passes(w, f));
+  const pass = (skip?: keyof DashboardFilters) => workers.filter((w) => passes(w, f, levels, skip));
+  const scoped = pass();
   const total = rowFor("", scoped, levels);
+  const donutBase = f.level ? rowFor("", pass("level"), levels) : total;
 
-  const bySite = groupRows(scoped, (w) => w.site, levels).sort((a, b) =>
+  const bySite = groupRows(f.site ? pass("site") : scoped, (w) => w.site, levels).sort((a, b) =>
     collator.compare(a.name, b.name),
   );
-  const allContractors = groupRows(scoped, (w) => w.contractor, levels).sort(byHeadcountThenName);
+  const allContractors = groupRows(
+    f.contractor ? pass("contractor") : scoped,
+    (w) => w.contractor,
+    levels,
+  ).sort(byHeadcountThenName);
   const byContractor = allContractors.slice(0, 10);
 
   return {
     cells: { l0: total.l0, l1: total.l1, l2: total.l2 },
-    people: { l0: total.p0, l1: total.p1, l2: total.p2 },
+    people: { l0: donutBase.p0, l1: donutBase.p1, l2: donutBase.p2 },
+    upskillable: scoped.filter((w) => {
+      const v = levels(w);
+      return v.l2 > 0 && v.l1 > 0;
+    }).length,
     pctSkilled: total.pctSkilled,
-    pctIndependent: pctIndependent(total.l1, total.l2),
+    pctIndependent: pctIndependent(total.p1, total.p2),
     headcount: scoped.length,
+    siteCount: new Set(scoped.map((w) => w.site)).size,
+    contractorCount: new Set(scoped.map((w) => w.contractor)).size,
+    workers: scoped,
     bySite,
     byContractor,
     allContractors,
     bySkill: skillRows(scoped),
-    positions: uniqSorted(workers.filter((w) => passes(w, f, "position")).map((w) => w.position)),
-    sites: uniqSorted(workers.filter((w) => passes(w, f, "site")).map((w) => w.site)),
-    contractors: uniqSorted(workers.filter((w) => passes(w, f, "contractor")).map((w) => w.contractor)),
+    positions: uniqSorted(pass("position").map((w) => w.position)),
+    sites: uniqSorted(pass("site").map((w) => w.site)),
+    contractors: uniqSorted(pass("contractor").map((w) => w.contractor)),
   };
 }

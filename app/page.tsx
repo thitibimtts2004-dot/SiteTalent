@@ -1,5 +1,5 @@
 import { listWorkers } from "@/lib/data";
-import { slimWorker, type DashboardFilters } from "@/lib/dashboard";
+import { LEVEL_KEYS, slimWorker, type DashboardFilters } from "@/lib/dashboard";
 import { SKILL_IDS } from "@/lib/skills";
 import Dashboard from "@/components/Dashboard";
 
@@ -7,7 +7,7 @@ export const dynamic = "force-dynamic";
 
 type Search = Promise<Record<string, string | string[] | undefined>>;
 
-/** ?site=&contractor=&skill=&position= → filters (first value wins; unknown skill ids dropped). */
+/** ?site=&contractor=&skill=&position=&level= → filters (first value wins; unknown skill ids dropped). */
 function filtersFrom(q: Awaited<Search>): DashboardFilters {
   const one = (k: string) => {
     const v = q[k];
@@ -15,11 +15,13 @@ function filtersFrom(q: Awaited<Search>): DashboardFilters {
     return s && s.length > 0 ? s : undefined;
   };
   const skill = one("skill");
+  const level = one("level");
   return {
     site: one("site"),
     contractor: one("contractor"),
     position: one("position"),
     skill: skill && SKILL_IDS.includes(skill) ? skill : undefined,
+    level: level && (LEVEL_KEYS as readonly string[]).includes(level) ? level : undefined,
   };
 }
 
@@ -31,15 +33,8 @@ export default async function Home({ searchParams }: { searchParams: Search }) {
   const workers = (await listWorkers()).map(slimWorker);
 
   return (
-    <main className="mx-auto max-w-6xl p-6 md:p-8">
-      <header className="mb-6">
-        <h1 className="text-2xl font-semibold text-slate-900">ภาพรวมทักษะผู้รับเหมา</h1>
-        <p className="mt-1 text-sm text-slate-500">
-          สัดส่วนทักษะ (%skilled = ทำได้ ÷ ทั้งหมด) แยกตามไซต์และผู้รับเหมา · กรองตามไซต์ ผู้รับเหมา
-          ทักษะ และตำแหน่ง แล้วค้นหารายบุคคลได้
-        </p>
-      </header>
-
+    <main className="w-full p-6 md:p-8 2xl:px-10">
+      {/* page header lives in Dashboard so the clear-filters button can sit beside it */}
       <Dashboard workers={workers} initialFilters={initialFilters} />
     </main>
   );

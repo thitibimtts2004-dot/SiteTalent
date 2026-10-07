@@ -39,11 +39,13 @@ export default async function RootLayout({
           rel="stylesheet"
         />
       </head>
-      <body className="font-thai antialiased">
-        <Nav />
-        {status && <DataStatusBar status={status} />}
-        {scopeOptions && <FilterBar {...scopeOptions} />}
-        {children}
+      <body className="font-thai antialiased lg:flex">
+        <Nav footer={status && <DataStatusBar status={status} variant="sidebar" />} />
+        <div className="min-w-0 flex-1">
+          {status && <DataStatusBar status={status} />}
+          {scopeOptions && <FilterBar {...scopeOptions} />}
+          {children}
+        </div>
       </body>
     </html>
   );

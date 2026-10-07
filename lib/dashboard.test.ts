@@ -42,24 +42,24 @@ const fx: ClientWorker[] = [
 
 console.log("aggregate — locked metrics over all workers");
 const all = aggregate(fx);
-// cells 17/12/22, total 51 → %skilled = 34/51*100
+// cells 17/12/22 · people: every worker has a level-2 skill → 3/3 at level 2
 check("all cells", all.cells.l0 === 17 && all.cells.l1 === 12 && all.cells.l2 === 22);
 check("all headcount", all.headcount === 3);
-check("all %skilled = 34/51", near(all.pctSkilled, (34 / 51) * 100));
-check("all %independent = 22/34", near(all.pctIndependent, (22 / 34) * 100));
+check("all %skilled = 3/3 people", near(all.pctSkilled, 100));
+check("all %independent = 3/3 people", near(all.pctIndependent, 100));
 check("positions sorted+unique", JSON.stringify(all.positions) === JSON.stringify(["ช่างปูน", "ช่างไม้"]));
 check("bySite name asc", all.bySite.map((r) => r.name).join(",") === "A,B");
 check("site A row", (() => {
   const a = all.bySite.find((r) => r.name === "A")!;
-  return a.headcount === 2 && a.l0 === 17 && a.l1 === 12 && a.l2 === 5 && near(a.pctSkilled, (17 / 34) * 100);
+  return a.headcount === 2 && a.l0 === 17 && a.l1 === 12 && a.l2 === 5 && near(a.pctSkilled, 100);
 })());
 
 console.log("aggregate — position filter re-computes");
 const carp = aggregate(fx, "ช่างไม้"); // W1 + W3 → 10/5/19, total 34
 check("filter cells", carp.cells.l0 === 10 && carp.cells.l1 === 5 && carp.cells.l2 === 19);
 check("filter headcount", carp.headcount === 2);
-check("filter %skilled = 24/34", near(carp.pctSkilled, (24 / 34) * 100));
-check("filter %independent = 19/24", near(carp.pctIndependent, (19 / 24) * 100));
+check("filter %skilled = 2/2 people", near(carp.pctSkilled, 100));
+check("filter %independent = 2/2 people", near(carp.pctIndependent, 100));
 check("filter keeps full positions list", carp.positions.length === 2);
 
 console.log("guards — divide-by-zero");
@@ -106,13 +106,17 @@ const fw: ClientWorker[] = [
   { ...cw("F3", "ค", "B", "Y", "p1", 16, 0, 1), sk: "12" + "0".repeat(15) },
 ];
 const bySiteA = aggregate(fw, { site: "A" });
-check("site filter headcount", bySiteA.headcount === 2 && bySiteA.bySite.length === 1);
+check("site filter headcount", bySiteA.headcount === 2 && bySiteA.siteCount === 1);
+check("site chart keeps every site under a site filter (cross-filter)", bySiteA.bySite.length === 2);
 check("site filter cells = F1+F2 totals", bySiteA.cells.l0 === 31 && bySiteA.cells.l1 === 2 && bySiteA.cells.l2 === 1);
 const conY = aggregate(fw, { contractor: "Y" });
-check("contractor filter headcount", conY.headcount === 2 && conY.allContractors.length === 1);
+check("contractor filter headcount", conY.headcount === 2 && conY.contractorCount === 1);
+check("contractor chart keeps every contractor under a contractor filter", conY.allContractors.length === 2);
+check("site chart IS narrowed by the contractor filter", conY.bySite.every((r) => r.headcount <= 2) && conY.bySite.reduce((a, r) => a + r.headcount, 0) === 2);
 const s01 = aggregate(fw, { skill: "s01" }); // levels 2,0,1 → one cell each
 check("skill filter: one cell per worker", s01.cells.l0 === 1 && s01.cells.l1 === 1 && s01.cells.l2 === 1);
-check("skill filter %skilled = 2/3", near(s01.pctSkilled, (2 / 3) * 100));
+check("skill filter %skilled = 1/3 people at level 2", near(s01.pctSkilled, (1 / 3) * 100));
+check("skill filter %independent = 1/2", near(s01.pctIndependent, 50));
 const s02A = aggregate(fw, { skill: "s02", site: "A" }); // F1=1, F2=1
 check("skill+site combine", s02A.cells.l1 === 2 && s02A.cells.l0 === 0 && s02A.cells.l2 === 0);
 check("skill filter per-site row", s02A.bySite[0].l1 === 2 && s02A.bySite[0].headcount === 2);
@@ -142,6 +146,22 @@ check("per-site people (B: F3→2, Z1→0)", pSiteB.p0 === 1 && pSiteB.p1 === 0 
 // one skill: a worker's level IS that skill's level (s01 digits 2,0,1,0)
 const pS01 = aggregate(pw, { skill: "s01" });
 check("skill filter people = that skill's level", pS01.people.l0 === 2 && pS01.people.l1 === 1 && pS01.people.l2 === 1);
+check("%skilled = people at level 2 / headcount (2/4)", near(pAll.pctSkilled, 50));
+check("%independent = level 2 / (level 1 + 2) people (2/3)", near(pAll.pctIndependent, (2 / 3) * 100));
+check("per-site %skilled (A 1/2, B 1/2)", near(pSiteA.pctSkilled, 50) && near(pSiteB.pctSkilled, 50));
+check("pctSkilled helper = p2/total", near(pctSkilled(1, 1, 2), 50));
+// F1 = level 2 in s01 AND level 1 in s02 → passed but still trainable; F3 has l1=0
+check("upskillable = level-2 people who also hold a level-1 skill", pAll.upskillable === 1);
+check("upskillable is 0 under a skill filter", aggregate(pw, { skill: "s02" }).upskillable === 0);
+console.log("level filter — donut slice (highest in-scope level)");
+const lv1 = aggregate(pw, { level: "1" }); // F2 is the only worker whose best is level 1
+check("level 1 keeps only F2", lv1.headcount === 1 && lv1.workers[0].code === "F2");
+check("donut ignores the level filter (all slices kept)", lv1.people.l0 === 1 && lv1.people.l1 === 1 && lv1.people.l2 === 2);
+check("level 2 → 2 workers, %skilled 100", aggregate(pw, { level: "2" }).headcount === 2 && near(aggregate(pw, { level: "2" }).pctSkilled, 100));
+// with a skill, the level is THAT skill's level: s01 digits 2,0,1,0 → level 0 = F2 + Z1
+check("level follows the skill filter", aggregate(pw, { skill: "s01", level: "0" }).headcount === 2);
+check("level + site combine", aggregate(pw, { level: "2", site: "B" }).workers.map((w) => w.code).join() === "F3");
+check("workers list = fully filtered rows", aggregate(pw, { site: "A" }).workers.length === 2);
 check("empty people = 0", aggregate([]).people.l0 + aggregate([]).people.l1 + aggregate([]).people.l2 === 0);
 
 console.log("bySkill — people per level for each of the 17 skills");
